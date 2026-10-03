@@ -126,7 +126,7 @@ local function render()
 	end
 
 	if state.Event == "Collapsed" then
-		showToast(("+1 CORE · XP NOW %.0f%%"):format((1 + state.Cores * 0.25) * 100), COLORS.Gold)
+		showToast(("+1 CORE · NEXT RUN XP ×%.2f"):format(1 + state.Cores * 0.25), COLORS.Gold)
 	elseif state.Event == "PurchaseGranted" then
 		showToast("PURCHASE APPLIED", COLORS.Green)
 	elseif state.Event == "CosmeticUpdated" then
