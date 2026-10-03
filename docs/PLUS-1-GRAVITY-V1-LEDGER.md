@@ -51,7 +51,7 @@ Acceptance:
 - [x] P01-T08 Mobile UX rules documented
 - [ ] P01-T09 UX wireframe / screen-state specification
 - [ ] P01-T10 World-layout specification with landmark hierarchy
-- [ ] P01-T11 Economy/balance table through first 10 Collapses
+- [x] P01-T11 Economy/balance table through first 10 Collapses — docs/BALANCE.md
 - [ ] P01-T12 Release metadata copy + thumbnail/icon brief
 
 ---
@@ -70,11 +70,11 @@ Acceptance:
 - [x] P02-T10 Client bootstrap
 - [x] P02-T11 Pure-Luau test runner
 - [x] P02-T12 Release-readiness script
-- [~] P02-T13 CI workflow on GitHub — workflow added; first green run pending
+- [x] P02-T13 CI workflow on GitHub — main green, run 37148094805
 - [x] P02-T14 Static gate: StyLua
 - [x] P02-T15 Static gate: Selene 0 errors / 0 warnings
 - [x] P02-T16 Rojo build gate
-- [x] P02-T17 Pure-Luau suite fully green — 7 test files
+- [x] P02-T17 Pure-Luau suite fully green — 8 test files
 
 Acceptance:
 - Fresh clone can format, lint, build and test without manual source edits.
@@ -84,17 +84,17 @@ Acceptance:
 
 # P03 — PROFILE / PERSISTENCE
 
-- [~] P03-T01 Profile schema v1
-- [~] P03-T02 Safe defaults
-- [~] P03-T03 Normalization/migration layer
-- [~] P03-T04 Gravity persistence fields
-- [~] P03-T05 XP/Level persistence fields
-- [~] P03-T06 Core/Shard persistence fields
-- [~] P03-T07 Highest Gravity / run statistics
-- [~] P03-T08 Collapse statistics
-- [~] P03-T09 Daily state fields
-- [~] P03-T10 Cosmetic ownership/equip fields
-- [~] P03-T11 Receipt idempotency state
+- [x] P03-T01 Profile schema v2
+- [x] P03-T02 Safe defaults
+- [x] P03-T03 Normalization/migration layer — malformed/legacy deterministic coverage
+- [x] P03-T04 Gravity persistence fields
+- [x] P03-T05 XP/Level persistence fields
+- [x] P03-T06 Core/Shard persistence fields
+- [x] P03-T07 Highest Gravity / run statistics
+- [x] P03-T08 Collapse statistics
+- [x] P03-T09 Daily state fields
+- [x] P03-T10 Cosmetic ownership/equip fields
+- [x] P03-T11 Receipt idempotency state
 - [~] P03-T12 DataStore load
 - [~] P03-T13 DataStore save
 - [~] P03-T14 Autosave
@@ -113,23 +113,23 @@ Acceptance:
 # P04 — CORE PROGRESSION LOOP
 
 - [~] P04-T01 Passive +1 Gravity/sec
-- [~] P04-T02 Gravity boost multiplier support
+- [x] P04-T02 Gravity boost multiplier support
 - [~] P04-T03 Object collection Gravity rewards
 - [~] P04-T04 Object collection XP rewards
-- [~] P04-T05 Level curve 0 → 50
-- [~] P04-T06 Level progress calculation
-- [~] P04-T07 Core XP multiplier (+25% each)
-- [~] P04-T08 Highest Gravity tracking
-- [~] P04-T09 Total Gravity tracking
+- [x] P04-T05 Level curve 0 → 50
+- [x] P04-T06 Level progress calculation
+- [x] P04-T07 Core XP multiplier (+25% each)
+- [x] P04-T08 Highest Gravity tracking
+- [x] P04-T09 Total Gravity tracking
 - [~] P04-T10 Total Objects tracking
-- [~] P04-T11 Collapse eligibility
-- [~] P04-T12 Collapse resets run Gravity/XP/Level
-- [~] P04-T13 Collapse grants one Core
-- [~] P04-T14 Collapse Shard reward
-- [~] P04-T15 Best Collapse time tracking
-- [ ] P04-T16 Progression balance: first Collapse target 8–15 min
-- [ ] P04-T17 Second Collapse noticeably faster
-- [ ] P04-T18 Ten-Collapse simulation/balance test
+- [x] P04-T11 Collapse eligibility
+- [x] P04-T12 Collapse resets run Gravity/XP/Level
+- [x] P04-T13 Collapse grants one Core
+- [x] P04-T14 Collapse Shard reward
+- [x] P04-T15 Best Collapse time tracking
+- [x] P04-T16 Progression balance: first Collapse target 8–15 min — deterministic model: 11.67 min
+- [x] P04-T17 Second Collapse noticeably faster — deterministic model: 4.03 min
+- [x] P04-T18 Ten-Collapse simulation/balance test — C1–C10 verified
 - [ ] P04-T19 No dead progression interval between object tiers
 
 Acceptance:
@@ -505,7 +505,7 @@ Shop:
 Automated:
 - [x] P21-T01 Full static gate — StyLua + Selene 0/0 + Rojo build
 - [x] P21-T02 Level curve deterministic tests
-- [ ] P21-T03 Collapse deterministic tests
+- [x] P21-T03 Collapse deterministic tests
 - [x] P21-T04 Attraction deterministic tests
 - [x] P21-T05 Zone gate tests
 - [x] P21-T06 Daily rules tests
@@ -552,8 +552,8 @@ Visual:
 
 Repository:
 - [x] P22-T01 Initial production commit pushed to main — f5c6453
-- [ ] P22-T02 GitHub CI green
-- [ ] P22-T03 Ledger synchronized with verified state
+- [x] P22-T02 GitHub CI green — run 37148094805
+- [x] P22-T03 Ledger synchronized with verified state — 2026-10-03
 
 Roblox configuration:
 - [!] P22-T04 Universe ID

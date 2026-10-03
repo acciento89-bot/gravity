@@ -105,4 +105,4 @@ Mandatory release journeys:
 13. Commit release evidence
 
 ## Current next task
-P02 — complete and verify the technical foundation, then push the first coherent +1 Gravity production baseline to main.
+P05 — finish the server-authoritative attraction/collection pass and its deterministic safety coverage, then continue through P06 object quality and P07 world/gates. P03 rejoin/migration/failure runtime proofs remain mandatory Core Game Loop gate items before Visual Identity begins.
