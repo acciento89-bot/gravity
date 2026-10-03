@@ -294,12 +294,7 @@ function WorldService.collect(root: BasePart): boolean
 
 	local respawn = math.max(0.25, tonumber(root:GetAttribute("Respawn")) or 8)
 	task.delay(respawn, function()
-		if
-			root.Parent
-			and model
-			and model.Parent
-			and CollectionClaimRules.reactivate(claimState, revision)
-		then
+		if root.Parent and model and model.Parent and CollectionClaimRules.reactivate(claimState, revision) then
 			root:SetAttribute("Active", true)
 			setVisible(model, true)
 		end
