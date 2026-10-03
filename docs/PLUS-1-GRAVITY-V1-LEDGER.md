@@ -67,10 +67,10 @@ Acceptance:
 - [x] P02-T07 Shared rule modules
 - [x] P02-T08 Remote definitions
 - [~] P02-T09 Server service bootstrap
-- [ ] P02-T10 Client bootstrap
+- [x] P02-T10 Client bootstrap
 - [x] P02-T11 Pure-Luau test runner
 - [x] P02-T12 Release-readiness script
-- [ ] P02-T13 CI workflow on GitHub
+- [~] P02-T13 CI workflow on GitHub — workflow added; first green run pending
 - [x] P02-T14 Static gate: StyLua
 - [x] P02-T15 Static gate: Selene 0 errors / 0 warnings
 - [x] P02-T16 Rojo build gate
@@ -551,7 +551,7 @@ Visual:
 # P22 — ROBLOX RELEASE
 
 Repository:
-- [ ] P22-T01 Initial production commit pushed to main
+- [x] P22-T01 Initial production commit pushed to main — f5c6453
 - [ ] P22-T02 GitHub CI green
 - [ ] P22-T03 Ledger synchronized with verified state
 
