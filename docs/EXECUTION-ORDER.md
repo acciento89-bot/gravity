@@ -105,4 +105,4 @@ Mandatory release journeys:
 13. Commit release evidence
 
 ## Current next task
-Core Game Loop runtime gate — verify fresh spawn, collection, all five zone gates, Level 0→50, Collapse #1/#2 and persistence rejoin/migration/failure behavior in Roblox runtime. P06/P07 visual acceptance remains screenshot/device QA, not statically closed.
+P08/P10 device gate — verify max-visible orbit on iPhone XR, then tablet/desktop/console layouts. Continue remaining P21 core runtime gates: 100-object run, all five zone unlocks, Level 0→50, Collapse #2/soak, death/respawn and persistence rejoin/migration/failure.

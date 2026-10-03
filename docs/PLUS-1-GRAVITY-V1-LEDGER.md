@@ -237,21 +237,21 @@ Acceptance:
 
 # P08 — ORBIT VISUAL SYSTEM
 
-- [~] P08-T01 Client-only orbit visuals
-- [~] P08-T02 Orbit visuals non-collidable/non-queryable
-- [~] P08-T03 Visible object cap
-- [~] P08-T04 Multi-ring layout
-- [~] P08-T05 Opposing ring rotation
-- [~] P08-T06 Bobbing/spin motion
-- [~] P08-T07 Large-object visual scale cap
-- [~] P08-T08 Orbit skin tint support
-- [~] P08-T09 Character remains centered/visible
+- [x] P08-T01 Client-only orbit visuals — live iPhone XR PlaySolo verified
+- [x] P08-T02 Orbit visuals non-collidable/non-queryable — implementation + live client verified
+- [x] P08-T03 Visible object cap — 14-slot replacement policy covered by OrbitRules
+- [x] P08-T04 Multi-ring layout — client implementation verified
+- [x] P08-T05 Opposing ring rotation — client implementation verified
+- [x] P08-T06 Bobbing/spin motion — live client runtime verified
+- [x] P08-T07 Large-object visual scale cap — client implementation verified
+- [~] P08-T08 Orbit skin tint support — retint path implemented; live skin-swap QA pending
+- [x] P08-T09 Character remains centered/visible — iPhone XR runtime screenshot verified at low orbit
 - [~] P08-T10 Orbit clears after Collapse
 - [~] P08-T11 Orbit clears on respawn
-- [ ] P08-T12 Representative-object aggregation by tier
-- [ ] P08-T13 Better object-specific miniature models
-- [ ] P08-T14 Ring radius adapts to avatar/camera/device
-- [ ] P08-T15 Occlusion protection
+- [x] P08-T12 Representative-object aggregation by tier — deterministic replacement tests + live ×2 aggregation verified
+- [~] P08-T13 Better object-specific miniature models — category-specific miniatures implemented; full catalog visual QA pending
+- [x] P08-T14 Ring radius adapts to avatar/camera/device — deterministic phone/desktop scaling test + iPhone XR runtime
+- [x] P08-T15 Occlusion protection — deterministic center-fade test + live avatar visibility verified
 - [ ] P08-T16 Max-orbit iPhone XR visual QA
 - [ ] P08-T17 Max-orbit console visual QA
 - [ ] P08-T18 Multiplayer readability QA
@@ -264,43 +264,43 @@ Acceptance:
 
 # P09 — COLLAPSE / REBIRTH EXPERIENCE
 
-- [~] P09-T01 Collapse server action
-- [~] P09-T02 Collapse eligibility server validation
+- [x] P09-T01 Collapse server action — exact Action RemoteEvent path verified in PlaySolo
+- [x] P09-T02 Collapse eligibility server validation — deterministic rejection/acceptance + eligible runtime path verified
 - [~] P09-T03 Orbit acceleration animation
 - [~] P09-T04 Orbit contraction
 - [~] P09-T05 Orbit disappearance
-- [~] P09-T06 Screen color/energy flash
-- [~] P09-T07 Core/Shards result state
-- [ ] P09-T08 1.0–1.5 second polished cinematic timing
-- [ ] P09-T09 Singularity appears at avatar center
-- [ ] P09-T10 Core reward flies into permanent counter
+- [x] P09-T06 Screen color/energy flash — captured in iPhone XR runtime
+- [x] P09-T07 Core/Shards result state — deterministic reward test + live Core 0→1 state verified
+- [x] P09-T08 1.0–1.5 second polished cinematic timing — 1.18 s sequence implemented and frame-captured
+- [x] P09-T09 Singularity appears at avatar center — iPhone XR runtime frame captured
+- [x] P09-T10 Core reward flies into permanent counter — center→counter transition frame-captured
 - [ ] P09-T11 Audio crescendo + impact
-- [ ] P09-T12 Post-Collapse "faster next run" feedback
-- [ ] P09-T13 Repeated Collapse visual variety by Core milestone
-- [ ] P09-T14 Collapse cannot strand/kill character
-- [ ] P09-T15 Mobile runtime QA
+- [x] P09-T12 Post-Collapse "faster next run" feedback — NEXT RUN XP ×1.25 verified live
+- [~] P09-T13 Repeated Collapse visual variety by Core milestone — milestone palette logic implemented; milestone runtime QA pending
+- [x] P09-T14 Collapse cannot strand/kill character — avatar remained alive/controllable after live Collapse
+- [x] P09-T15 Mobile runtime QA — iPhone XR 896×414 Collapse path, 0 CreatorErrors
 
 ---
 
 # P10 — HUD / UX
 
-- [~] P10-T01 Compact Gravity counter
-- [~] P10-T02 Level counter
-- [~] P10-T03 Core counter
-- [~] P10-T04 Level progress bar
+- [x] P10-T01 Compact Gravity counter — iPhone XR runtime verified
+- [x] P10-T02 Level counter — LV50→LV0 live Collapse verified
+- [x] P10-T03 Core counter — Core 0→1 live Collapse verified
+- [x] P10-T04 Level progress bar — iPhone XR runtime verified
 - [~] P10-T05 Current zone
-- [~] P10-T06 Daily status
+- [x] P10-T06 Daily status — iPhone XR runtime verified
 - [~] P10-T07 Collapse button
-- [~] P10-T08 First-session tutorial copy
-- [~] P10-T09 Toast feedback
-- [~] P10-T10 Mobile responsive branch
-- [ ] P10-T11 Safe-area validation against Roblox top-left CoreGui
-- [ ] P10-T12 Small-phone 19.5:9 layout QA
+- [x] P10-T08 First-session tutorial copy — visible in fresh iPhone XR session
+- [x] P10-T09 Toast feedback — Collapse NEXT RUN XP toast verified live
+- [x] P10-T10 Mobile responsive branch — iPhone XR 896×414 live
+- [x] P10-T11 Safe-area validation against Roblox top-left CoreGui — iPhone XR screenshot verified
+- [x] P10-T12 Small-phone 19.5:9 layout QA — iPhone XR 896×414 PlaySolo verified
 - [ ] P10-T13 Tablet layout QA
 - [ ] P10-T14 Desktop 16:9 layout QA
 - [ ] P10-T15 Console 16:9 / ten-foot readability QA
-- [ ] P10-T16 No HUD overlap with avatar/object orbit
-- [ ] P10-T17 No giant card stack / playfield obstruction
+- [~] P10-T16 No HUD overlap with avatar/object orbit — low-load iPhone XR verified; max-orbit pending
+- [x] P10-T17 No giant card stack / playfield obstruction — iPhone XR screenshot verified
 - [ ] P10-T18 Controller selection/focus map
 - [ ] P10-T19 Haptics for collect / unlock / Collapse
 - [ ] P10-T20 Sound feedback hierarchy
@@ -514,12 +514,12 @@ Automated:
 - [x] P21-T09 Release-readiness tests — six expected external blockers surfaced
 
 Runtime:
-- [ ] P21-T10 Fresh spawn
-- [ ] P21-T11 First object collection
+- [x] P21-T10 Fresh spawn — local Studio iPhone XR PlaySolo, 0 CreatorErrors
+- [x] P21-T11 First object collection — live attraction/collection produced ×2 aggregate
 - [ ] P21-T12 100-object collection run
 - [ ] P21-T13 All five zone unlocks
 - [ ] P21-T14 Level 0 → 50
-- [ ] P21-T15 Collapse #1
+- [x] P21-T15 Collapse #1 — exact client Action RemoteEvent → server Collapse → client FX path verified
 - [ ] P21-T16 Collapse #2 accelerated
 - [ ] P21-T17 10 Collapse soak
 - [ ] P21-T18 Death/respawn
@@ -532,7 +532,7 @@ Runtime:
 - [ ] P21-T25 8-player soak
 
 Device:
-- [ ] P21-T26 iPhone XR class viewport
+- [x] P21-T26 iPhone XR class viewport — 896×414 PlaySolo verified
 - [ ] P21-T27 modern tall iPhone viewport
 - [ ] P21-T28 small Android viewport
 - [ ] P21-T29 tablet
@@ -540,11 +540,11 @@ Device:
 - [ ] P21-T31 controller/console
 
 Visual:
-- [ ] P21-T32 HUD does not block gameplay
+- [x] P21-T32 HUD does not block gameplay — iPhone XR screenshot review verified
 - [ ] P21-T33 Avatar visible at max orbit
 - [ ] P21-T34 Zone identity screenshot review
 - [ ] P21-T35 Object quality screenshot review
-- [ ] P21-T36 Collapse screenshot/video review
+- [x] P21-T36 Collapse screenshot/video review — multi-frame iPhone XR review completed
 
 ---
 
@@ -552,7 +552,7 @@ Visual:
 
 Repository:
 - [x] P22-T01 Initial production commit pushed to main — f5c6453
-- [x] P22-T02 GitHub CI green — latest verified run 37149063716
+- [x] P22-T02 GitHub CI green — latest verified run 37151378690
 - [x] P22-T03 Ledger synchronized with verified state — 2026-10-03
 
 Roblox configuration:
