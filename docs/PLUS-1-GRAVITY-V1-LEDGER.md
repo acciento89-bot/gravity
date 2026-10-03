@@ -74,7 +74,7 @@ Acceptance:
 - [x] P02-T14 Static gate: StyLua
 - [x] P02-T15 Static gate: Selene 0 errors / 0 warnings
 - [x] P02-T16 Rojo build gate
-- [x] P02-T17 Pure-Luau suite fully green — 9 test files
+- [x] P02-T17 Pure-Luau suite fully green — 10 test files
 
 Acceptance:
 - Fresh clone can format, lint, build and test without manual source edits.
@@ -196,11 +196,11 @@ Megacity:
 - [~] P06-T25 Building Chunk
 
 Quality:
-- [ ] P06-T26 Unique readable silhouette for every family
-- [ ] P06-T27 No placeholder cube feeling
-- [ ] P06-T28 Vehicle visuals upgraded beyond primitive boxes
-- [ ] P06-T29 Largest objects visually feel absurd/powerful
-- [ ] P06-T30 Object LOD / visual simplification strategy
+- [~] P06-T26 Unique readable silhouette for every family — 25 custom procedural families implemented; runtime screenshot QA pending
+- [~] P06-T27 No placeholder cube feeling — invisible hitbox roots + custom visual assemblies implemented; screenshot QA pending
+- [~] P06-T28 Vehicle visuals upgraded beyond primitive boxes — wheels/cabins/windows/lights/forks/rails implemented; runtime visual QA pending
+- [~] P06-T29 Largest objects visually feel absurd/powerful — jet engine/crane/building-chunk escalation implemented; runtime scale QA pending
+- [~] P06-T30 Object LOD / visual simplification strategy — primitive-only procedural geometry + 6 copies/class cap; runtime device profiling pending
 - [ ] P06-T31 Object escalation screenshot QA at 5 progression milestones
 
 ---
@@ -217,15 +217,15 @@ Quality:
 - [~] P07-T08 Zone signs
 - [~] P07-T09 Zone requirement copy
 - [~] P07-T10 Basic landmarks
-- [ ] P07-T11 Actual gate/barrier behavior for locked zones
-- [ ] P07-T12 Locked-zone feedback
-- [ ] P07-T13 Zone arrival celebration
-- [ ] P07-T14 Distinct art/material language per zone
-- [ ] P07-T15 Skyline/background dressing
+- [~] P07-T11 Actual gate/barrier behavior for locked zones — server-authoritative rejection + safe return implemented; runtime traversal proof pending
+- [~] P07-T12 Locked-zone feedback — per-player gate field OPEN/locked state + explicit HUD requirement implemented; runtime QA pending
+- [~] P07-T13 Zone arrival celebration — ZoneUnlocked + ZoneEntered feedback implemented; runtime feel QA pending
+- [~] P07-T14 Distinct art/material language per zone — five procedural zone identities implemented; screenshot QA pending
+- [~] P07-T15 Skyline/background dressing — towers, warehouses, terminal/control tower and Megacity spire/skyrail implemented; screenshot QA pending
 - [ ] P07-T16 Lighting/atmosphere final pass
-- [ ] P07-T17 Landmark quality pass
-- [ ] P07-T18 No dead empty expanses
-- [ ] P07-T19 Navigation readable without giant arrows
+- [~] P07-T17 Landmark quality pass — zone-specific landmark assemblies replace generic cube silhouettes; runtime visual QA pending
+- [~] P07-T18 No dead empty expanses — structural dressing added across all five zones; runtime route QA pending
+- [~] P07-T19 Navigation readable without giant arrows — boulevard + gate arches + requirement signs + landmarks implemented; runtime navigation QA pending
 - [ ] P07-T20 Multiplayer spawn/path safety
 - [ ] P07-T21 Mobile draw/performance QA
 
@@ -552,7 +552,7 @@ Visual:
 
 Repository:
 - [x] P22-T01 Initial production commit pushed to main — f5c6453
-- [x] P22-T02 GitHub CI green — latest verified run 37148413218
+- [x] P22-T02 GitHub CI green — latest verified run 37149063716
 - [x] P22-T03 Ledger synchronized with verified state — 2026-10-03
 
 Roblox configuration:

@@ -105,4 +105,4 @@ Mandatory release journeys:
 13. Commit release evidence
 
 ## Current next task
-P06/P07 — replace placeholder-like object/world presentation with production-quality object families, distinct zone art direction, real locked-zone gates and readable progression landmarks. After that, execute the Core Game Loop runtime gate including P03 rejoin/migration/failure proofs and P21 multiplayer/mobile journeys.
+Core Game Loop runtime gate — verify fresh spawn, collection, all five zone gates, Level 0→50, Collapse #1/#2 and persistence rejoin/migration/failure behavior in Roblox runtime. P06/P07 visual acceptance remains screenshot/device QA, not statically closed.
