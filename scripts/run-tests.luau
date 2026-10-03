@@ -4,6 +4,7 @@ local tests = {
 	require("../tests/zone-rules.spec"),
 	require("../tests/daily-rules.spec"),
 	require("../tests/profile-rules.spec"),
+	require("../tests/balance-rules.spec"),
 	require("../tests/receipt-rules.spec"),
 	require("../tests/readiness-rules.spec"),
 }

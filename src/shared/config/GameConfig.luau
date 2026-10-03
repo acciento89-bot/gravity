@@ -27,6 +27,9 @@ return table.freeze({
 	Persistence = table.freeze({
 		DataStoreName = "Plus1Gravity_Profile_v1",
 		AutoSaveSeconds = 60,
+		LoadAttempts = 4,
+		SaveAttempts = 3,
+		RetryBaseSeconds = 0.35,
 	}),
 	Leaderboard = table.freeze({
 		HighestGravity = "Plus1Gravity_HighestGravity_v1",

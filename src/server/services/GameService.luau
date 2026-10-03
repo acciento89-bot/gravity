@@ -178,15 +178,13 @@ local function award(player: Player, gravityBase: number, xpBase: number, dailyT
 	if not profile then
 		return
 	end
-	local gravityMultiplier = boostMultiplier(profile.GravityBoostUntil)
-	local xpMultiplier = LevelRules.xpMultiplier(profile.Cores, boostMultiplier(profile.XpBoostUntil))
-	local gravityGain = math.max(0, gravityBase) * gravityMultiplier
-	local xpGain = math.floor(math.max(0, xpBase) * xpMultiplier + 0.5)
-
-	profile.Gravity += gravityGain
-	profile.TotalGravity += gravityGain
-	profile.XP += xpGain
-	recalculate(profile)
+	LevelRules.applyAward(
+		profile,
+		gravityBase,
+		xpBase,
+		boostMultiplier(profile.GravityBoostUntil),
+		boostMultiplier(profile.XpBoostUntil)
+	)
 	if dailyType then
 		updateDaily(profile, dailyType, if dailyType == "Gravity" then profile.Gravity else 1)
 	end
@@ -237,30 +235,22 @@ end
 
 local function collapse(player: Player)
 	local profile = ProfileService.get(player)
-	if not profile or not LevelRules.canCollapse(profile.Level, profile.Gravity) then
+	if not profile then
 		return
 	end
 
-	local now = os.time()
-	local runSeconds = math.max(1, now - (profile.RunStartedAt or now))
-	local shards = LevelRules.collapseShardReward(profile.Cores)
-	profile.Cores += 1
-	profile.CollapseCount += 1
-	profile.Shards += shards
-	if profile.BestCollapseSeconds <= 0 or runSeconds < profile.BestCollapseSeconds then
-		profile.BestCollapseSeconds = runSeconds
+	local result = LevelRules.applyCollapse(profile, os.time())
+	if not result then
+		return
 	end
+
 	updateDaily(profile, "Collapse", 1)
-	profile.Gravity = 0
-	profile.XP = 0
-	profile.Level = 0
-	profile.RunStartedAt = now
 	ProfileService.markDirty(player)
 
 	collapseFxRemote:FireClient(player, {
-		Cores = profile.Cores,
-		Shards = shards,
-		RunSeconds = runSeconds,
+		Cores = result.Cores,
+		Shards = result.Shards,
+		RunSeconds = result.RunSeconds,
 		Skin = profile.EquippedSingularitySkin,
 	})
 	GameService.pushState(player, "Collapsed")
