@@ -299,7 +299,9 @@ local function build()
 end
 
 function HudController.start()
-	build()(remotes:WaitForChild("State") :: RemoteEvent).OnClientEvent:Connect(function(newState)
+	build()
+	local stateRemote = remotes:WaitForChild("State") :: RemoteEvent
+	stateRemote.OnClientEvent:Connect(function(newState)
 		if type(newState) == "table" and newState.Ready == true then
 			state = newState
 			render()

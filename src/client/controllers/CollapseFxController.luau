@@ -16,7 +16,10 @@ function CollapseFxController.start()
 	effect.Contrast = 0
 	effect.Saturation = 0
 	effect.TintColor = Color3.fromRGB(180, 235, 255)
-	effect.Parent = Lighting(remotes:WaitForChild("CollapseFx") :: RemoteEvent).OnClientEvent:Connect(function()
+	effect.Parent = Lighting
+
+	local collapseRemote = remotes:WaitForChild("CollapseFx") :: RemoteEvent
+	collapseRemote.OnClientEvent:Connect(function()
 		effect.Enabled = true
 		effect.Brightness = 0
 		effect.Contrast = 0
