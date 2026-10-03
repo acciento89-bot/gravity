@@ -32,7 +32,10 @@ return function()
 		assert(type(zone.DisplayName) == "string" and zone.DisplayName ~= "", "zone display name")
 		assert(zone.MinGravity >= previousMinGravity, "zone gravity requirements monotonic")
 		assert(zone.MinCores >= previousMinCores, "zone core requirements monotonic")
-		assert(ZoneRules.zoneContainingPosition(ZoneConfig, zone.Center[1], zone.Center[3]).Id == zone.Id, "zone center resolves")
+		assert(
+			ZoneRules.zoneContainingPosition(ZoneConfig, zone.Center[1], zone.Center[3]).Id == zone.Id,
+			"zone center resolves"
+		)
 
 		local leftEdge = zone.Center[1] - zone.Size[1] / 2
 		if previousRightEdge then

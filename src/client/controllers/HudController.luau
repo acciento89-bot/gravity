@@ -133,7 +133,9 @@ local function render()
 		showToast("STYLE UPDATED", COLORS.Violet)
 	elseif state.Event == "ZoneLocked" and type(state.EventData) == "table" then
 		local gate = state.EventData
-		local coreText = if (gate.MinCores or 0) > 0 then (" + %d CORE%s"):format(gate.MinCores, if gate.MinCores == 1 then "" else "S") else ""
+		local coreText = if (gate.MinCores or 0) > 0
+			then (" + %d CORE%s"):format(gate.MinCores, if gate.MinCores == 1 then "" else "S")
+			else ""
 		showToast(("LOCKED · %s GRAVITY%s"):format(compactNumber(gate.MinGravity or 0), coreText), COLORS.Gold)
 	elseif state.Event == "ZoneUnlocked" and type(state.EventData) == "table" then
 		showToast(("UNLOCKED · %s"):format(string.upper(state.EventData.DisplayName or "ZONE")), COLORS.Green)

@@ -63,7 +63,15 @@ local function building(
 	structure.Name = name
 	structure.Parent = parent
 
-	makePart(structure, "Body", size, CFrame.new(position + Vector3.new(0, size.Y / 2, 0)), body, Enum.Material.Concrete, true)
+	makePart(
+		structure,
+		"Body",
+		size,
+		CFrame.new(position + Vector3.new(0, size.Y / 2, 0)),
+		body,
+		Enum.Material.Concrete,
+		true
+	)
 	local floors = math.clamp(math.floor(size.Y / 8), 2, 8)
 	for floor = 1, floors do
 		local y = 3 + (floor - 1) * ((size.Y - 6) / math.max(1, floors - 1))
@@ -99,11 +107,13 @@ local function tree(parent: Instance, position: Vector3, scale: number)
 		Enum.Material.Wood,
 		true
 	)
-	for _, offset in {
-		Vector3.new(0, 5.6, 0),
-		Vector3.new(1.8, 5.0, 0.6),
-		Vector3.new(-1.8, 5.1, -0.5),
-	} do
+	for _, offset in
+		{
+			Vector3.new(0, 5.6, 0),
+			Vector3.new(1.8, 5.0, 0.6),
+			Vector3.new(-1.8, 5.1, -0.5),
+		}
+	do
 		local crown = makePart(
 			parent,
 			"TreeCrown",
@@ -122,17 +132,57 @@ local function fence(parent: Instance, position: Vector3, length: number)
 	local count = math.max(2, math.floor(length / 4))
 	for index = 0, count do
 		local z = -length / 2 + index * (length / count)
-		makePart(parent, "FencePicket", Vector3.new(0.28, 3.2, 0.28), CFrame.new(position + Vector3.new(0, 1.6, z)), color, Enum.Material.WoodPlanks, false)
+		makePart(
+			parent,
+			"FencePicket",
+			Vector3.new(0.28, 3.2, 0.28),
+			CFrame.new(position + Vector3.new(0, 1.6, z)),
+			color,
+			Enum.Material.WoodPlanks,
+			false
+		)
 	end
 	for y = 0.9, 2.2, 1.3 do
-		makePart(parent, "FenceRail", Vector3.new(0.24, 0.22, length), CFrame.new(position + Vector3.new(0, y, 0)), color, Enum.Material.WoodPlanks, false)
+		makePart(
+			parent,
+			"FenceRail",
+			Vector3.new(0.24, 0.22, length),
+			CFrame.new(position + Vector3.new(0, y, 0)),
+			color,
+			Enum.Material.WoodPlanks,
+			false
+		)
 	end
 end
 
 local function streetLight(parent: Instance, position: Vector3, accent: Color3)
-	makePart(parent, "StreetLightPole", Vector3.new(0.28, 8.5, 0.28), CFrame.new(position + Vector3.new(0, 4.25, 0)), Color3.fromRGB(62, 68, 78), Enum.Material.Metal, false)
-	makePart(parent, "StreetLightArm", Vector3.new(2.6, 0.22, 0.22), CFrame.new(position + Vector3.new(1.15, 8.2, 0)), Color3.fromRGB(62, 68, 78), Enum.Material.Metal, false)
-	local lamp = makePart(parent, "StreetLight", Vector3.new(0.8, 0.18, 0.5), CFrame.new(position + Vector3.new(2.2, 8.0, 0)), accent, Enum.Material.Neon, false)
+	makePart(
+		parent,
+		"StreetLightPole",
+		Vector3.new(0.28, 8.5, 0.28),
+		CFrame.new(position + Vector3.new(0, 4.25, 0)),
+		Color3.fromRGB(62, 68, 78),
+		Enum.Material.Metal,
+		false
+	)
+	makePart(
+		parent,
+		"StreetLightArm",
+		Vector3.new(2.6, 0.22, 0.22),
+		CFrame.new(position + Vector3.new(1.15, 8.2, 0)),
+		Color3.fromRGB(62, 68, 78),
+		Enum.Material.Metal,
+		false
+	)
+	local lamp = makePart(
+		parent,
+		"StreetLight",
+		Vector3.new(0.8, 0.18, 0.5),
+		CFrame.new(position + Vector3.new(2.2, 8.0, 0)),
+		accent,
+		Enum.Material.Neon,
+		false
+	)
 	lamp.Transparency = 0.08
 end
 
@@ -146,18 +196,52 @@ local function buildBackyard(parent: Instance, center: Vector3, size: Vector3)
 			local house = Instance.new("Model")
 			house.Name = "BackyardHouse"
 			house.Parent = parent
-			makePart(house, "House", Vector3.new(20, 9, 16), CFrame.new(x, 4.5, z), houseColor, Enum.Material.WoodPlanks, true)
-			local roof = makePart(house, "Roof", Vector3.new(22, 4, 18), CFrame.new(x, 10, z), Color3.fromRGB(71, 67, 67), Enum.Material.Slate, false)
+			makePart(
+				house,
+				"House",
+				Vector3.new(20, 9, 16),
+				CFrame.new(x, 4.5, z),
+				houseColor,
+				Enum.Material.WoodPlanks,
+				true
+			)
+			local roof = makePart(
+				house,
+				"Roof",
+				Vector3.new(22, 4, 18),
+				CFrame.new(x, 10, z),
+				Color3.fromRGB(71, 67, 67),
+				Enum.Material.Slate,
+				false
+			)
 			roof.Shape = Enum.PartType.Wedge
-			neonWindow(house, CFrame.new(x - side * 10.05, 5.5, z - 3.5), Vector3.new(0.10, 2.3, 3.0), Color3.fromRGB(255, 223, 153))
-			neonWindow(house, CFrame.new(x - side * 10.05, 5.5, z + 3.5), Vector3.new(0.10, 2.3, 3.0), Color3.fromRGB(255, 223, 153))
+			neonWindow(
+				house,
+				CFrame.new(x - side * 10.05, 5.5, z - 3.5),
+				Vector3.new(0.10, 2.3, 3.0),
+				Color3.fromRGB(255, 223, 153)
+			)
+			neonWindow(
+				house,
+				CFrame.new(x - side * 10.05, 5.5, z + 3.5),
+				Vector3.new(0.10, 2.3, 3.0),
+				Color3.fromRGB(255, 223, 153)
+			)
 		end
 	end
 	fence(parent, Vector3.new(center.X - size.X * 0.44, 0, center.Z), size.Z * 0.74)
 	fence(parent, Vector3.new(center.X + size.X * 0.44, 0, center.Z), size.Z * 0.74)
 	tree(parent, center + Vector3.new(-size.X * 0.28, 0, -size.Z * 0.08), 1.15)
 	tree(parent, center + Vector3.new(size.X * 0.26, 0, size.Z * 0.11), 1.05)
-	makePart(parent, "Lawn", Vector3.new(size.X * 0.72, 0.18, size.Z * 0.72), CFrame.new(center + Vector3.new(0, 0.1, 0)), grass, Enum.Material.Grass, false)
+	makePart(
+		parent,
+		"Lawn",
+		Vector3.new(size.X * 0.72, 0.18, size.Z * 0.72),
+		CFrame.new(center + Vector3.new(0, 0.1, 0)),
+		grass,
+		Enum.Material.Grass,
+		false
+	)
 end
 
 local function buildDowntown(parent: Instance, center: Vector3, size: Vector3, accent: Color3)
@@ -171,14 +255,30 @@ local function buildDowntown(parent: Instance, center: Vector3, size: Vector3, a
 		local slot = ((index - 1) % 3) - 1
 		local position = center + Vector3.new(side * size.X * 0.34, 0, slot * size.Z * 0.28)
 		local height = 24 + index * 4
-		building(parent, "DowntownTower", position, Vector3.new(24, height, 23), bodies[((index - 1) % #bodies) + 1], Color3.fromRGB(109, 200, 229), accent)
+		building(
+			parent,
+			"DowntownTower",
+			position,
+			Vector3.new(24, height, 23),
+			bodies[((index - 1) % #bodies) + 1],
+			Color3.fromRGB(109, 200, 229),
+			accent
+		)
 	end
 	for z = -2, 2 do
 		streetLight(parent, center + Vector3.new(-size.X * 0.20, 0, z * 26), accent)
 		streetLight(parent, center + Vector3.new(size.X * 0.20, 0, z * 26), accent)
 	end
 	for stripe = -3, 3 do
-		makePart(parent, "Crosswalk", Vector3.new(1.8, 0.08, 13), CFrame.new(center + Vector3.new(stripe * 3.0, 0.28, 0)), Color3.fromRGB(224, 227, 232), Enum.Material.Concrete, false)
+		makePart(
+			parent,
+			"Crosswalk",
+			Vector3.new(1.8, 0.08, 13),
+			CFrame.new(center + Vector3.new(stripe * 3.0, 0.28, 0)),
+			Color3.fromRGB(224, 227, 232),
+			Enum.Material.Concrete,
+			false
+		)
 	end
 end
 
@@ -189,39 +289,159 @@ local function buildIndustrial(parent: Instance, center: Vector3, size: Vector3,
 		warehouse.Name = "Warehouse"
 		warehouse.Parent = parent
 		local position = center + Vector3.new(side * size.X * 0.35, 0, -size.Z * 0.20)
-		makePart(warehouse, "Shell", Vector3.new(42, 14, 36), CFrame.new(position + Vector3.new(0, 7, 0)), warehouseColor, Enum.Material.Metal, true)
-		makePart(warehouse, "Door", Vector3.new(18, 9, 0.18), CFrame.new(position + Vector3.new(-side * 21.1, 4.5, 0)), Color3.fromRGB(50, 55, 61), Enum.Material.Metal, false)
-		makePart(warehouse, "Stripe", Vector3.new(42.2, 1.0, 36.2), CFrame.new(position + Vector3.new(0, 11.0, 0)), accent, Enum.Material.Neon, false)
+		makePart(
+			warehouse,
+			"Shell",
+			Vector3.new(42, 14, 36),
+			CFrame.new(position + Vector3.new(0, 7, 0)),
+			warehouseColor,
+			Enum.Material.Metal,
+			true
+		)
+		makePart(
+			warehouse,
+			"Door",
+			Vector3.new(18, 9, 0.18),
+			CFrame.new(position + Vector3.new(-side * 21.1, 4.5, 0)),
+			Color3.fromRGB(50, 55, 61),
+			Enum.Material.Metal,
+			false
+		)
+		makePart(
+			warehouse,
+			"Stripe",
+			Vector3.new(42.2, 1.0, 36.2),
+			CFrame.new(position + Vector3.new(0, 11.0, 0)),
+			accent,
+			Enum.Material.Neon,
+			false
+		)
 	end
 	for index = -1, 1 do
 		local tankPosition = center + Vector3.new(index * 24, 0, size.Z * 0.31)
-		makeCylinder(parent, "StorageTank", Vector3.new(15, 11, 11), CFrame.new(tankPosition + Vector3.new(0, 7.5, 0)) * CFrame.Angles(0, 0, math.rad(90)), Color3.fromRGB(112, 120, 124), Enum.Material.Metal, true)
-		makePart(parent, "TankBand", Vector3.new(0.35, 11.5, 11.5), CFrame.new(tankPosition + Vector3.new(0, 7.5, 0)), accent, Enum.Material.Metal, false)
+		makeCylinder(
+			parent,
+			"StorageTank",
+			Vector3.new(15, 11, 11),
+			CFrame.new(tankPosition + Vector3.new(0, 7.5, 0)) * CFrame.Angles(0, 0, math.rad(90)),
+			Color3.fromRGB(112, 120, 124),
+			Enum.Material.Metal,
+			true
+		)
+		makePart(
+			parent,
+			"TankBand",
+			Vector3.new(0.35, 11.5, 11.5),
+			CFrame.new(tankPosition + Vector3.new(0, 7.5, 0)),
+			accent,
+			Enum.Material.Metal,
+			false
+		)
 	end
 	for side = -1, 1, 2 do
-		makePart(parent, "PipePost", Vector3.new(0.8, 10, 0.8), CFrame.new(center + Vector3.new(side * 28, 5, 28)), Color3.fromRGB(118, 124, 132), Enum.Material.Metal, false)
+		makePart(
+			parent,
+			"PipePost",
+			Vector3.new(0.8, 10, 0.8),
+			CFrame.new(center + Vector3.new(side * 28, 5, 28)),
+			Color3.fromRGB(118, 124, 132),
+			Enum.Material.Metal,
+			false
+		)
 	end
-	makePart(parent, "OverheadPipe", Vector3.new(58, 0.9, 0.9), CFrame.new(center + Vector3.new(0, 9, 28)), Color3.fromRGB(188, 113, 57), Enum.Material.Metal, false)
+	makePart(
+		parent,
+		"OverheadPipe",
+		Vector3.new(58, 0.9, 0.9),
+		CFrame.new(center + Vector3.new(0, 9, 28)),
+		Color3.fromRGB(188, 113, 57),
+		Enum.Material.Metal,
+		false
+	)
 end
 
 local function buildAirport(parent: Instance, center: Vector3, size: Vector3, accent: Color3)
 	local terminal = Instance.new("Model")
 	terminal.Name = "Terminal"
 	terminal.Parent = parent
-	makePart(terminal, "TerminalBody", Vector3.new(70, 18, 28), CFrame.new(center + Vector3.new(0, 9, -size.Z * 0.33)), Color3.fromRGB(159, 168, 178), Enum.Material.Metal, true)
-	makePart(terminal, "GlassFront", Vector3.new(66, 10, 0.20), CFrame.new(center + Vector3.new(0, 9, -size.Z * 0.33 + 14.1)), Color3.fromRGB(91, 151, 183), Enum.Material.Glass, false)
-	makePart(terminal, "TerminalAccent", Vector3.new(70.4, 1.0, 28.4), CFrame.new(center + Vector3.new(0, 16.2, -size.Z * 0.33)), accent, Enum.Material.Neon, false)
+	makePart(
+		terminal,
+		"TerminalBody",
+		Vector3.new(70, 18, 28),
+		CFrame.new(center + Vector3.new(0, 9, -size.Z * 0.33)),
+		Color3.fromRGB(159, 168, 178),
+		Enum.Material.Metal,
+		true
+	)
+	makePart(
+		terminal,
+		"GlassFront",
+		Vector3.new(66, 10, 0.20),
+		CFrame.new(center + Vector3.new(0, 9, -size.Z * 0.33 + 14.1)),
+		Color3.fromRGB(91, 151, 183),
+		Enum.Material.Glass,
+		false
+	)
+	makePart(
+		terminal,
+		"TerminalAccent",
+		Vector3.new(70.4, 1.0, 28.4),
+		CFrame.new(center + Vector3.new(0, 16.2, -size.Z * 0.33)),
+		accent,
+		Enum.Material.Neon,
+		false
+	)
 
 	local towerPos = center + Vector3.new(size.X * 0.32, 0, -size.Z * 0.23)
-	makeCylinder(parent, "ControlTower", Vector3.new(34, 5, 5), CFrame.new(towerPos + Vector3.new(0, 17, 0)) * CFrame.Angles(0, 0, math.rad(90)), Color3.fromRGB(176, 182, 190), Enum.Material.Concrete, true)
-	makePart(parent, "ControlCab", Vector3.new(12, 5, 12), CFrame.new(towerPos + Vector3.new(0, 34, 0)), Color3.fromRGB(74, 125, 151), Enum.Material.Glass, true)
-	makePart(parent, "ControlRoof", Vector3.new(14, 0.8, 14), CFrame.new(towerPos + Vector3.new(0, 37, 0)), accent, Enum.Material.Metal, false)
+	makeCylinder(
+		parent,
+		"ControlTower",
+		Vector3.new(34, 5, 5),
+		CFrame.new(towerPos + Vector3.new(0, 17, 0)) * CFrame.Angles(0, 0, math.rad(90)),
+		Color3.fromRGB(176, 182, 190),
+		Enum.Material.Concrete,
+		true
+	)
+	makePart(
+		parent,
+		"ControlCab",
+		Vector3.new(12, 5, 12),
+		CFrame.new(towerPos + Vector3.new(0, 34, 0)),
+		Color3.fromRGB(74, 125, 151),
+		Enum.Material.Glass,
+		true
+	)
+	makePart(
+		parent,
+		"ControlRoof",
+		Vector3.new(14, 0.8, 14),
+		CFrame.new(towerPos + Vector3.new(0, 37, 0)),
+		accent,
+		Enum.Material.Metal,
+		false
+	)
 
 	for line = -1, 1, 2 do
-		makePart(parent, "TaxiLine", Vector3.new(size.X * 0.72, 0.06, 0.34), CFrame.new(center + Vector3.new(0, 0.28, line * 8)), Color3.fromRGB(244, 213, 85), Enum.Material.Neon, false)
+		makePart(
+			parent,
+			"TaxiLine",
+			Vector3.new(size.X * 0.72, 0.06, 0.34),
+			CFrame.new(center + Vector3.new(0, 0.28, line * 8)),
+			Color3.fromRGB(244, 213, 85),
+			Enum.Material.Neon,
+			false
+		)
 	end
 	for index = -4, 4 do
-		makePart(parent, "RunwayMark", Vector3.new(6, 0.07, 0.8), CFrame.new(center + Vector3.new(index * 14, 0.29, 0)), Color3.fromRGB(230, 233, 238), Enum.Material.Concrete, false)
+		makePart(
+			parent,
+			"RunwayMark",
+			Vector3.new(6, 0.07, 0.8),
+			CFrame.new(center + Vector3.new(index * 14, 0.29, 0)),
+			Color3.fromRGB(230, 233, 238),
+			Enum.Material.Concrete,
+			false
+		)
 	end
 end
 
@@ -237,18 +457,66 @@ local function buildMegacity(parent: Instance, center: Vector3, size: Vector3, a
 		local position = center + Vector3.new(side * size.X * 0.34, 0, slot * size.Z * 0.20)
 		local height = 44 + ((index * 11) % 35)
 		local towerAccent = if index % 2 == 0 then accent else Color3.fromRGB(164, 134, 255)
-		building(parent, "MegacityTower", position, Vector3.new(25, height, 25), towerColors[((index - 1) % #towerColors) + 1], Color3.fromRGB(107, 197, 228), towerAccent)
+		building(
+			parent,
+			"MegacityTower",
+			position,
+			Vector3.new(25, height, 25),
+			towerColors[((index - 1) % #towerColors) + 1],
+			Color3.fromRGB(107, 197, 228),
+			towerAccent
+		)
 	end
 
 	local spirePosition = center + Vector3.new(0, 0, size.Z * 0.33)
-	makePart(parent, "SpireBase", Vector3.new(22, 56, 22), CFrame.new(spirePosition + Vector3.new(0, 28, 0)), Color3.fromRGB(42, 49, 67), Enum.Material.Metal, true)
-	makePart(parent, "SpireGlow", Vector3.new(2.4, 58, 2.4), CFrame.new(spirePosition + Vector3.new(0, 30, 11.1)), accent, Enum.Material.Neon, false)
-	makeCylinder(parent, "SpireNeedle", Vector3.new(32, 0.8, 0.8), CFrame.new(spirePosition + Vector3.new(0, 72, 0)) * CFrame.Angles(0, 0, math.rad(90)), accent, Enum.Material.Neon, false)
+	makePart(
+		parent,
+		"SpireBase",
+		Vector3.new(22, 56, 22),
+		CFrame.new(spirePosition + Vector3.new(0, 28, 0)),
+		Color3.fromRGB(42, 49, 67),
+		Enum.Material.Metal,
+		true
+	)
+	makePart(
+		parent,
+		"SpireGlow",
+		Vector3.new(2.4, 58, 2.4),
+		CFrame.new(spirePosition + Vector3.new(0, 30, 11.1)),
+		accent,
+		Enum.Material.Neon,
+		false
+	)
+	makeCylinder(
+		parent,
+		"SpireNeedle",
+		Vector3.new(32, 0.8, 0.8),
+		CFrame.new(spirePosition + Vector3.new(0, 72, 0)) * CFrame.Angles(0, 0, math.rad(90)),
+		accent,
+		Enum.Material.Neon,
+		false
+	)
 
 	for side = -1, 1, 2 do
-		makePart(parent, "SkyRailPost", Vector3.new(1.2, 15, 1.2), CFrame.new(center + Vector3.new(side * size.X * 0.18, 7.5, 0)), Color3.fromRGB(76, 84, 100), Enum.Material.Metal, false)
+		makePart(
+			parent,
+			"SkyRailPost",
+			Vector3.new(1.2, 15, 1.2),
+			CFrame.new(center + Vector3.new(side * size.X * 0.18, 7.5, 0)),
+			Color3.fromRGB(76, 84, 100),
+			Enum.Material.Metal,
+			false
+		)
 	end
-	makePart(parent, "SkyRail", Vector3.new(size.X * 0.42, 0.9, 2.4), CFrame.new(center + Vector3.new(0, 14.5, 0)), Color3.fromRGB(88, 98, 117), Enum.Material.Metal, false)
+	makePart(
+		parent,
+		"SkyRail",
+		Vector3.new(size.X * 0.42, 0.9, 2.4),
+		CFrame.new(center + Vector3.new(0, 14.5, 0)),
+		Color3.fromRGB(88, 98, 117),
+		Enum.Material.Metal,
+		false
+	)
 end
 
 function ZoneVisualFactory.decorate(parent: Instance, zone: any)

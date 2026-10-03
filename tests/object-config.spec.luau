@@ -24,7 +24,10 @@ return function()
 		assert(zoneIds[definition.Zone], ("unknown zone for %s"):format(definition.Id))
 		perZone[definition.Zone] = (perZone[definition.Zone] or 0) + 1
 
-		assert(definition.RequiredGravity >= previousRequirement, ("gravity tier regression at %s"):format(definition.Id))
+		assert(
+			definition.RequiredGravity >= previousRequirement,
+			("gravity tier regression at %s"):format(definition.Id)
+		)
 		assert(definition.GravityGain >= previousGravityGain, ("gravity reward regression at %s"):format(definition.Id))
 		assert(definition.XP >= previousXp, ("xp reward regression at %s"):format(definition.Id))
 		assert(definition.Respawn >= 1 and definition.Respawn <= 30, ("respawn bounds at %s"):format(definition.Id))
@@ -34,9 +37,15 @@ return function()
 			assert(type(axis) == "number" and axis > 0, ("positive size at %s"):format(definition.Id))
 		end
 
-		assert(type(definition.Color) == "table" and #definition.Color == 3, ("color shape at %s"):format(definition.Id))
+		assert(
+			type(definition.Color) == "table" and #definition.Color == 3,
+			("color shape at %s"):format(definition.Id)
+		)
 		for _, channel in definition.Color do
-			assert(type(channel) == "number" and channel >= 0 and channel <= 255, ("color bounds at %s"):format(definition.Id))
+			assert(
+				type(channel) == "number" and channel >= 0 and channel <= 255,
+				("color bounds at %s"):format(definition.Id)
+			)
 		end
 
 		previousRequirement = definition.RequiredGravity
