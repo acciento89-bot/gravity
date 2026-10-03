@@ -1,0 +1,15 @@
+local LevelRules = require("../src/shared/rules/LevelRules")
+
+return function()
+	assert(LevelRules.levelFromXp(0) == 0, "new run should start at level 0")
+	assert(LevelRules.xpForNextLevel(0) == 80, "level 0 threshold")
+	local level10Xp = LevelRules.totalXpForLevel(10)
+	assert(LevelRules.levelFromXp(level10Xp) == 10, "cumulative XP should resolve exactly")
+	assert(LevelRules.xpMultiplier(0) == 1, "no cores = base XP")
+	assert(LevelRules.xpMultiplier(4) == 2, "four cores = +100% XP")
+	assert(not LevelRules.canCollapse(49, 999999), "level gate")
+	assert(not LevelRules.canCollapse(50, 4999), "gravity gate")
+	assert(LevelRules.canCollapse(50, 5000), "collapse should unlock")
+	assert(LevelRules.collapseShardReward(0) == 10, "base collapse shards")
+	assert(LevelRules.collapseShardReward(10) == 14, "core milestone shards")
+end

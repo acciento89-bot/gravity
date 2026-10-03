@@ -1,0 +1,26 @@
+{
+  "name": "Plus1Gravity",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$ignoreUnknownInstances": false,
+      "Plus1Gravity": {
+        "$path": "src/shared"
+      }
+    },
+    "ServerScriptService": {
+      "$ignoreUnknownInstances": false,
+      "Plus1GravityServer": {
+        "$path": "src/server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "$ignoreUnknownInstances": false,
+        "Plus1GravityClient": {
+          "$path": "src/client"
+        }
+      }
+    }
+  }
+}
