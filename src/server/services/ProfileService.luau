@@ -3,15 +3,17 @@
 local DataStoreService = game:GetService("DataStoreService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
 
 local shared = ReplicatedStorage:WaitForChild("Plus1Gravity")
 local GameConfig = require(shared.config.GameConfig)
 local ProfileRules = require(shared.profile.ProfileRules)
 local LevelRules = require(shared.rules.LevelRules)
 
-local store = DataStoreService:GetDataStore(GameConfig.Persistence.DataStoreName)
-
 local ProfileService = {}
+
+local store: any = nil
+local localStudioMode = RunService:IsStudio() and game.PlaceId == 0
 
 local profiles: { [Player]: any } = {}
 local revisions: { [Player]: number } = {}
@@ -27,12 +29,44 @@ local function retryDelay(attempt: number)
 	task.wait(GameConfig.Persistence.RetryBaseSeconds * (2 ^ math.max(0, attempt - 1)))
 end
 
+local function ensureStore(): (boolean, any)
+	if localStudioMode then
+		return false, "local Studio file uses ephemeral profiles"
+	end
+	if store then
+		return true, nil
+	end
+
+	local ok, result = pcall(function()
+		return DataStoreService:GetDataStore(GameConfig.Persistence.DataStoreName)
+	end)
+	if not ok then
+		return false, result
+	end
+
+	store = result
+	return true, nil
+end
+
 local function getWithRetry(player: Player): (boolean, any, any)
+	if localStudioMode then
+		return true, nil, nil
+	end
+
+	local ready, storeError = ensureStore()
+	if not ready then
+		return false, nil, storeError
+	end
+	local activeStore = store
+	if not activeStore then
+		return false, nil, "DataStore unavailable"
+	end
+
 	local lastError = nil
 	for attempt = 1, GameConfig.Persistence.LoadAttempts do
 		local raw = nil
 		local ok, err = pcall(function()
-			raw = store:GetAsync(keyFor(player))
+			raw = activeStore:GetAsync(keyFor(player))
 		end)
 		if ok then
 			return true, raw, nil
@@ -46,10 +80,23 @@ local function getWithRetry(player: Player): (boolean, any, any)
 end
 
 local function setWithRetry(player: Player, snapshot: any): (boolean, any)
+	if localStudioMode then
+		return true, nil
+	end
+
+	local ready, storeError = ensureStore()
+	if not ready then
+		return false, storeError
+	end
+	local activeStore = store
+	if not activeStore then
+		return false, "DataStore unavailable"
+	end
+
 	local lastError = nil
 	for attempt = 1, GameConfig.Persistence.SaveAttempts do
 		local ok, err = pcall(function()
-			store:SetAsync(keyFor(player), snapshot)
+			activeStore:SetAsync(keyFor(player), snapshot)
 		end)
 		if ok then
 			return true, nil
@@ -70,6 +117,7 @@ local function loadProfile(player: Player)
 	loading[player] = true
 	player:SetAttribute("GravityProfileReady", false)
 	player:SetAttribute("GravityProfileLoadFailed", false)
+	player:SetAttribute("GravityProfileEphemeral", localStudioMode)
 
 	local ok, raw, err = getWithRetry(player)
 	if not ok then
@@ -92,6 +140,10 @@ local function loadProfile(player: Player)
 	savedRevisions[player] = 0
 	loading[player] = nil
 	player:SetAttribute("GravityProfileReady", true)
+
+	if localStudioMode then
+		print(("[+1 Gravity] ephemeral Studio profile ready for %d"):format(player.UserId))
+	end
 end
 
 function ProfileService.get(player: Player): any?
@@ -100,6 +152,10 @@ end
 
 function ProfileService.isLoading(player: Player): boolean
 	return loading[player] == true
+end
+
+function ProfileService.isEphemeral(): boolean
+	return localStudioMode
 end
 
 function ProfileService.markDirty(player: Player)
