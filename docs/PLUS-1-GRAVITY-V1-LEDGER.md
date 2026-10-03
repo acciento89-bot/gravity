@@ -516,13 +516,13 @@ Automated:
 Runtime:
 - [x] P21-T10 Fresh spawn — local Studio iPhone XR PlaySolo, 0 CreatorErrors
 - [x] P21-T11 First object collection — live attraction/collection produced ×2 aggregate
-- [ ] P21-T12 100-object collection run
-- [ ] P21-T13 All five zone unlocks
+- [x] P21-T12 100-object collection run — production attraction loop gained exactly 100 objects in local PlaySolo
+- [x] P21-T13 All five zone unlocks — exact production requirements verified for Backyard→Megacity
 - [ ] P21-T14 Level 0 → 50
 - [x] P21-T15 Collapse #1 — exact client Action RemoteEvent → server Collapse → client FX path verified
-- [ ] P21-T16 Collapse #2 accelerated
-- [ ] P21-T17 10 Collapse soak
-- [ ] P21-T18 Death/respawn
+- [x] P21-T16 Collapse #2 accelerated — real client Action RemoteEvent; faster best-time verified
+- [x] P21-T17 10 Collapse soak — ten sequential production Action collapses, Core 0→10, 0 CreatorErrors
+- [x] P21-T18 Death/respawn — character respawned and permanent Core state remained intact
 - [ ] P21-T19 Leave/rejoin
 - [ ] P21-T20 Daily rollover
 - [ ] P21-T21 Cosmetic buy/equip/rejoin

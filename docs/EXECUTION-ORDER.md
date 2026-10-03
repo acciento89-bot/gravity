@@ -105,4 +105,4 @@ Mandatory release journeys:
 13. Commit release evidence
 
 ## Current next task
-P08/P10 device gate — verify max-visible orbit on iPhone XR, then tablet/desktop/console layouts. Continue remaining P21 core runtime gates: 100-object run, all five zone unlocks, Level 0→50, Collapse #2/soak, death/respawn and persistence rejoin/migration/failure.
+Core runtime continuation — verify a production collection-driven Level 0→50 journey, orbit clear on respawn, then tablet/desktop/console layouts. Persistence rejoin/migration/failure remains a canonical-place gate because local PlaceId 0 intentionally uses ephemeral profiles.
