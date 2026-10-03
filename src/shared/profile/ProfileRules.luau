@@ -123,7 +123,10 @@ function ProfileRules.normalize(raw: any, now: number?): any
 	if type(raw.EquippedOrbitSkin) == "string" and result.OrbitSkins[raw.EquippedOrbitSkin] == true then
 		result.EquippedOrbitSkin = raw.EquippedOrbitSkin
 	end
-	if type(raw.EquippedSingularitySkin) == "string" and result.SingularitySkins[raw.EquippedSingularitySkin] == true then
+	if
+		type(raw.EquippedSingularitySkin) == "string"
+		and result.SingularitySkins[raw.EquippedSingularitySkin] == true
+	then
 		result.EquippedSingularitySkin = raw.EquippedSingularitySkin
 	end
 

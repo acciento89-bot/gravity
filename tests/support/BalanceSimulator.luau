@@ -2,13 +2,7 @@ local LevelRules = require("../../src/shared/rules/LevelRules")
 
 local BalanceSimulator = {}
 
-function BalanceSimulator.simulateRun(
-	cores,
-	collectIntervalSeconds,
-	objectDefinitions,
-	zoneDefinitions,
-	maxSeconds
-)
+function BalanceSimulator.simulateRun(cores, collectIntervalSeconds, objectDefinitions, zoneDefinitions, maxSeconds)
 	local zoneById = {}
 	for _, zone in zoneDefinitions do
 		zoneById[zone.Id] = zone
