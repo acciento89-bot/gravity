@@ -17,6 +17,9 @@ return table.freeze({
 		ScanInterval = 0.2,
 		MaxCollectionsPerScan = 5,
 	}),
+	World = table.freeze({
+		CollectibleCopiesPerObject = 6,
+	}),
 	Orbit = table.freeze({
 		VisibleSlots = 14,
 		InnerRadius = 4.4,

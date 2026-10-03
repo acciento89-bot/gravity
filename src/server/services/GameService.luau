@@ -11,6 +11,7 @@ local ZoneConfig = require(shared.config.ZoneConfig)
 local AttractionRules = require(shared.rules.AttractionRules)
 local DailyRules = require(shared.rules.DailyRules)
 local LevelRules = require(shared.rules.LevelRules)
+local ZoneRules = require(shared.rules.ZoneRules)
 
 local ProfileService = require(script.Parent.ProfileService)
 local RemotesService = require(script.Parent.RemotesService)
@@ -28,6 +29,9 @@ local passiveAccumulator = 0
 local attractionAccumulator = 0
 local lastStatePush: { [Player]: number } = {}
 local actionCooldown: { [Player]: number } = {}
+local lastUnlockedOrder: { [Player]: number } = {}
+local lastGateFeedback: { [Player]: number } = {}
+local lastZoneId: { [Player]: string } = {}
 
 local function colorArray(color: Color3): { number }
 	return {
@@ -77,21 +81,11 @@ local function initializeDaily(profile: any)
 end
 
 local function zoneForPosition(position: Vector3, profile: any): any
-	for _, zone in ZoneConfig do
-		local center = Vector3.new(zone.Center[1], zone.Center[2], zone.Center[3])
-		local size = Vector3.new(zone.Size[1], zone.Size[2], zone.Size[3])
-		if math.abs(position.X - center.X) <= size.X / 2 and math.abs(position.Z - center.Z) <= size.Z / 2 then
-			return zone
-		end
+	local containing = ZoneRules.zoneContainingPosition(ZoneConfig, position.X, position.Z)
+	if containing then
+		return containing
 	end
-
-	local best = ZoneConfig[1]
-	for _, zone in ZoneConfig do
-		if profile.Gravity >= zone.MinGravity and profile.Cores >= zone.MinCores then
-			best = zone
-		end
-	end
-	return best
+	return ZoneRules.highestUnlocked(ZoneConfig, profile.Gravity, profile.Cores) or ZoneConfig[1]
 end
 
 local function snapshot(player: Player): any
@@ -147,7 +141,7 @@ function GameService.snapshot(player: Player): any
 	return snapshot(player)
 end
 
-function GameService.pushState(player: Player, eventName: string?)
+function GameService.pushState(player: Player, eventName: string?, eventData: any?)
 	if player.Parent ~= Players then
 		return
 	end
@@ -160,6 +154,7 @@ function GameService.pushState(player: Player, eventName: string?)
 		player:SetAttribute("GravityZone", state.Zone.DisplayName)
 	end
 	state.Event = eventName or "State"
+	state.EventData = eventData
 	stateRemote:FireClient(player, state)
 	lastStatePush[player] = os.clock()
 end
@@ -171,6 +166,57 @@ end
 local function recalculate(profile: any)
 	profile.Level = LevelRules.levelFromXp(profile.XP)
 	profile.HighestGravity = math.max(profile.HighestGravity, profile.Gravity)
+end
+
+local function zoneEventData(zone: any): any
+	return {
+		Id = zone.Id,
+		DisplayName = zone.DisplayName,
+		MinGravity = zone.MinGravity,
+		MinCores = zone.MinCores,
+	}
+end
+
+local function checkZoneUnlock(player: Player, profile: any)
+	local highest = ZoneRules.highestUnlocked(ZoneConfig, profile.Gravity, profile.Cores)
+	if not highest then
+		return
+	end
+
+	local order = highest.Order or 0
+	local previous = lastUnlockedOrder[player]
+	if previous == nil then
+		lastUnlockedOrder[player] = order
+	elseif order > previous then
+		lastUnlockedOrder[player] = order
+		GameService.pushState(player, "ZoneUnlocked", zoneEventData(highest))
+	end
+end
+
+local function enforceZoneGate(player: Player, profile: any, root: BasePart)
+	local zone = ZoneRules.zoneContainingPosition(ZoneConfig, root.Position.X, root.Position.Z)
+	if not zone then
+		return
+	end
+
+	if ZoneRules.isUnlocked(zone, profile.Gravity, profile.Cores) then
+		if lastZoneId[player] ~= zone.Id then
+			lastZoneId[player] = zone.Id
+			GameService.pushState(player, "ZoneEntered", zoneEventData(zone))
+		end
+		return
+	end
+
+	local safeX, safeZ = ZoneRules.safeReturnXZ(ZoneConfig, zone)
+	root.AssemblyLinearVelocity = Vector3.zero
+	root.AssemblyAngularVelocity = Vector3.zero
+	root.CFrame = CFrame.new(safeX, math.max(4, root.Position.Y), safeZ)
+
+	local now = os.clock()
+	if now - (lastGateFeedback[player] or 0) >= 1.25 then
+		lastGateFeedback[player] = now
+		GameService.pushState(player, "ZoneLocked", zoneEventData(zone))
+	end
 end
 
 local function award(player: Player, gravityBase: number, xpBase: number, dailyType: string?)
@@ -190,6 +236,7 @@ local function award(player: Player, gravityBase: number, xpBase: number, dailyT
 	end
 	updateDaily(profile, "Gravity", profile.Gravity)
 	ProfileService.markDirty(player)
+	checkZoneUnlock(player, profile)
 end
 
 local function collectForPlayer(player: Player)
@@ -282,6 +329,11 @@ local function preparePlayer(player: Player)
 	end
 	initializeDaily(profile)
 	recalculate(profile)
+	local highest = ZoneRules.highestUnlocked(ZoneConfig, profile.Gravity, profile.Cores)
+	lastUnlockedOrder[player] = if highest then highest.Order or 0 else 0
+	local root = getRoot(player)
+	local currentZone = if root then zoneForPosition(root.Position, profile) else ZoneConfig[1]
+	lastZoneId[player] = currentZone.Id
 	ProfileService.markDirty(player)
 	GameService.pushState(player, "Ready")
 end
@@ -308,6 +360,9 @@ function GameService.start()
 	Players.PlayerRemoving:Connect(function(player)
 		lastStatePush[player] = nil
 		actionCooldown[player] = nil
+		lastUnlockedOrder[player] = nil
+		lastGateFeedback[player] = nil
+		lastZoneId[player] = nil
 	end)
 
 	RunService.Heartbeat:Connect(function(dt)
@@ -330,7 +385,12 @@ function GameService.start()
 		if attractionAccumulator >= GameConfig.Attraction.ScanInterval then
 			attractionAccumulator = 0
 			for _, player in Players:GetPlayers() do
-				collectForPlayer(player)
+				local profile = ProfileService.get(player)
+				local root = getRoot(player)
+				if profile and root then
+					enforceZoneGate(player, profile, root)
+					collectForPlayer(player)
+				end
 			end
 		end
 	end)

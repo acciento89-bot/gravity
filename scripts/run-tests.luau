@@ -2,6 +2,7 @@ local tests = {
 	require("../tests/level-rules.spec"),
 	require("../tests/attraction-rules.spec"),
 	require("../tests/collection-claim-rules.spec"),
+	require("../tests/object-config.spec"),
 	require("../tests/zone-rules.spec"),
 	require("../tests/daily-rules.spec"),
 	require("../tests/profile-rules.spec"),

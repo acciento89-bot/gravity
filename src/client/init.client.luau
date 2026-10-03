@@ -11,10 +11,12 @@ local OrbitController = require(controllers.OrbitController)
 local HudController = require(controllers.HudController)
 local CollapseFxController = require(controllers.CollapseFxController)
 local AttractionFeedbackController = require(controllers.AttractionFeedbackController)
+local ZoneGateController = require(controllers.ZoneGateController)
 
 OrbitController.start()
 HudController.start()
 CollapseFxController.start()
 AttractionFeedbackController.start()
+ZoneGateController.start()
 
 print("[+1 Gravity] client initialized")

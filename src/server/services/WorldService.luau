@@ -5,9 +5,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local shared = ReplicatedStorage:WaitForChild("Plus1Gravity")
+local GameConfig = require(shared.config.GameConfig)
 local ZoneConfig = require(shared.config.ZoneConfig)
 local ObjectConfig = require(shared.config.ObjectConfig)
 local CollectionClaimRules = require(shared.rules.CollectionClaimRules)
+
+local ObjectVisualFactory = require(script.Parent.ObjectVisualFactory)
+local ZoneVisualFactory = require(script.Parent.ZoneVisualFactory)
 
 local WorldService = {}
 
@@ -76,6 +80,7 @@ local function billboard(adornee: BasePart, title: string, subtitle: string, acc
 	stroke.Parent = frame
 
 	local heading = Instance.new("TextLabel")
+	heading.Name = "Heading"
 	heading.Size = UDim2.new(1, -20, 0, 42)
 	heading.Position = UDim2.fromOffset(10, 6)
 	heading.BackgroundTransparency = 1
@@ -86,6 +91,7 @@ local function billboard(adornee: BasePart, title: string, subtitle: string, acc
 	heading.Parent = frame
 
 	local sub = Instance.new("TextLabel")
+	sub.Name = "Requirement"
 	sub.Size = UDim2.new(1, -20, 0, 28)
 	sub.Position = UDim2.fromOffset(10, 48)
 	sub.BackgroundTransparency = 1
@@ -96,66 +102,84 @@ local function billboard(adornee: BasePart, title: string, subtitle: string, acc
 	sub.Parent = frame
 end
 
+local function progressionGate(parent: Instance, zone: any, center: Vector3, size: Vector3, accent: Color3)
+	if (zone.Order or 0) <= 1 then
+		return
+	end
+
+	local gateModel = Instance.new("Model")
+	gateModel.Name = "ZoneGate_" .. tostring(zone.Id)
+	gateModel:SetAttribute("ZoneId", zone.Id)
+	gateModel:SetAttribute("DisplayName", zone.DisplayName)
+	gateModel:SetAttribute("MinGravity", zone.MinGravity)
+	gateModel:SetAttribute("MinCores", zone.MinCores)
+	gateModel:SetAttribute("AccentR", accent.R)
+	gateModel:SetAttribute("AccentG", accent.G)
+	gateModel:SetAttribute("AccentB", accent.B)
+	gateModel.Parent = parent
+	CollectionService:AddTag(gateModel, "GravityZoneGate")
+
+	local entryX = center.X - size.X / 2 + 3
+	local gateZ = center.Z
+	for side = -1, 1, 2 do
+		local pillar = part(
+			"GatePillar",
+			Vector3.new(1.3, 10, 1.3),
+			CFrame.new(entryX, 5, gateZ + side * 11),
+			accent,
+			Enum.Material.Metal,
+			gateModel
+		)
+		pillar.CanCollide = false
+
+		local glow = part(
+			"GateGlow",
+			Vector3.new(0.45, 8.2, 0.45),
+			CFrame.new(entryX - 0.7, 5, gateZ + side * 11),
+			accent,
+			Enum.Material.Neon,
+			gateModel
+		)
+		glow.CanCollide = false
+		glow:SetAttribute("GateVisualRole", "Glow")
+	end
+
+	local beam = part(
+		"GateBeam",
+		Vector3.new(1.3, 1.3, 23.5),
+		CFrame.new(entryX, 10, gateZ),
+		accent,
+		Enum.Material.Metal,
+		gateModel
+	)
+	beam.CanCollide = false
+
+	local field = part(
+		"GateField",
+		Vector3.new(0.28, 8.2, 20.5),
+		CFrame.new(entryX, 5, gateZ),
+		accent,
+		Enum.Material.ForceField,
+		gateModel
+	)
+	field.Transparency = 0.74
+	field.CanCollide = false
+	field.CanTouch = false
+	field.CanQuery = false
+	field:SetAttribute("GateVisualRole", "Field")
+
+	local requirement = if zone.MinCores > 0
+		then ("%s GRAVITY · %d CORE%s"):format(zone.MinGravity, zone.MinCores, if zone.MinCores == 1 then "" else "S")
+		else ("%s GRAVITY"):format(zone.MinGravity)
+	billboard(beam, ("ZONE %d · %s"):format(zone.Order, string.upper(zone.DisplayName)), requirement, accent)
+end
+
 local function setVisible(model: Instance, visible: boolean)
 	for _, descendant in model:GetDescendants() do
 		if descendant:IsA("BasePart") then
 			descendant.Transparency = if visible then descendant:GetAttribute("BaseTransparency") or 0 else 1
-			descendant.CanQuery = visible
+			descendant.CanQuery = visible and descendant:GetAttribute("BaseCanQuery") ~= false
 		end
-	end
-end
-
-local function addVisualDetail(model: Model, root: Part, definition: any)
-	local size = root.Size
-	if
-		string.find(definition.Id, "car")
-		or string.find(definition.Id, "bus")
-		or definition.Id == "forklift"
-		or definition.Id == "service_cart"
-	then
-		local cabin = part(
-			"Cabin",
-			Vector3.new(size.X * 0.72, math.max(1.0, size.Y * 0.62), size.Z * 0.42),
-			root.CFrame * CFrame.new(0, size.Y * 0.48, -size.Z * 0.12),
-			root.Color:Lerp(Color3.new(1, 1, 1), 0.08),
-			Enum.Material.SmoothPlastic,
-			model
-		)
-		cabin.CanCollide = false
-		for side = -1, 1, 2 do
-			for z = -1, 1, 2 do
-				local wheel = part(
-					"Wheel",
-					Vector3.new(
-						math.max(0.6, size.X * 0.18),
-						math.max(0.6, size.Y * 0.34),
-						math.max(0.6, size.X * 0.18)
-					),
-					root.CFrame * CFrame.new(side * size.X * 0.46, -size.Y * 0.42, z * size.Z * 0.30),
-					Color3.fromRGB(35, 38, 44),
-					Enum.Material.SmoothPlastic,
-					model
-				)
-				wheel.Shape = Enum.PartType.Cylinder
-				wheel.Orientation = Vector3.new(0, 0, 90)
-				wheel.CanCollide = false
-			end
-		end
-	elseif definition.Id == "street_tree" then
-		root.Color = Color3.fromRGB(103, 73, 46)
-		local crown = part(
-			"Crown",
-			Vector3.new(size.X, size.X, size.X),
-			root.CFrame * CFrame.new(0, size.Y * 0.58, 0),
-			Color3.fromRGB(68, 151, 88),
-			Enum.Material.Grass,
-			model
-		)
-		crown.Shape = Enum.PartType.Ball
-		crown.CanCollide = false
-	elseif definition.Id == "barrel" or definition.Id == "can" then
-		root.Shape = Enum.PartType.Cylinder
-		root.Orientation = Vector3.new(0, 0, 90)
 	end
 end
 
@@ -175,19 +199,24 @@ local function spawnCollectible(definition: any, position: Vector3, index: numbe
 		model
 	)
 	root.CanCollide = false
+	root.CanTouch = false
+	root.CanQuery = false
+	root.CastShadow = false
+	root.Transparency = 1
+	root:SetAttribute("BaseCanQuery", false)
 	root:SetAttribute("ObjectId", definition.Id)
 	root:SetAttribute("DisplayName", definition.Name)
 	root:SetAttribute("RequiredGravity", definition.RequiredGravity)
 	root:SetAttribute("GravityGain", definition.GravityGain)
 	root:SetAttribute("XP", definition.XP)
 	root:SetAttribute("Respawn", definition.Respawn)
-	root:SetAttribute("BaseTransparency", 0)
+	root:SetAttribute("BaseTransparency", 1)
 	root:SetAttribute("Active", true)
 	CollectionService:AddTag(root, "GravityCollectible")
 	claimStates[root] = CollectionClaimRules.newState()
 	model.PrimaryPart = root
 
-	addVisualDetail(model, root, definition)
+	ObjectVisualFactory.decorate(model, root, definition)
 	for _, descendant in model:GetDescendants() do
 		if descendant:IsA("BasePart") and descendant ~= root then
 			descendant:SetAttribute("BaseTransparency", descendant.Transparency)
@@ -237,23 +266,8 @@ local function buildZone(zone: any)
 		else ("%s GRAVITY"):format(zone.MinGravity)
 	billboard(signPost, string.upper(zone.DisplayName), requirement, accent)
 
-	-- Landmark silhouettes keep each zone visually distinct without expensive asset dependencies.
-	for i = 1, 9 do
-		local angle = (i / 9) * math.pi * 2
-		local radiusX = size.X * 0.38
-		local radiusZ = size.Z * 0.36
-		local height = 7 + ((i * 13 + zone.Order * 7) % 16)
-		local width = 8 + ((i * 5) % 8)
-		local landmark = part(
-			"Landmark_" .. i,
-			Vector3.new(width, height, width),
-			CFrame.new(center + Vector3.new(math.cos(angle) * radiusX, height / 2, math.sin(angle) * radiusZ)),
-			Color3.fromRGB(62 + zone.Order * 9, 72 + zone.Order * 8, 86 + zone.Order * 9),
-			if zone.Id == "backyard" then Enum.Material.WoodPlanks else Enum.Material.Concrete,
-			zoneFolder
-		)
-		landmark.CanCollide = true
-	end
+	progressionGate(zoneFolder, zone, center, size, accent)
+	ZoneVisualFactory.decorate(zoneFolder, zone)
 
 	local available = {}
 	for _, definition in ObjectConfig do
@@ -262,7 +276,7 @@ local function buildZone(zone: any)
 		end
 	end
 	for objectIndex, definition in available do
-		for copyIndex = 1, 9 do
+		for copyIndex = 1, GameConfig.World.CollectibleCopiesPerObject do
 			local seed = zone.Order * 10000 + objectIndex * 100 + copyIndex
 			local rng = Random.new(seed)
 			local x = rng:NextNumber(-size.X * 0.32, size.X * 0.32)
