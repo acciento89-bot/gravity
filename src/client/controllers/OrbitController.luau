@@ -36,6 +36,7 @@ local folder: Folder
 local equippedSkin = "Default"
 local collapseIntensity = 0
 local rotationClock = 0
+local appliedDensityScale = -1
 local tierByObjectId: { [string]: number } = {}
 
 for index, definition in ObjectConfig do
@@ -264,6 +265,24 @@ local function clear()
 		entry.Model:Destroy()
 	end
 	table.clear(entries)
+	appliedDensityScale = -1
+end
+
+local function rescaleEntries(force: boolean?)
+	local camera = Workspace.CurrentCamera
+	if not camera or #entries == 0 then
+		return
+	end
+
+	local viewport = camera.ViewportSize
+	local scale = OrbitRules.visualDensityScale(#entries, viewport.X, viewport.Y)
+	if not force and math.abs(scale - appliedDensityScale) < 0.001 then
+		return
+	end
+	appliedDensityScale = scale
+	for _, entry in entries do
+		entry.Model:ScaleTo(scale)
+	end
 end
 
 local function retint()
@@ -329,6 +348,7 @@ local function makeVisual(payload: any)
 		PullDuration = 0.24,
 		PulseUntil = 0,
 	})
+	rescaleEntries(true)
 end
 
 local function setVisualTransparency(entry: OrbitEntry, transparency: number)
@@ -351,6 +371,8 @@ local function update(dt: number)
 	local viewport = camera.ViewportSize
 	local avatarHeight = math.max(4, character:GetExtentsSize().Y)
 	local radiusScale = OrbitRules.radiusScale(viewport.X, viewport.Y, avatarHeight)
+	local avatarViewport = camera:WorldToViewportPoint(root.Position + Vector3.new(0, 1.7, 0))
+	rescaleEntries(false)
 	rotationClock += dt * (GameConfig.Orbit.BaseRotationSpeed + collapseIntensity * 5.5)
 
 	for index, entry in entries do
@@ -385,8 +407,15 @@ local function update(dt: number)
 		entry.Model:PivotTo(CFrame.new(displayPosition) * spin * CFrame.new(0, (pulse - 1) * 0.5, 0))
 
 		local viewportPoint = camera:WorldToViewportPoint(displayPosition)
-		local centerFade =
-			OrbitRules.occlusionFade(viewportPoint.X, viewportPoint.Y, viewportPoint.Z, viewport.X, viewport.Y)
+		local centerFade = OrbitRules.occlusionFade(
+			viewportPoint.X,
+			viewportPoint.Y,
+			viewportPoint.Z,
+			viewport.X,
+			viewport.Y,
+			avatarViewport.X,
+			avatarViewport.Y
+		)
 		local pullTransparency = if entry.PullFrom
 			then 0.28 * (1 - math.clamp(entry.PullElapsed / entry.PullDuration, 0, 1))
 			else 0
