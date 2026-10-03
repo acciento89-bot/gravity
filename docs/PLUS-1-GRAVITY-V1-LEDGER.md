@@ -245,14 +245,14 @@ Acceptance:
 - [x] P08-T06 Bobbing/spin motion — live client runtime verified
 - [x] P08-T07 Large-object visual scale cap — client implementation verified
 - [~] P08-T08 Orbit skin tint support — retint path implemented; live skin-swap QA pending
-- [x] P08-T09 Character remains centered/visible — iPhone XR runtime screenshot verified at low orbit
-- [~] P08-T10 Orbit clears after Collapse
+- [x] P08-T09 Character remains centered/visible — iPhone XR verified through full 14-slot orbit
+- [x] P08-T10 Orbit clears after Collapse — populated 14-slot orbit verified empty after live Collapse
 - [~] P08-T11 Orbit clears on respawn
 - [x] P08-T12 Representative-object aggregation by tier — deterministic replacement tests + live ×2 aggregation verified
 - [~] P08-T13 Better object-specific miniature models — category-specific miniatures implemented; full catalog visual QA pending
 - [x] P08-T14 Ring radius adapts to avatar/camera/device — deterministic phone/desktop scaling test + iPhone XR runtime
 - [x] P08-T15 Occlusion protection — deterministic center-fade test + live avatar visibility verified
-- [ ] P08-T16 Max-orbit iPhone XR visual QA
+- [x] P08-T16 Max-orbit iPhone XR visual QA — 14 representatives at 896×414; avatar/HUD/path readable after density fix
 - [ ] P08-T17 Max-orbit console visual QA
 - [ ] P08-T18 Multiplayer readability QA
 
@@ -266,9 +266,9 @@ Acceptance:
 
 - [x] P09-T01 Collapse server action — exact Action RemoteEvent path verified in PlaySolo
 - [x] P09-T02 Collapse eligibility server validation — deterministic rejection/acceptance + eligible runtime path verified
-- [~] P09-T03 Orbit acceleration animation
-- [~] P09-T04 Orbit contraction
-- [~] P09-T05 Orbit disappearance
+- [x] P09-T03 Orbit acceleration animation — populated max orbit captured during live Collapse
+- [x] P09-T04 Orbit contraction — populated max orbit captured contracting around avatar
+- [x] P09-T05 Orbit disappearance — populated max orbit verified cleared after Collapse
 - [x] P09-T06 Screen color/energy flash — captured in iPhone XR runtime
 - [x] P09-T07 Core/Shards result state — deterministic reward test + live Core 0→1 state verified
 - [x] P09-T08 1.0–1.5 second polished cinematic timing — 1.18 s sequence implemented and frame-captured
@@ -299,7 +299,7 @@ Acceptance:
 - [ ] P10-T13 Tablet layout QA
 - [ ] P10-T14 Desktop 16:9 layout QA
 - [ ] P10-T15 Console 16:9 / ten-foot readability QA
-- [~] P10-T16 No HUD overlap with avatar/object orbit — low-load iPhone XR verified; max-orbit pending
+- [x] P10-T16 No HUD overlap with avatar/object orbit — 14-slot iPhone XR max-orbit screenshot verified
 - [x] P10-T17 No giant card stack / playfield obstruction — iPhone XR screenshot verified
 - [ ] P10-T18 Controller selection/focus map
 - [ ] P10-T19 Haptics for collect / unlock / Collapse
@@ -541,7 +541,7 @@ Device:
 
 Visual:
 - [x] P21-T32 HUD does not block gameplay — iPhone XR screenshot review verified
-- [ ] P21-T33 Avatar visible at max orbit
+- [x] P21-T33 Avatar visible at max orbit — 14-slot iPhone XR screenshot verified
 - [ ] P21-T34 Zone identity screenshot review
 - [ ] P21-T35 Object quality screenshot review
 - [x] P21-T36 Collapse screenshot/video review — multi-frame iPhone XR review completed
@@ -552,7 +552,7 @@ Visual:
 
 Repository:
 - [x] P22-T01 Initial production commit pushed to main — f5c6453
-- [x] P22-T02 GitHub CI green — latest verified run 37151378690
+- [x] P22-T02 GitHub CI green — latest verified run 37152179564
 - [x] P22-T03 Ledger synchronized with verified state — 2026-10-03
 
 Roblox configuration:
