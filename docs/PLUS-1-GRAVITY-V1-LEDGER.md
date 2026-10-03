@@ -74,7 +74,7 @@ Acceptance:
 - [x] P02-T14 Static gate: StyLua
 - [x] P02-T15 Static gate: Selene 0 errors / 0 warnings
 - [x] P02-T16 Rojo build gate
-- [x] P02-T17 Pure-Luau suite fully green — 8 test files
+- [x] P02-T17 Pure-Luau suite fully green — 9 test files
 
 Acceptance:
 - Fresh clone can format, lint, build and test without manual source edits.
@@ -141,19 +141,19 @@ Acceptance:
 
 # P05 — ATTRACTION / COLLECTION SYSTEM
 
-- [~] P05-T01 Gravity-based eligibility thresholds
-- [~] P05-T02 Attraction radius scales with Gravity
-- [~] P05-T03 Attraction radius capped for performance
+- [x] P05-T01 Gravity-based eligibility thresholds
+- [x] P05-T02 Attraction radius scales with Gravity
+- [x] P05-T03 Attraction radius capped for performance
 - [~] P05-T04 Server-side distance validation
-- [~] P05-T05 Server-side Gravity requirement validation
+- [x] P05-T05 Server-side Gravity requirement validation — shared rule covered deterministically
 - [~] P05-T06 Server-side collection authority
 - [~] P05-T07 Per-scan collection cap
 - [~] P05-T08 Collected object temporarily disappears
 - [~] P05-T09 Object respawn timer
 - [~] P05-T10 Collection event sent to client for orbit presentation
-- [ ] P05-T11 Collection magnet / pull-in tween before orbit
-- [ ] P05-T12 Failed/locked attraction visual feedback
-- [ ] P05-T13 High-density multiplayer collection contention test
+- [~] P05-T11 Collection magnet / pull-in tween before orbit — client pull-in implemented; runtime visual QA pending
+- [~] P05-T12 Failed/locked attraction visual feedback — nearest locked-object requirement feedback implemented; runtime QA pending
+- [~] P05-T13 High-density multiplayer collection contention test — deterministic 100-claimant claim layer green; Roblox two-player runtime pending
 - [ ] P05-T14 Mobile performance test with max nearby collectibles
 
 ---
@@ -413,7 +413,7 @@ Shop:
 - [ ] P15-T06 Remote action rate limiter
 - [ ] P15-T07 Remote payload schema validation
 - [ ] P15-T08 Movement/teleport abuse cannot directly grant objects
-- [ ] P15-T09 Object replay/double-collect race test
+- [x] P15-T09 Object replay/double-collect race test — deterministic claim lifecycle/revision test
 - [ ] P15-T10 Collapse spam test
 - [ ] P15-T11 Shop/cosmetic spam test
 - [ ] P15-T12 Security never kicks normal mobile analog input
@@ -552,7 +552,7 @@ Visual:
 
 Repository:
 - [x] P22-T01 Initial production commit pushed to main — f5c6453
-- [x] P22-T02 GitHub CI green — run 37148094805
+- [x] P22-T02 GitHub CI green — latest verified run 37148413218
 - [x] P22-T03 Ledger synchronized with verified state — 2026-10-03
 
 Roblox configuration:

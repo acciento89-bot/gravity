@@ -105,4 +105,4 @@ Mandatory release journeys:
 13. Commit release evidence
 
 ## Current next task
-P05 — finish the server-authoritative attraction/collection pass and its deterministic safety coverage, then continue through P06 object quality and P07 world/gates. P03 rejoin/migration/failure runtime proofs remain mandatory Core Game Loop gate items before Visual Identity begins.
+P06/P07 — replace placeholder-like object/world presentation with production-quality object families, distinct zone art direction, real locked-zone gates and readable progression landmarks. After that, execute the Core Game Loop runtime gate including P03 rejoin/migration/failure proofs and P21 multiplayer/mobile journeys.
