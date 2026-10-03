@@ -105,4 +105,4 @@ Mandatory release journeys:
 13. Commit release evidence
 
 ## Current next task
-Core runtime continuation — verify a production collection-driven Level 0→50 journey, orbit clear on respawn, then tablet/desktop/console layouts. Persistence rejoin/migration/failure remains a canonical-place gate because local PlaceId 0 intentionally uses ephemeral profiles.
+Device + feature continuation — run tablet/desktop/console layout passes, then complete P11 cosmetics UX and P12 daily UX. Persistence rejoin/migration/failure remains a canonical-place gate because local PlaceId 0 intentionally uses ephemeral profiles.

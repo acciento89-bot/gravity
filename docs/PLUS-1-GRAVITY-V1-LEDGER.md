@@ -114,14 +114,14 @@ Acceptance:
 
 - [~] P04-T01 Passive +1 Gravity/sec
 - [x] P04-T02 Gravity boost multiplier support
-- [~] P04-T03 Object collection Gravity rewards
-- [~] P04-T04 Object collection XP rewards
+- [x] P04-T03 Object collection Gravity rewards — production collection-driven Level 0→50 runtime verified
+- [x] P04-T04 Object collection XP rewards — XP rose to 151,957 through production collection pipeline
 - [x] P04-T05 Level curve 0 → 50
 - [x] P04-T06 Level progress calculation
 - [x] P04-T07 Core XP multiplier (+25% each)
 - [x] P04-T08 Highest Gravity tracking
 - [x] P04-T09 Total Gravity tracking
-- [~] P04-T10 Total Objects tracking
+- [x] P04-T10 Total Objects tracking — 1,821-object progression run verified
 - [x] P04-T11 Collapse eligibility
 - [x] P04-T12 Collapse resets run Gravity/XP/Level
 - [x] P04-T13 Collapse grants one Core
@@ -130,7 +130,7 @@ Acceptance:
 - [x] P04-T16 Progression balance: first Collapse target 8–15 min — deterministic model: 11.67 min
 - [x] P04-T17 Second Collapse noticeably faster — deterministic model: 4.03 min
 - [x] P04-T18 Ten-Collapse simulation/balance test — C1–C10 verified
-- [ ] P04-T19 No dead progression interval between object tiers
+- [x] P04-T19 No dead progression interval between object tiers — runtime watchdog stayed under 20 s through Level 50
 
 Acceptance:
 - First 30 seconds always provide visible progression.
@@ -217,7 +217,7 @@ Quality:
 - [~] P07-T08 Zone signs
 - [~] P07-T09 Zone requirement copy
 - [~] P07-T10 Basic landmarks
-- [~] P07-T11 Actual gate/barrier behavior for locked zones — server-authoritative rejection + safe return implemented; runtime traversal proof pending
+- [x] P07-T11 Actual gate/barrier behavior for locked zones — locked Downtown runtime rejection + safe return verified
 - [~] P07-T12 Locked-zone feedback — per-player gate field OPEN/locked state + explicit HUD requirement implemented; runtime QA pending
 - [~] P07-T13 Zone arrival celebration — ZoneUnlocked + ZoneEntered feedback implemented; runtime feel QA pending
 - [~] P07-T14 Distinct art/material language per zone — five procedural zone identities implemented; screenshot QA pending
@@ -247,7 +247,7 @@ Acceptance:
 - [~] P08-T08 Orbit skin tint support — retint path implemented; live skin-swap QA pending
 - [x] P08-T09 Character remains centered/visible — iPhone XR verified through full 14-slot orbit
 - [x] P08-T10 Orbit clears after Collapse — populated 14-slot orbit verified empty after live Collapse
-- [~] P08-T11 Orbit clears on respawn
+- [x] P08-T11 Orbit clears on respawn — client orbit 14→0 across live death/respawn
 - [x] P08-T12 Representative-object aggregation by tier — deterministic replacement tests + live ×2 aggregation verified
 - [~] P08-T13 Better object-specific miniature models — category-specific miniatures implemented; full catalog visual QA pending
 - [x] P08-T14 Ring radius adapts to avatar/camera/device — deterministic phone/desktop scaling test + iPhone XR runtime
@@ -290,7 +290,7 @@ Acceptance:
 - [x] P10-T04 Level progress bar — iPhone XR runtime verified
 - [~] P10-T05 Current zone
 - [x] P10-T06 Daily status — iPhone XR runtime verified
-- [~] P10-T07 Collapse button
+- [x] P10-T07 Collapse button — visible after natural production Level 0→50 runtime journey
 - [x] P10-T08 First-session tutorial copy — visible in fresh iPhone XR session
 - [x] P10-T09 Toast feedback — Collapse NEXT RUN XP toast verified live
 - [x] P10-T10 Mobile responsive branch — iPhone XR 896×414 live
@@ -518,7 +518,7 @@ Runtime:
 - [x] P21-T11 First object collection — live attraction/collection produced ×2 aggregate
 - [x] P21-T12 100-object collection run — production attraction loop gained exactly 100 objects in local PlaySolo
 - [x] P21-T13 All five zone unlocks — exact production requirements verified for Backyard→Megacity
-- [ ] P21-T14 Level 0 → 50
+- [x] P21-T14 Level 0 → 50 — 250.01 s QA route, 1,821 production collections, no XP/Core/boost seed
 - [x] P21-T15 Collapse #1 — exact client Action RemoteEvent → server Collapse → client FX path verified
 - [x] P21-T16 Collapse #2 accelerated — real client Action RemoteEvent; faster best-time verified
 - [x] P21-T17 10 Collapse soak — ten sequential production Action collapses, Core 0→10, 0 CreatorErrors
