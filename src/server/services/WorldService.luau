@@ -7,11 +7,12 @@ local Workspace = game:GetService("Workspace")
 local shared = ReplicatedStorage:WaitForChild("Plus1Gravity")
 local ZoneConfig = require(shared.config.ZoneConfig)
 local ObjectConfig = require(shared.config.ObjectConfig)
+local CollectionClaimRules = require(shared.rules.CollectionClaimRules)
 
 local WorldService = {}
 
 local world: Folder
-local activeParts: { [BasePart]: boolean } = {}
+local claimStates: { [BasePart]: any } = {}
 
 local COLORS = {
 	Foundation = Color3.fromRGB(21, 29, 40),
@@ -183,7 +184,7 @@ local function spawnCollectible(definition: any, position: Vector3, index: numbe
 	root:SetAttribute("BaseTransparency", 0)
 	root:SetAttribute("Active", true)
 	CollectionService:AddTag(root, "GravityCollectible")
-	activeParts[root] = true
+	claimStates[root] = CollectionClaimRules.newState()
 	model.PrimaryPart = root
 
 	addVisualDetail(model, root, definition)
@@ -275,21 +276,31 @@ local function buildZone(zone: any)
 end
 
 function WorldService.collect(root: BasePart): boolean
-	if activeParts[root] ~= true or root:GetAttribute("Active") ~= true then
+	local claimState = claimStates[root]
+	if not claimState or root:GetAttribute("Active") ~= true then
 		return false
 	end
-	activeParts[root] = false
+
+	local claimed, revision = CollectionClaimRules.tryClaim(claimState)
+	if not claimed then
+		return false
+	end
+
 	root:SetAttribute("Active", false)
 	local model = root.Parent
 	if model then
 		setVisible(model, false)
 	end
 
-	local respawn = tonumber(root:GetAttribute("Respawn")) or 8
+	local respawn = math.max(0.25, tonumber(root:GetAttribute("Respawn")) or 8)
 	task.delay(respawn, function()
-		if root.Parent and model and model.Parent then
+		if
+			root.Parent
+			and model
+			and model.Parent
+			and CollectionClaimRules.reactivate(claimState, revision)
+		then
 			root:SetAttribute("Active", true)
-			activeParts[root] = true
 			setVisible(model, true)
 		end
 	end)

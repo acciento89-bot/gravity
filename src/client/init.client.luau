@@ -10,9 +10,11 @@ local controllers = script.controllers
 local OrbitController = require(controllers.OrbitController)
 local HudController = require(controllers.HudController)
 local CollapseFxController = require(controllers.CollapseFxController)
+local AttractionFeedbackController = require(controllers.AttractionFeedbackController)
 
 OrbitController.start()
 HudController.start()
 CollapseFxController.start()
+AttractionFeedbackController.start()
 
 print("[+1 Gravity] client initialized")

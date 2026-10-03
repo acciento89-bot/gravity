@@ -221,6 +221,7 @@ local function collectForPlayer(player: Player)
 						DisplayName = candidate:GetAttribute("DisplayName"),
 						Size = { candidate.Size.X, candidate.Size.Y, candidate.Size.Z },
 						Color = colorArray(candidate.Color),
+						WorldPosition = { candidate.Position.X, candidate.Position.Y, candidate.Position.Z },
 						GravityGain = gravityGain,
 						XP = xpGain,
 					})
