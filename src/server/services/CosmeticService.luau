@@ -1,15 +1,18 @@
 --!strict
 
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local shared = ReplicatedStorage:WaitForChild("Plus1Gravity")
 local CosmeticConfig = require(shared.config.CosmeticConfig)
+local SecurityRules = require(shared.rules.SecurityRules)
 
 local GameService = require(script.Parent.GameService)
 local ProfileService = require(script.Parent.ProfileService)
 local RemotesService = require(script.Parent.RemotesService)
 
 local CosmeticService = {}
+local actionCooldown: { [Player]: number } = {}
 
 local function definitionFor(category: string, name: string): any?
 	if category == "Orbit" then
@@ -40,9 +43,16 @@ end
 function CosmeticService.start()
 	local remote = RemotesService.getFolder():WaitForChild("CosmeticAction") :: RemoteEvent
 	remote.OnServerEvent:Connect(function(player: Player, action: any, category: any, name: any)
-		if type(action) ~= "string" or type(category) ~= "string" or type(name) ~= "string" then
+		if not SecurityRules.validCosmeticPayload(action, category, name) then
 			return
 		end
+		local now = os.clock()
+		local previous = actionCooldown[player]
+		if not SecurityRules.allow(now, previous, 0.30) then
+			return
+		end
+		actionCooldown[player] = now
+
 		local profile = ProfileService.get(player)
 		local definition = definitionFor(category, name)
 		local owned = profile and ownedMap(profile, category)
@@ -72,6 +82,9 @@ function CosmeticService.start()
 
 		ProfileService.markDirty(player)
 		GameService.pushState(player, "CosmeticUpdated")
+	end)
+	Players.PlayerRemoving:Connect(function(player)
+		actionCooldown[player] = nil
 	end)
 end
 

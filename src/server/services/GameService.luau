@@ -11,6 +11,7 @@ local ZoneConfig = require(shared.config.ZoneConfig)
 local AttractionRules = require(shared.rules.AttractionRules)
 local DailyRules = require(shared.rules.DailyRules)
 local LevelRules = require(shared.rules.LevelRules)
+local SecurityRules = require(shared.rules.SecurityRules)
 local ZoneRules = require(shared.rules.ZoneRules)
 
 local ProfileService = require(script.Parent.ProfileService)
@@ -329,18 +330,16 @@ local function collapse(player: Player)
 end
 
 local function onAction(player: Player, action: any)
-	if type(action) ~= "string" then
+	if not SecurityRules.validToken(action, 12) or action ~= "Collapse" then
 		return
 	end
 	local now = os.clock()
-	if now - (actionCooldown[player] or 0) < 0.25 then
+	local previous = actionCooldown[player]
+	if not SecurityRules.allow(now, previous, 0.25) then
 		return
 	end
 	actionCooldown[player] = now
-
-	if action == "Collapse" then
-		collapse(player)
-	end
+	collapse(player)
 end
 
 local function preparePlayer(player: Player)

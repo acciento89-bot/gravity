@@ -410,13 +410,13 @@ Shop:
 - [~] P15-T03 Collapse server authoritative
 - [~] P15-T04 Cosmetic spend/equip server authoritative
 - [~] P15-T05 Receipt grants server authoritative
-- [ ] P15-T06 Remote action rate limiter
-- [ ] P15-T07 Remote payload schema validation
-- [ ] P15-T08 Movement/teleport abuse cannot directly grant objects
+- [x] P15-T06 Remote action rate limiter — Collapse 250 ms, CosmeticAction 300 ms, LeaderboardQuery 4 s
+- [x] P15-T07 Remote payload schema validation — strict token type/length + action/category allowlists on mutating remotes
+- [x] P15-T08 Movement/teleport abuse cannot directly grant objects — no client Collect/Grant remote exists; collection remains server scan + distance + active-claim authority
 - [x] P15-T09 Object replay/double-collect race test — deterministic claim lifecycle/revision test
-- [ ] P15-T10 Collapse spam test
-- [ ] P15-T11 Shop/cosmetic spam test
-- [ ] P15-T12 Security never kicks normal mobile analog input
+- [x] P15-T10 Collapse spam test — shared rate-limit regression verifies sub-250 ms actions are rejected
+- [x] P15-T11 Shop/cosmetic spam test — CosmeticAction payload allowlist + 300 ms server limiter implemented and regression-tested
+- [~] P15-T12 Security never kicks normal mobile analog input — security layer does not inspect humanoid movement or issue kicks; real mobile runtime acceptance pending
 - [ ] P15-T13 Server load test with multiple collectors
 
 ---
@@ -641,3 +641,13 @@ V1 is finished only when all of the following are true:
 - [x] Client distinguishes prompt submitted, cancelled and server receipt-granted/saved feedback.
 - [x] Responsive phone/tablet/desktop/ten-foot sizing and controller-selectable cards are wired.
 - [~] Real IDs, receipt retry/duplicate/rejoin and live purchase UX remain external/canonical-place gates.
+
+## 2026-10-04 remote security hardening
+
+- [x] Shared pure-Luau security rules enforce bounded tokens, allowlists and minimum action intervals.
+- [x] Collapse accepts only the exact `Collapse` action and is server-rate-limited to 250 ms.
+- [x] CosmeticAction accepts only Buy/Equip + Orbit/Singularity + bounded skin names and is server-rate-limited to 300 ms.
+- [x] LeaderboardQuery retains its existing 4-second server cooldown.
+- [x] There is no client-facing collect/grant-object remote; attraction/collection requires server distance, active state and atomic claim authority.
+- [x] Security regression tests cover oversized/empty payloads, grant-action rejection and spam interval behavior.
+- [~] Mobile analog false-positive acceptance remains a device runtime gate; no movement heuristic/kick code exists.
