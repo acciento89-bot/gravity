@@ -1,6 +1,7 @@
 --!strict
 
 local CollectionService = game:GetService("CollectionService")
+local Lighting = game:GetService("Lighting")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
@@ -25,6 +26,51 @@ local COLORS = {
 	Text = Color3.fromRGB(244, 247, 251),
 	Locked = Color3.fromRGB(170, 74, 74),
 }
+
+local function configureLighting()
+	Lighting.ClockTime = 15.2
+	Lighting.Brightness = 2.15
+	Lighting.Ambient = Color3.fromRGB(92, 104, 124)
+	Lighting.OutdoorAmbient = Color3.fromRGB(126, 139, 160)
+	Lighting.EnvironmentDiffuseScale = 0.42
+	Lighting.EnvironmentSpecularScale = 0.72
+	Lighting.ShadowSoftness = 0.32
+	pcall(function()
+		Lighting.Technology = Enum.Technology.Future
+	end)
+
+	for _, name in { "Plus1GravityAtmosphere", "Plus1GravityBloom", "Plus1GravityWorldGrade" } do
+		local old = Lighting:FindFirstChild(name)
+		if old then
+			old:Destroy()
+		end
+	end
+
+	local atmosphere = Instance.new("Atmosphere")
+	atmosphere.Name = "Plus1GravityAtmosphere"
+	atmosphere.Density = 0.22
+	atmosphere.Offset = 0.08
+	atmosphere.Color = Color3.fromRGB(204, 229, 244)
+	atmosphere.Decay = Color3.fromRGB(112, 129, 158)
+	atmosphere.Glare = 0.10
+	atmosphere.Haze = 1.25
+	atmosphere.Parent = Lighting
+
+	local bloom = Instance.new("BloomEffect")
+	bloom.Name = "Plus1GravityBloom"
+	bloom.Intensity = 0.22
+	bloom.Size = 22
+	bloom.Threshold = 1.35
+	bloom.Parent = Lighting
+
+	local grade = Instance.new("ColorCorrectionEffect")
+	grade.Name = "Plus1GravityWorldGrade"
+	grade.Brightness = 0.015
+	grade.Contrast = 0.07
+	grade.Saturation = 0.06
+	grade.TintColor = Color3.fromRGB(244, 249, 255)
+	grade.Parent = Lighting
+end
 
 local function color3(values: { number }): Color3
 	return Color3.fromRGB(values[1], values[2], values[3])
@@ -397,6 +443,7 @@ function WorldService.collect(root: BasePart): boolean
 end
 
 function WorldService.start()
+	configureLighting()
 	local existing = Workspace:FindFirstChild("Plus1GravityWorld")
 	if existing then
 		existing:Destroy()
@@ -410,15 +457,20 @@ function WorldService.start()
 		buildZone(zone)
 	end
 
-	local spawn = Instance.new("SpawnLocation")
-	spawn.Name = "GravitySpawn"
-	spawn.Size = Vector3.new(12, 1, 12)
-	spawn.CFrame = CFrame.new(0, 2, 0)
-	spawn.Material = Enum.Material.Neon
-	spawn.Color = Color3.fromRGB(91, 220, 239)
-	spawn.Transparency = 0.15
-	spawn.Neutral = true
-	spawn.Parent = world
+	for slot = 1, GameConfig.World.TargetMaxPlayers do
+		local x, z = OnboardingRules.spawnOffset(slot)
+		local spawn = Instance.new("SpawnLocation")
+		spawn.Name = ("GravitySpawn%02d"):format(slot)
+		spawn.Size = Vector3.new(2.4, 0.5, 2.4)
+		spawn.CFrame = CFrame.new(x, 2, z)
+		spawn.Material = Enum.Material.Neon
+		spawn.Color = Color3.fromRGB(91, 220, 239)
+		spawn.Transparency = 1
+		spawn.CanCollide = false
+		spawn.Neutral = true
+		spawn.Duration = 0
+		spawn.Parent = world
+	end
 
 	local pathLength = 960
 	local path = part(

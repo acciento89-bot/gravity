@@ -10,6 +10,7 @@ local Workspace = game:GetService("Workspace")
 local player = Players.LocalPlayer
 local shared = ReplicatedStorage:WaitForChild("Plus1Gravity")
 local FeedbackRules = require(shared.rules.FeedbackRules)
+local ObjectConfig = require(shared.config.ObjectConfig)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local GameFeelController = {}
@@ -22,6 +23,19 @@ local activeSounds = 0
 local activePulses = 0
 local lastCueAt: { [string]: number } = {}
 local lastLevel: number? = nil
+local lastGravity: number? = nil
+local gravityThresholds: { number } = {}
+do
+	local seen: { [number]: boolean } = {}
+	for _, definition in ObjectConfig do
+		local threshold = tonumber(definition.RequiredGravity) or 0
+		if threshold > 0 and not seen[threshold] then
+			seen[threshold] = true
+			table.insert(gravityThresholds, threshold)
+		end
+	end
+	table.sort(gravityThresholds)
+end
 
 local function playCue(name: string, pitch: number, volume: number, cooldown: number)
 	local now = os.clock()
@@ -130,6 +144,18 @@ local function onState(newState: any)
 	if type(newState) ~= "table" or newState.Ready ~= true then
 		return
 	end
+	local gravity = tonumber(newState.Gravity) or 0
+	if lastGravity ~= nil and gravity > lastGravity then
+		for _, threshold in gravityThresholds do
+			if lastGravity < threshold and gravity >= threshold then
+				playCue("GravityThreshold", 1.24, 0.17, 0.25)
+				pulse(Color3.fromRGB(91, 220, 239), 2.3)
+				break
+			end
+		end
+	end
+	lastGravity = gravity
+
 	local level = tonumber(newState.Level) or 0
 	if lastLevel ~= nil and level > lastLevel then
 		playCue("LevelUp", 1.34, 0.20, 0.3)

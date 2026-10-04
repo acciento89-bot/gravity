@@ -34,4 +34,10 @@ function OnboardingRules.firstCollectibleDistance(): number
 	return math.sqrt((x or 0) ^ 2 + (z or 0) ^ 2)
 end
 
+function OnboardingRules.spawnOffset(slot: number): (number, number)
+	local safeSlot = math.clamp(math.floor(slot), 1, 8)
+	local angle = ((safeSlot - 1) / 8) * math.pi * 2
+	return math.cos(angle) * 3, math.sin(angle) * 3
+end
+
 return table.freeze(OnboardingRules)

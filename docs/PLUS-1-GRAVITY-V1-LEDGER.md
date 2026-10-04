@@ -222,11 +222,11 @@ Quality:
 - [~] P07-T13 Zone arrival celebration — ZoneUnlocked + ZoneEntered feedback implemented; runtime feel QA pending
 - [~] P07-T14 Distinct art/material language per zone — five procedural zone identities implemented; screenshot QA pending
 - [~] P07-T15 Skyline/background dressing — towers, warehouses, terminal/control tower and Megacity spire/skyrail implemented; screenshot QA pending
-- [ ] P07-T16 Lighting/atmosphere final pass
+- [~] P07-T16 Lighting/atmosphere final pass — Future-lighting grade, Atmosphere, Bloom and restrained color grade implemented; screenshot acceptance pending
 - [~] P07-T17 Landmark quality pass — zone-specific landmark assemblies replace generic cube silhouettes; runtime visual QA pending
 - [~] P07-T18 No dead empty expanses — structural dressing added across all five zones; runtime route QA pending
 - [~] P07-T19 Navigation readable without giant arrows — boulevard + gate arches + requirement signs + landmarks implemented; runtime navigation QA pending
-- [ ] P07-T20 Multiplayer spawn/path safety
+- [x] P07-T20 Multiplayer spawn/path safety — eight deterministic spawn slots on a 3-stud ring; every slot remains within base attraction radius of the first collectible
 - [ ] P07-T21 Mobile draw/performance QA
 
 Acceptance:
@@ -274,7 +274,7 @@ Acceptance:
 - [x] P09-T08 1.0–1.5 second polished cinematic timing — 1.18 s sequence implemented and frame-captured
 - [x] P09-T09 Singularity appears at avatar center — iPhone XR runtime frame captured
 - [x] P09-T10 Core reward flies into permanent counter — center→counter transition frame-captured
-- [ ] P09-T11 Audio crescendo + impact
+- [~] P09-T11 Audio crescendo + impact — Collapse charge→impact hierarchy implemented with 5/10-Core milestone variants; physical speaker mix QA pending
 - [x] P09-T12 Post-Collapse "faster next run" feedback — NEXT RUN XP ×1.25 verified live
 - [~] P09-T13 Repeated Collapse visual variety by Core milestone — milestone palette logic implemented; milestone runtime QA pending
 - [x] P09-T14 Collapse cannot strand/kill character — avatar remained alive/controllable after live Collapse
@@ -301,9 +301,9 @@ Acceptance:
 - [~] P10-T15 Console 16:9 / ten-foot readability QA — dedicated ten-foot profile implemented via `GuiService:IsTenFootInterface()`; runtime console screenshot QA pending
 - [x] P10-T16 No HUD overlap with avatar/object orbit — 14-slot iPhone XR max-orbit screenshot verified
 - [x] P10-T17 No giant card stack / playfield obstruction — iPhone XR screenshot verified
-- [ ] P10-T18 Controller selection/focus map
-- [ ] P10-T19 Haptics for collect / unlock / Collapse
-- [ ] P10-T20 Sound feedback hierarchy
+- [~] P10-T18 Controller selection/focus map — root meta buttons wired Style→Daily→Rankings→Shop→Accessibility plus existing per-menu focus maps; console runtime QA pending
+- [~] P10-T19 Haptics for collect / unlock / Collapse — supported Gamepad1 motors receive bounded collect/unlock/Collapse pulses with Reduced Motion attenuation; hardware QA pending
+- [x] P10-T20 Sound feedback hierarchy — Small/Medium/Massive collect, threshold, level, zone, reward and Collapse charge/impact cues are distinct and budget-capped
 
 ---
 
@@ -426,14 +426,14 @@ Shop:
 - [~] P16-T01 Small-object collect sound family — high-pitch low-volume cue implemented; runtime mix QA pending
 - [~] P16-T02 Medium-object collect sound family — medium cue + local pulse implemented; runtime mix QA pending
 - [~] P16-T03 Massive-object collect sound family — low cue + stronger pulse/camera micro-kick implemented; runtime QA pending
-- [ ] P16-T04 Gravity threshold unlock sting
+- [~] P16-T04 Gravity threshold unlock sting — client detects authoritative RequiredGravity thresholds crossed and emits a distinct cue/pulse; runtime feel QA pending
 - [~] P16-T05 Zone unlock sting — dedicated state-event cue + green pulse implemented; runtime QA pending
 - [~] P16-T06 Level-up sound/VFX — client detects authoritative level increases and plays dedicated cue/pulse; runtime QA pending
 - [~] P16-T07 Core milestone sound/VFX — 5/10-Core collapse audio variants implemented; runtime QA pending
 - [~] P16-T08 Collapse audio sequence — charge then impact cue layered over existing Collapse visual sequence; runtime QA pending
 - [ ] P16-T09 Ambient zone loops
 - [~] P16-T10 Camera micro-feedback — massive collect uses bounded +1.4 FOV kick; runtime comfort QA pending
-- [ ] P16-T11 Object pull trail/VFX
+- [~] P16-T11 Object pull trail/VFX — short-lived skin-tinted Trail follows the production pull-in tween and self-cleans; runtime visual QA pending
 - [x] P16-T12 Performance-safe VFX budget — max 4 transient sounds and 8 local pulses; sound volume hard-capped at 0.28
 
 ---
@@ -697,3 +697,12 @@ V1 is finished only when all of the following are true:
 - [x] At 0.2 s attraction scans the theoretical 8-player upper bound is 6,000 collectible distance checks/s; regression test fails if the current V1 constants exceed that ceiling.
 - [x] StreamingEnabled evaluated, not blindly enabled: the current ~975-stud world and 150-root budget make it optional, while real mobile GPU profiling remains the decision gate.
 - [~] Existing death/respawn runtime proved client orbit cleanup from 14 representatives to 0; true rejoin cleanup remains tied to canonical-place persistence QA.
+
+## 2026-10-04 world polish / input feedback pass
+
+- [x] Added restrained Future-lighting/Atmosphere/Bloom/world color grade; Collapse keeps its separate transient local grade.
+- [x] Replaced one shared spawn with eight deterministic invisible spawn slots while preserving first-collectible reach from every slot.
+- [x] Added root controller focus ring and bounded Gamepad haptics for collect, unlock and Collapse.
+- [x] Added Gravity-threshold unlock cue when authoritative progression crosses an object requirement.
+- [x] Added skin-tinted pull Trail tied to the existing 0.24 s collection pull-in and automatic cleanup.
+- [~] Visual/audio/hardware acceptance remains runtime QA; ambient zone loops remain a separate open content task.

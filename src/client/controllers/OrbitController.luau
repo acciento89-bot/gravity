@@ -1,5 +1,6 @@
 --!strict
 
+local Debris = game:GetService("Debris")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -29,6 +30,7 @@ type OrbitEntry = {
 	PullFrom: Vector3?,
 	PullElapsed: number,
 	PullDuration: number,
+	PullTrail: Trail?,
 	PulseUntil: number,
 }
 
@@ -300,6 +302,29 @@ local function retint()
 	end
 end
 
+local function createPullTrail(root: BasePart): Trail
+	local lower = Instance.new("Attachment")
+	lower.Name = "PullTrailLower"
+	lower.Position = Vector3.new(0, -0.22, 0)
+	lower.Parent = root
+	local upper = Instance.new("Attachment")
+	upper.Name = "PullTrailUpper"
+	upper.Position = Vector3.new(0, 0.22, 0)
+	upper.Parent = root
+	local trail = Instance.new("Trail")
+	trail.Name = "GravityPullTrail"
+	trail.Attachment0 = lower
+	trail.Attachment1 = upper
+	trail.Color = ColorSequence.new(skinColor(), Color3.fromRGB(246, 249, 252))
+	trail.Lifetime = 0.16
+	trail.MinLength = 0.04
+	trail.LightEmission = 0.8
+	trail.FaceCamera = true
+	trail.Transparency = NumberSequence.new({ NumberSequenceKeypoint.new(0, 0.12), NumberSequenceKeypoint.new(1, 1) })
+	trail.Parent = root
+	return trail
+end
+
 local function makeVisual(payload: any)
 	if type(payload) ~= "table" or type(payload.Size) ~= "table" or type(payload.Color) ~= "table" then
 		return
@@ -328,6 +353,7 @@ local function makeVisual(payload: any)
 
 	local model, root, countLabel = createMiniature(payload)
 	local pullFrom = vectorFrom(payload.WorldPosition)
+	local pullTrail = if pullFrom then createPullTrail(root) else nil
 	if pullFrom then
 		model:PivotTo(CFrame.new(pullFrom))
 	end
@@ -347,6 +373,7 @@ local function makeVisual(payload: any)
 		PullFrom = pullFrom,
 		PullElapsed = 0,
 		PullDuration = 0.24,
+		PullTrail = pullTrail,
 		PulseUntil = 0,
 	})
 	rescaleEntries(true)
@@ -404,6 +431,11 @@ local function update(dt: number)
 			displayPosition = entry.PullFrom:Lerp(targetPosition, eased)
 			if alpha >= 1 then
 				entry.PullFrom = nil
+				if entry.PullTrail then
+					entry.PullTrail.Enabled = false
+					Debris:AddItem(entry.PullTrail, entry.PullTrail.Lifetime + 0.08)
+					entry.PullTrail = nil
+				end
 			end
 		end
 
