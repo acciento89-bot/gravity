@@ -431,7 +431,7 @@ Shop:
 - [~] P16-T06 Level-up sound/VFX — client detects authoritative level increases and plays dedicated cue/pulse; runtime QA pending
 - [~] P16-T07 Core milestone sound/VFX — 5/10-Core collapse audio variants implemented; runtime QA pending
 - [~] P16-T08 Collapse audio sequence — charge then impact cue layered over existing Collapse visual sequence; runtime QA pending
-- [ ] P16-T09 Ambient zone loops
+- [~] P16-T09 Ambient zone loops — five-zone low-volume crossfade system implemented with free Creator Store ambience; live load/mix QA pending
 - [~] P16-T10 Camera micro-feedback — massive collect uses bounded +1.4 FOV kick; runtime comfort QA pending
 - [~] P16-T11 Object pull trail/VFX — short-lived skin-tinted Trail follows the production pull-in tween and self-cleans; runtime visual QA pending
 - [x] P16-T12 Performance-safe VFX budget — max 4 transient sounds and 8 local pulses; sound volume hard-capped at 0.28
@@ -706,3 +706,10 @@ V1 is finished only when all of the following are true:
 - [x] Added Gravity-threshold unlock cue when authoritative progression crosses an object requirement.
 - [x] Added skin-tinted pull Trail tied to the existing 0.24 s collection pull-in and automatic cleanup.
 - [~] Visual/audio/hardware acceptance remains runtime QA; ambient zone loops remain a separate open content task.
+
+## 2026-10-04 zone ambience implementation
+
+- [x] Added one 2D low-volume ambience state per zone with 1.35 s crossfade and a dedicated master SoundGroup.
+- [x] Backyard/Airport use a daytime urban/plane ambience at different playback/volume settings; Downtown uses city traffic; Industrial uses construction presence; Megacity uses technical communications-bay ambience.
+- [x] Source audio is from free Creator Store Pro Sound Effects assets; no private/upload-dependent audio ID is required.
+- [~] P16-T09 remains acceptance-pending until the canonical place proves asset loading and mobile-speaker mix.
