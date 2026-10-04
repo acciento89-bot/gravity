@@ -15,6 +15,10 @@ local ViewportRules = require(shared.rules.ViewportRules)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local ShopController = {}
+local LocaleText = require(script.Parent.LocaleText)
+local function t(key: string, ...: any): string
+	return LocaleText.t(key, ...)
+end
 
 local COLORS = {
 	Foundation = Color3.fromRGB(18, 25, 35),
@@ -92,12 +96,16 @@ end
 
 local function updateTimers()
 	if not state then
-		gravityTimer.Text = "2× GRAVITY · INACTIVE"
-		xpTimer.Text = "2× XP · INACTIVE"
+		gravityTimer.Text = LocaleText.productName("gravity_2x_15m", "2× Gravity · 15 min") .. " · " .. t("inactive")
+		xpTimer.Text = LocaleText.productName("xp_2x_15m", "2× XP · 15 min") .. " · " .. t("inactive")
 		return
 	end
-	gravityTimer.Text = "2× GRAVITY · " .. formatTimer(tonumber(state.GravityBoostUntil) or 0)
-	xpTimer.Text = "2× XP · " .. formatTimer(tonumber(state.XpBoostUntil) or 0)
+	gravityTimer.Text = LocaleText.productName("gravity_2x_15m", "2× Gravity · 15 min")
+		.. " · "
+		.. formatTimer(tonumber(state.GravityBoostUntil) or 0)
+	xpTimer.Text = LocaleText.productName("xp_2x_15m", "2× XP · 15 min")
+		.. " · "
+		.. formatTimer(tonumber(state.XpBoostUntil) or 0)
 end
 
 local function responsive()
@@ -129,12 +137,12 @@ local function addProductCard(parent: Instance, product: any, index: number, acc
 	corner(card, 16)
 	stroke(card, accent, 0.55)
 
-	local name = label(card, product.DisplayName, 17, COLORS.Text)
+	local name = label(card, LocaleText.productName(product.Key, product.DisplayName), 17, COLORS.Text)
 	name.Position = UDim2.fromOffset(18, 12)
 	name.Size = UDim2.new(1, -180, 0, 34)
 	name.Font = Enum.Font.GothamBlack
 
-	local price = label(card, ("EXPECTED · R$ %d"):format(tonumber(product.ExpectedRobux) or 0), 12, COLORS.Gold)
+	local price = label(card, t("expected_robux", tonumber(product.ExpectedRobux) or 0), 12, COLORS.Gold)
 	price.Position = UDim2.fromOffset(18, 48)
 	price.Size = UDim2.new(1, -180, 0, 24)
 	price.Font = Enum.Font.GothamBold
@@ -157,7 +165,7 @@ local function addProductCard(parent: Instance, product: any, index: number, acc
 	action.BackgroundColor3 = if live then accent else COLORS.Surface2
 	action.BorderSizePixel = 0
 	action.Font = Enum.Font.GothamBlack
-	action.Text = if live then "BUY" else "DISABLED"
+	action.Text = if live then t("buy") else t("disabled")
 	action.TextSize = 15
 	action.TextColor3 = COLORS.Text
 	action.Parent = card
@@ -165,10 +173,10 @@ local function addProductCard(parent: Instance, product: any, index: number, acc
 
 	card.Activated:Connect(function()
 		if not productLive(product) then
-			showFeedback("This product is not live yet.", COLORS.Danger)
+			showFeedback(t("product_not_live"), COLORS.Danger)
 			return
 		end
-		showFeedback("Opening secure Roblox purchase…", COLORS.Cyan)
+		showFeedback(t("opening_purchase"), COLORS.Cyan)
 		MarketplaceService:PromptProductPurchase(player, product.ProductId)
 	end)
 	if live then
@@ -193,7 +201,7 @@ local function build()
 	openButton.BackgroundColor3 = COLORS.Foundation
 	openButton.BorderSizePixel = 0
 	openButton.Font = Enum.Font.GothamBlack
-	openButton.Text = "SHOP"
+	openButton.Text = t("shop")
 	openButton.TextSize = 14
 	openButton.TextColor3 = COLORS.Text
 	openButton.Selectable = true
@@ -213,7 +221,7 @@ local function build()
 	corner(panel, 22)
 	stroke(panel, COLORS.Gold, 0.48, 2)
 
-	local heading = label(panel, "GRAVITY SHOP", 24, COLORS.Text)
+	local heading = label(panel, t("shop_title"), 24, COLORS.Text)
 	heading.Size = UDim2.new(0.5, 0, 0, 42)
 	heading.Position = UDim2.fromOffset(24, 16)
 	heading.Font = Enum.Font.GothamBlack
@@ -256,7 +264,7 @@ local function build()
 		first = first or card
 	end
 
-	local foot = label(panel, "Purchases are optional. Competitive height is never sold directly.", 11, COLORS.Muted)
+	local foot = label(panel, t("shop_disclaimer"), 11, COLORS.Muted)
 	foot.AnchorPoint = Vector2.new(0.5, 1)
 	foot.Position = UDim2.new(0.5, 0, 1, -16)
 	foot.Size = UDim2.new(1, -48, 0, 30)
@@ -266,7 +274,7 @@ local function build()
 	openButton.Activated:Connect(function()
 		menuOpen = not menuOpen
 		panel.Visible = menuOpen
-		openButton.Text = if menuOpen then "CLOSE SHOP" else "SHOP"
+		openButton.Text = if menuOpen then t("close_shop") else t("shop")
 		if menuOpen and UserInputService.GamepadEnabled and first then
 			GuiService.SelectedObject = first
 		elseif not menuOpen then
@@ -292,7 +300,7 @@ function ShopController.start()
 			state = newState
 			updateTimers()
 			if newState.Event == "PurchaseGranted" then
-				showFeedback("Purchase granted and saved.", COLORS.Green)
+				showFeedback(t("purchase_granted_saved"), COLORS.Green)
 			end
 		end
 	end)
@@ -312,9 +320,9 @@ function ShopController.start()
 				return
 			end
 			if purchased then
-				showFeedback("Purchase submitted · waiting for receipt…", COLORS.Cyan)
+				showFeedback(t("purchase_submitted"), COLORS.Cyan)
 			else
-				showFeedback("Purchase cancelled · nothing charged.", COLORS.Muted)
+				showFeedback(t("purchase_cancelled"), COLORS.Muted)
 			end
 		end
 	)

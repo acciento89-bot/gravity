@@ -2,7 +2,6 @@
 
 local Players = game:GetService("Players")
 local GuiService = game:GetService("GuiService")
-local LocalizationService = game:GetService("LocalizationService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
@@ -11,14 +10,13 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local shared = ReplicatedStorage:WaitForChild("Plus1Gravity")
 local ViewportRules = require(shared.rules.ViewportRules)
-local LocalizationRules = require(shared.rules.LocalizationRules)
+local LocaleText = require(script.Parent.LocaleText)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local HudController = {}
-local locale = LocalizationService.RobloxLocaleId
 
 local function tr(key: string, ...: any): string
-	return LocalizationRules.format(locale, key, ...)
+	return LocaleText.t(key, ...)
 end
 
 local COLORS = {
@@ -110,7 +108,7 @@ local function render()
 	gravityValue.Text = compactNumber(state.Gravity)
 	levelValue.Text = ("LV %d"):format(state.Level)
 	coresValue.Text = ("◉ %d"):format(state.Cores)
-	zoneLabel.Text = string.upper(state.Zone.DisplayName)
+	zoneLabel.Text = string.upper(LocaleText.zoneName(state.Zone.Id, state.Zone.DisplayName))
 	progressFill.Size = UDim2.fromScale(math.clamp(state.LevelProgress or 0, 0, 1), 1)
 	collapseButton.Visible = state.CanCollapse == true
 	collapseButton.Selectable = state.CanCollapse == true
@@ -134,10 +132,10 @@ local function render()
 	local daily = state.Daily
 	if daily then
 		if daily.Claimed then
-			dailyLabel.Text = ("DAILY ✓  ·  STREAK %d"):format(daily.Streak)
+			dailyLabel.Text = tr("daily_hud_complete", daily.Streak)
 			dailyLabel.TextColor3 = COLORS.Green
 		else
-			dailyLabel.Text = ("DAILY  %s  %d/%d"):format(daily.Label, daily.Progress, daily.Target)
+			dailyLabel.Text = tr("daily_hud_progress", LocaleText.dailyMission(daily), daily.Progress, daily.Target)
 			dailyLabel.TextColor3 = COLORS.Muted
 		end
 	end
@@ -151,13 +149,25 @@ local function render()
 	elseif state.Event == "ZoneLocked" and type(state.EventData) == "table" then
 		local gate = state.EventData
 		local coreText = if (gate.MinCores or 0) > 0
-			then (" + %d CORE%s"):format(gate.MinCores, if gate.MinCores == 1 then "" else "S")
+			then tr("core_requirement", gate.MinCores, LocaleText.coreWord(gate.MinCores))
 			else ""
-		showToast(("LOCKED · %s GRAVITY%s"):format(compactNumber(gate.MinGravity or 0), coreText), COLORS.Gold)
+		showToast(tr("locked", compactNumber(gate.MinGravity or 0), coreText), COLORS.Gold)
 	elseif state.Event == "ZoneUnlocked" and type(state.EventData) == "table" then
-		showToast(tr("unlocked", string.upper(state.EventData.DisplayName or "ZONE")), COLORS.Green)
+		showToast(
+			tr(
+				"unlocked",
+				string.upper(LocaleText.zoneName(state.EventData.Id or "", state.EventData.DisplayName or "ZONE"))
+			),
+			COLORS.Green
+		)
 	elseif state.Event == "ZoneEntered" and type(state.EventData) == "table" then
-		showToast(tr("welcome", string.upper(state.EventData.DisplayName or "ZONE")), COLORS.Cyan)
+		showToast(
+			tr(
+				"welcome",
+				string.upper(LocaleText.zoneName(state.EventData.Id or "", state.EventData.DisplayName or "ZONE"))
+			),
+			COLORS.Cyan
+		)
 	end
 end
 
@@ -200,7 +210,7 @@ local function build()
 	gravityCard.Position = UDim2.fromOffset(20, 8)
 	gravityCard.BackgroundTransparency = 1
 	gravityCard.Parent = bar
-	local title = label(gravityCard, "GRAVITY", UDim2.new(1, 0, 0, 14), UDim2.fromOffset(0, 0), 10, COLORS.Muted)
+	local title = label(gravityCard, tr("gravity"), UDim2.new(1, 0, 0, 14), UDim2.fromOffset(0, 0), 10, COLORS.Muted)
 	title.Font = Enum.Font.GothamBold
 	gravityValue = label(gravityCard, "0", UDim2.new(1, 0, 0, 28), UDim2.fromOffset(0, 13), 23, COLORS.Text)
 	gravityValue.Font = Enum.Font.GothamBlack
@@ -235,7 +245,7 @@ local function build()
 	tutorialLabel.Visible = false
 	corner(tutorialLabel, 10)
 
-	dailyLabel = label(screen, "DAILY", UDim2.fromOffset(360, 36), UDim2.new(0, 14, 1, -50), 11, COLORS.Muted)
+	dailyLabel = label(screen, tr("daily"), UDim2.fromOffset(360, 36), UDim2.new(0, 14, 1, -50), 11, COLORS.Muted)
 	dailyLabel.BackgroundColor3 = COLORS.Foundation
 	dailyLabel.BackgroundTransparency = 0.1
 	dailyLabel.TextXAlignment = Enum.TextXAlignment.Center
@@ -251,7 +261,7 @@ local function build()
 	collapseButton.BackgroundColor3 = COLORS.Violet
 	collapseButton.BorderSizePixel = 0
 	collapseButton.Font = Enum.Font.GothamBlack
-	collapseButton.Text = "COLLAPSE  ◉"
+	collapseButton.Text = tr("collapse") .. "  ◉"
 	collapseButton.TextSize = 18
 	collapseButton.TextColor3 = COLORS.Text
 	collapseButton.Visible = false

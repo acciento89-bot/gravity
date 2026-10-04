@@ -14,6 +14,7 @@ local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local CollapseFxController = {}
 local AccessibilityState = require(script.Parent.AccessibilityState)
+local LocaleText = require(script.Parent.LocaleText)
 
 local sequence = 0
 
@@ -69,7 +70,7 @@ local function makeScreenFx(color: Color3): (ScreenGui, Frame, TextLabel)
 	reward.BackgroundTransparency = 0.08
 	reward.BorderSizePixel = 0
 	reward.Font = Enum.Font.GothamBlack
-	reward.Text = "◉  +1 CORE"
+	reward.Text = LocaleText.t("core_reward")
 	reward.TextColor3 = color
 	reward.TextSize = 22
 	reward.TextTransparency = 1

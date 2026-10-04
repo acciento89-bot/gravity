@@ -14,6 +14,10 @@ local ViewportRules = require(shared.rules.ViewportRules)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local DailyController = {}
+local LocaleText = require(script.Parent.LocaleText)
+local function t(key: string, ...: any): string
+	return LocaleText.t(key, ...)
+end
 
 local COLORS = {
 	Foundation = Color3.fromRGB(18, 25, 35),
@@ -74,13 +78,13 @@ local function render()
 	local progress = tonumber(daily.Progress) or 0
 	local target = math.max(1, tonumber(daily.Target) or 1)
 	local ratio = math.clamp(progress / target, 0, 1)
-	missionLabel.Text = daily.Label or "Daily mission"
-	progressLabel.Text = if daily.Claimed then "COMPLETE" else ("%d / %d"):format(progress, target)
+	missionLabel.Text = LocaleText.dailyMission(daily)
+	progressLabel.Text = if daily.Claimed then t("daily_complete") else ("%d / %d"):format(progress, target)
 	progressLabel.TextColor3 = if daily.Claimed then COLORS.Green else COLORS.Text
 	progressFill.Size = UDim2.fromScale(ratio, 1)
-	streakLabel.Text = ("🔥 %d DAY STREAK"):format(tonumber(daily.Streak) or 1)
-	rewardLabel.Text = ("TODAY · ◆ %d SHARDS"):format(tonumber(daily.RewardShards) or 0)
-	openButton.Text = if daily.Claimed then "DAILY ✓" else "DAILY"
+	streakLabel.Text = t("day_streak", tonumber(daily.Streak) or 1)
+	rewardLabel.Text = t("today_shards", tonumber(daily.RewardShards) or 0)
+	openButton.Text = if daily.Claimed then t("daily") .. " ✓" else t("daily")
 end
 
 local function celebrate(reward: number)
@@ -88,7 +92,7 @@ local function celebrate(reward: number)
 	celebration.BackgroundTransparency = 0.12
 	celebrationTitle.TextTransparency = 0
 	celebrationReward.TextTransparency = 0
-	celebrationReward.Text = ("+%d SHARDS"):format(reward)
+	celebrationReward.Text = t("shards_reward", reward)
 	celebration.Position = UDim2.fromScale(0.5, 0.42)
 	celebration.Size = UDim2.fromOffset(380, 148)
 	TweenService:Create(celebration, TweenInfo.new(0.35, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
@@ -139,7 +143,7 @@ local function build()
 	openButton.BackgroundColor3 = COLORS.Foundation
 	openButton.BorderSizePixel = 0
 	openButton.Font = Enum.Font.GothamBlack
-	openButton.Text = "DAILY"
+	openButton.Text = t("daily")
 	openButton.TextSize = 14
 	openButton.TextColor3 = COLORS.Text
 	openButton.Selectable = true
@@ -160,7 +164,7 @@ local function build()
 	corner(panel, 22)
 	stroke(panel, COLORS.Gold, 0.45, 2)
 
-	local heading = label(panel, "DAILY GRAVITY", 23, COLORS.Text)
+	local heading = label(panel, t("daily_title"), 23, COLORS.Text)
 	heading.Position = UDim2.fromOffset(24, 18)
 	heading.Size = UDim2.new(1, -48, 0, 38)
 	heading.Font = Enum.Font.GothamBlack
@@ -197,7 +201,7 @@ local function build()
 	streakLabel.TextXAlignment = Enum.TextXAlignment.Right
 	streakLabel.Font = Enum.Font.GothamBold
 
-	rewardLabel = label(panel, "TODAY · ◆ 15 SHARDS", 17, COLORS.Gold)
+	rewardLabel = label(panel, t("today_shards", 15), 17, COLORS.Gold)
 	rewardLabel.Position = UDim2.fromOffset(24, 194)
 	rewardLabel.Size = UDim2.new(1, -48, 0, 42)
 	rewardLabel.TextXAlignment = Enum.TextXAlignment.Center
@@ -223,13 +227,13 @@ local function build()
 	corner(celebration, 24)
 	stroke(celebration, COLORS.Gold, 0.18, 3)
 
-	celebrationTitle = label(celebration, "DAILY COMPLETE", 26, COLORS.Text)
+	celebrationTitle = label(celebration, t("daily_complete_title"), 26, COLORS.Text)
 	celebrationTitle.Position = UDim2.fromOffset(18, 30)
 	celebrationTitle.Size = UDim2.new(1, -36, 0, 44)
 	celebrationTitle.TextXAlignment = Enum.TextXAlignment.Center
 	celebrationTitle.Font = Enum.Font.GothamBlack
 
-	celebrationReward = label(celebration, "+15 SHARDS", 20, COLORS.Gold)
+	celebrationReward = label(celebration, t("shards_reward", 15), 20, COLORS.Gold)
 	celebrationReward.Position = UDim2.fromOffset(18, 84)
 	celebrationReward.Size = UDim2.new(1, -36, 0, 42)
 	celebrationReward.TextXAlignment = Enum.TextXAlignment.Center

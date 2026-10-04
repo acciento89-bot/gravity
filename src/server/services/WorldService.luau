@@ -128,6 +128,7 @@ local function leaderboardBoard(parent: Instance, center: Vector3, size: Vector3
 	background.Parent = gui
 
 	local header = Instance.new("TextLabel")
+	header.Name = "Header"
 	header.Size = UDim2.new(1, -60, 0, 100)
 	header.Position = UDim2.fromOffset(30, 20)
 	header.BackgroundTransparency = 1

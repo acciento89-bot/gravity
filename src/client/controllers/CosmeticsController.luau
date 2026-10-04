@@ -14,6 +14,10 @@ local ViewportRules = require(shared.rules.ViewportRules)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local CosmeticsController = {}
+local LocaleText = require(script.Parent.LocaleText)
+local function t(key: string, ...: any): string
+	return LocaleText.t(key, ...)
+end
 
 local COLORS = {
 	Foundation = Color3.fromRGB(18, 25, 35),
@@ -125,39 +129,39 @@ local function updatePreview()
 		ringStroke.Color = color
 	end
 	previewCore.BackgroundColor3 = color
-	previewName.Text = definition.DisplayName
+	previewName.Text = LocaleText.cosmeticName(selectedCategory, selectedName, definition.DisplayName)
 
 	local owned = ownedMap()[selectedName] == true
 	local equipped = equippedName() == selectedName
 	local price = tonumber(definition.Price) or 0
 	local shards = if state then tonumber(state.Shards) or 0 else 0
 	if equipped then
-		previewStatus.Text = "EQUIPPED"
+		previewStatus.Text = t("equipped")
 		previewStatus.TextColor3 = COLORS.Green
-		actionButton.Text = "EQUIPPED"
+		actionButton.Text = t("equipped")
 		actionButton.BackgroundColor3 = COLORS.Surface2
 		actionButton.Active = false
 	elseif owned then
-		previewStatus.Text = "OWNED"
+		previewStatus.Text = t("owned")
 		previewStatus.TextColor3 = COLORS.Cyan
-		actionButton.Text = "EQUIP"
+		actionButton.Text = t("equip")
 		actionButton.BackgroundColor3 = COLORS.Violet
 		actionButton.Active = true
 	elseif shards >= price then
-		previewStatus.Text = ("%d SHARDS"):format(price)
+		previewStatus.Text = t("shards_price", price)
 		previewStatus.TextColor3 = COLORS.Gold
-		actionButton.Text = ("BUY · %d ◆"):format(price)
+		actionButton.Text = t("buy_price", price)
 		actionButton.BackgroundColor3 = COLORS.Cyan
 		actionButton.Active = true
 	else
 		local missing = math.max(0, price - shards)
-		previewStatus.Text = ("%d SHARDS · NEED %d"):format(price, missing)
+		previewStatus.Text = t("shards_need", price, missing)
 		previewStatus.TextColor3 = COLORS.Danger
-		actionButton.Text = ("NEED %d MORE ◆"):format(missing)
+		actionButton.Text = t("need_more_shards", missing)
 		actionButton.BackgroundColor3 = COLORS.Surface2
 		actionButton.Active = true
 	end
-	shardsLabel.Text = ("◆ %d SHARDS"):format(shards)
+	shardsLabel.Text = t("shards_balance", shards)
 end
 
 local function clearCards()
@@ -212,14 +216,22 @@ local function rebuildCards()
 		corner(swatch, 18)
 		stroke(swatch, COLORS.Text, 0.6)
 
-		local nameLabel = textLabel(card, definition.DisplayName, 14, COLORS.Text)
+		local nameLabel = textLabel(
+			card,
+			LocaleText.cosmeticName(selectedCategory, item.Name, definition.DisplayName),
+			14,
+			COLORS.Text
+		)
 		nameLabel.Size = UDim2.new(1, -150, 0, 24)
 		nameLabel.Position = UDim2.fromOffset(62, 9)
 		nameLabel.Font = Enum.Font.GothamBold
 
 		local owned = ownedMap()[item.Name] == true
 		local equipped = equippedName() == item.Name
-		local status = if equipped then "EQUIPPED" elseif owned then "OWNED" else (("◆ %d"):format(definition.Price))
+		local status = if equipped
+			then t("equipped")
+			elseif owned then t("owned")
+			else (("◆ %d"):format(definition.Price))
 		local statusLabel =
 			textLabel(card, status, 11, if equipped then COLORS.Green else if owned then COLORS.Cyan else COLORS.Gold)
 		statusLabel.Size = UDim2.new(1, -150, 0, 20)
@@ -258,7 +270,7 @@ end
 local function setOpen(value: boolean)
 	menuOpen = value
 	panel.Visible = value
-	openButton.Text = if value then "CLOSE STYLE" else "STYLE"
+	openButton.Text = if value then t("close_style") else t("style")
 	if value then
 		setCategory(selectedCategory)
 		if UserInputService.GamepadEnabled then
@@ -302,7 +314,7 @@ local function build()
 	openButton.BackgroundColor3 = COLORS.Foundation
 	openButton.BorderSizePixel = 0
 	openButton.Font = Enum.Font.GothamBlack
-	openButton.Text = "STYLE"
+	openButton.Text = t("style")
 	openButton.TextSize = 14
 	openButton.TextColor3 = COLORS.Text
 	openButton.Selectable = true
@@ -323,7 +335,7 @@ local function build()
 	corner(panel, 22)
 	stroke(panel, COLORS.Cyan, 0.5, 2)
 
-	titleLabel = textLabel(panel, "GRAVITY STYLE", 24, COLORS.Text)
+	titleLabel = textLabel(panel, t("gravity_style"), 24, COLORS.Text)
 	titleLabel.Size = UDim2.new(0.55, 0, 0, 46)
 	titleLabel.Position = UDim2.fromOffset(24, 16)
 	titleLabel.Font = Enum.Font.GothamBlack
@@ -342,7 +354,7 @@ local function build()
 	orbitTab.BackgroundColor3 = COLORS.Cyan
 	orbitTab.BorderSizePixel = 0
 	orbitTab.Font = Enum.Font.GothamBold
-	orbitTab.Text = "ORBIT"
+	orbitTab.Text = t("orbit")
 	orbitTab.TextSize = 14
 	orbitTab.TextColor3 = COLORS.Foundation
 	orbitTab.Selectable = true
@@ -353,7 +365,7 @@ local function build()
 	coreTab.Name = "CoreTab"
 	coreTab.Position = UDim2.fromOffset(184, 72)
 	coreTab.BackgroundColor3 = COLORS.Surface2
-	coreTab.Text = "CORE"
+	coreTab.Text = t("core")
 	coreTab.TextColor3 = COLORS.Text
 	coreTab.Parent = panel
 
@@ -435,7 +447,7 @@ local function build()
 	actionButton.BackgroundColor3 = COLORS.Surface2
 	actionButton.BorderSizePixel = 0
 	actionButton.Font = Enum.Font.GothamBlack
-	actionButton.Text = "EQUIPPED"
+	actionButton.Text = t("equipped")
 	actionButton.TextSize = 16
 	actionButton.TextColor3 = COLORS.Text
 	actionButton.Selectable = true
@@ -471,17 +483,20 @@ local function build()
 		end
 		if owned then
 			(remotes:WaitForChild("CosmeticAction") :: RemoteEvent):FireServer("Equip", selectedCategory, selectedName)
-			showFeedback("Equipping " .. definition.DisplayName .. "…", COLORS.Cyan)
+			showFeedback(
+				t("equipping", LocaleText.cosmeticName(selectedCategory, selectedName, definition.DisplayName)),
+				COLORS.Cyan
+			)
 			return
 		end
 		local price = tonumber(definition.Price) or 0
 		local shards = tonumber(state.Shards) or 0
 		if shards < price then
-			showFeedback(("Need %d more Shards"):format(price - shards), COLORS.Danger)
+			showFeedback(t("insufficient_shards", price - shards), COLORS.Danger)
 			return
 		end
 		(remotes:WaitForChild("CosmeticAction") :: RemoteEvent):FireServer("Buy", selectedCategory, selectedName)
-		showFeedback("Purchased · equipping…", COLORS.Green)
+		showFeedback(t("purchased_equipping"), COLORS.Green)
 	end)
 
 	orbitTab.NextSelectionRight = coreTab

@@ -13,6 +13,10 @@ local ViewportRules = require(shared.rules.ViewportRules)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local LeaderboardController = {}
+local LocaleText = require(script.Parent.LocaleText)
+local function t(key: string, ...: any): string
+	return LocaleText.t(key, ...)
+end
 
 local COLORS = {
 	Foundation = Color3.fromRGB(18, 25, 35),
@@ -112,7 +116,7 @@ local function render()
 	clearRows()
 	local entries = if cached and type(cached[currentKey]) == "table" then cached[currentKey] else {}
 	if #entries == 0 then
-		statusLabel.Text = if cached then "No ranked players yet." else "Loading leaderboard…"
+		statusLabel.Text = if cached then t("no_ranked") else t("loading_leaderboard")
 		statusLabel.Visible = true
 	else
 		statusLabel.Visible = false
@@ -166,7 +170,7 @@ local function refresh(force: boolean?)
 		return
 	end
 	lastQueryAt = os.clock()
-	statusLabel.Text = "Loading leaderboard…"
+	statusLabel.Text = t("loading_leaderboard")
 	statusLabel.Visible = true
 	task.spawn(function()
 		local ok, result = pcall(function()
@@ -219,7 +223,7 @@ local function build()
 	openButton.BackgroundColor3 = COLORS.Foundation
 	openButton.BorderSizePixel = 0
 	openButton.Font = Enum.Font.GothamBlack
-	openButton.Text = "RANKINGS"
+	openButton.Text = t("rankings")
 	openButton.TextSize = 13
 	openButton.TextColor3 = COLORS.Text
 	openButton.Selectable = true
@@ -239,7 +243,7 @@ local function build()
 	corner(panel, 22)
 	stroke(panel, COLORS.Violet, 0.48, 2)
 
-	title = label(panel, "TOP GRAVITY", 24, COLORS.Text)
+	title = label(panel, t("top_gravity"), 24, COLORS.Text)
 	title.Size = UDim2.new(1, -48, 0, 44)
 	title.Position = UDim2.fromOffset(24, 16)
 	title.Font = Enum.Font.GothamBlack
@@ -251,7 +255,7 @@ local function build()
 	gravityTab.BackgroundColor3 = COLORS.Cyan
 	gravityTab.BorderSizePixel = 0
 	gravityTab.Font = Enum.Font.GothamBold
-	gravityTab.Text = "GRAVITY"
+	gravityTab.Text = t("gravity")
 	gravityTab.TextSize = 14
 	gravityTab.TextColor3 = COLORS.Foundation
 	gravityTab.Selectable = true
@@ -262,7 +266,7 @@ local function build()
 	coresTab.Name = "CoresTab"
 	coresTab.Position = UDim2.fromOffset(214, 70)
 	coresTab.BackgroundColor3 = COLORS.Surface
-	coresTab.Text = "CORES"
+	coresTab.Text = t("core_plural")
 	coresTab.TextColor3 = COLORS.Text
 	coresTab.Parent = panel
 
@@ -270,7 +274,7 @@ local function build()
 	fastestTab.Name = "FastestTab"
 	fastestTab.Position = UDim2.fromOffset(404, 70)
 	fastestTab.BackgroundColor3 = COLORS.Surface
-	fastestTab.Text = "FASTEST"
+	fastestTab.Text = t("fastest")
 	fastestTab.TextColor3 = COLORS.Text
 	fastestTab.Parent = panel
 
@@ -281,7 +285,7 @@ local function build()
 	rows.BackgroundTransparency = 1
 	rows.Parent = panel
 
-	statusLabel = label(rows, "Loading leaderboard…", 15, COLORS.Muted)
+	statusLabel = label(rows, t("loading_leaderboard"), 15, COLORS.Muted)
 	statusLabel.Size = UDim2.fromScale(1, 1)
 	statusLabel.TextXAlignment = Enum.TextXAlignment.Center
 	statusLabel.TextWrapped = true

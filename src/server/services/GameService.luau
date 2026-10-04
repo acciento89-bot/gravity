@@ -133,6 +133,7 @@ local function snapshot(player: Player): any
 			MinCores = zone.MinCores,
 		},
 		Daily = {
+			Type = mission.Type,
 			Label = mission.Label,
 			Progress = profile.DailyProgress,
 			Target = mission.Target,

@@ -455,8 +455,8 @@ Shop:
 
 # P18 — ACCESSIBILITY / LOCALIZATION / PLATFORM
 
-- [~] P18-T01 English V1 copy complete — critical objective/accessibility copy cataloged; remaining meta-menu copy review pending
-- [~] P18-T02 German V1 localization — critical onboarding/requirements/accessibility copy implemented with locale fallback; remaining meta-menu copy pending
+- [x] P18-T01 English V1 copy complete — HUD, Style, Daily, Rankings, Shop, accessibility, Collapse and world requirement copy cataloged
+- [x] P18-T02 German V1 localization — HUD, Style, Daily, Rankings, Shop, accessibility, Collapse and world requirement copy localized with English fallback
 - [x] P18-T03 No critical information encoded by color alone — lock/equip/buy/daily/boost states all carry explicit text in addition to color
 - [~] P18-T04 Readable text at compact phone resolution — compact tutorial/daily minimum raised from 9 to 11 px; runtime screenshot acceptance pending
 - [~] P18-T05 Controller input and selection — gameplay uses Roblox controls; meta buttons/cards Selectable with explicit focus links; runtime acceptance pending
@@ -679,4 +679,13 @@ V1 is finished only when all of the following are true:
 - [x] Reduced Motion cuts orbit rotation/bob, Collapse scale/blur/flash and disables camera micro-kick.
 - [x] Compact-phone tutorial/daily text floor raised from 9 to 11 for readability.
 - [x] Critical states use text plus color; audio is never required to understand an objective or requirement.
-- [~] Remaining meta-menu strings still need full DE catalog coverage before P18-T01/T02 can close.
+- [x] Remaining player-facing meta-menu strings are now covered by the shared DE/EN catalog; P18-T01/T02 are closed.
+
+## 2026-10-04 full DE/EN player-facing copy pass
+
+- [x] Style/Cosmetics localized, including owned/equipped/buy/insufficient-Shards states and cosmetic names.
+- [x] Daily UI localized; mission text is generated from authoritative mission type/target instead of server English labels.
+- [x] Rankings localized, including loading/empty/error/cooldown states and Megacity board header.
+- [x] Shop localized, including product names, NOT LIVE, purchase/cancel/success feedback and disclaimer.
+- [x] Collapse reward and world zone/requirement/Downtown-tease signs localize per client.
+- [x] Localization regression asserts required English/German key parity.
