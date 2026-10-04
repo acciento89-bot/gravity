@@ -181,10 +181,11 @@ local function onCollapse(payload: any)
 end
 
 function GameFeelController.start()
-	(remotes:WaitForChild("OrbitCollect") :: RemoteEvent).OnClientEvent
-		:Connect(onCollect)(remotes:WaitForChild("State") :: RemoteEvent).OnClientEvent
-		:Connect(onState)(remotes:WaitForChild("CollapseFx") :: RemoteEvent).OnClientEvent
-		:Connect(onCollapse)
+	local orbitRemote = remotes:WaitForChild("OrbitCollect") :: RemoteEvent
+	local stateRemote = remotes:WaitForChild("State") :: RemoteEvent
+	local collapseRemote = remotes:WaitForChild("CollapseFx") :: RemoteEvent
+	orbitRemote.OnClientEvent:Connect(onCollect)
+	stateRemote.OnClientEvent:Connect(onState)
+	collapseRemote.OnClientEvent:Connect(onCollapse)
 end
-
 return GameFeelController
