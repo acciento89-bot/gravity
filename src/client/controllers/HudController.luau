@@ -1,11 +1,15 @@
 --!strict
 
 local Players = game:GetService("Players")
+local GuiService = game:GetService("GuiService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local shared = ReplicatedStorage:WaitForChild("Plus1Gravity")
+local ViewportRules = require(shared.rules.ViewportRules)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local HudController = {}
@@ -261,42 +265,29 @@ local function build()
 			return
 		end
 		local viewport = camera.ViewportSize
-		local compact = math.min(viewport.X, viewport.Y) < 620
-		if compact then
-			bar.Size = UDim2.new(1, -178, 0, 54)
-			bar.Position = UDim2.fromOffset(164, 6)
-			bar.AnchorPoint = Vector2.zero
-			gravityValue.TextSize = 18
-			levelValue.TextSize = 14
-			coresValue.TextSize = 14
-			zoneLabel.Visible = false
-			tutorialLabel.Position = UDim2.new(0.5, -200, 0, 66)
-			tutorialLabel.Size = UDim2.fromOffset(400, 28)
-			tutorialLabel.TextSize = 9
-			dailyLabel.Size = UDim2.fromOffset(math.min(330, viewport.X - 190), 32)
-			dailyLabel.Position = UDim2.new(0, 12, 1, -44)
-			dailyLabel.TextSize = 9
-			collapseButton.Size = UDim2.fromOffset(154, 52)
-			collapseButton.Position = UDim2.new(1, -14, 1, -14)
-			collapseButton.TextSize = 15
-		else
+		local layout =
+			ViewportRules.layout(viewport.X, viewport.Y, UserInputService.TouchEnabled, GuiService:IsTenFootInterface())
+		bar.Size = UDim2.fromOffset(layout.BarWidth, layout.BarHeight)
+		if layout.BarCentered then
 			bar.AnchorPoint = Vector2.new(0.5, 0)
-			bar.Position = UDim2.new(0.5, 0, 0, 8)
-			bar.Size = UDim2.fromOffset(520, 64)
-			gravityValue.TextSize = 23
-			levelValue.TextSize = 17
-			coresValue.TextSize = 17
-			zoneLabel.Visible = true
-			tutorialLabel.Position = UDim2.new(0.5, -260, 0, 78)
-			tutorialLabel.Size = UDim2.fromOffset(520, 30)
-			tutorialLabel.TextSize = 11
-			dailyLabel.Size = UDim2.fromOffset(360, 36)
-			dailyLabel.Position = UDim2.new(0, 14, 1, -50)
-			dailyLabel.TextSize = 11
-			collapseButton.Size = UDim2.fromOffset(190, 62)
-			collapseButton.Position = UDim2.new(1, -18, 1, -18)
-			collapseButton.TextSize = 18
+			bar.Position = UDim2.new(0.5, 0, 0, layout.BarTop)
+		else
+			bar.AnchorPoint = Vector2.zero
+			bar.Position = UDim2.fromOffset(164, layout.BarTop)
 		end
+		gravityValue.TextSize = layout.GravityTextSize
+		levelValue.TextSize = layout.SecondaryTextSize
+		coresValue.TextSize = layout.SecondaryTextSize
+		zoneLabel.Visible = layout.ZoneVisible
+		tutorialLabel.Size = UDim2.fromOffset(layout.TutorialWidth, if layout.Mode == "console" then 44 else 30)
+		tutorialLabel.Position = UDim2.new(0.5, -layout.TutorialWidth / 2, 0, layout.TutorialTop)
+		tutorialLabel.TextSize = layout.TutorialTextSize
+		dailyLabel.Size = UDim2.fromOffset(layout.DailyWidth, layout.DailyHeight)
+		dailyLabel.Position = UDim2.new(0, if layout.Mode == "console" then 32 else 14, 1, -(layout.DailyHeight + 14))
+		dailyLabel.TextSize = layout.DailyTextSize
+		collapseButton.Size = UDim2.fromOffset(layout.CollapseWidth, layout.CollapseHeight)
+		collapseButton.Position = UDim2.new(1, -layout.CollapseInset, 1, -layout.CollapseInset)
+		collapseButton.TextSize = layout.CollapseTextSize
 	end
 	responsive()
 	local camera = Workspace.CurrentCamera

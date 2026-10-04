@@ -4,6 +4,7 @@ local tests = {
 	require("../tests/collection-claim-rules.spec"),
 	require("../tests/object-config.spec"),
 	require("../tests/orbit-rules.spec"),
+	require("../tests/viewport-rules.spec"),
 	require("../tests/zone-rules.spec"),
 	require("../tests/daily-rules.spec"),
 	require("../tests/profile-rules.spec"),

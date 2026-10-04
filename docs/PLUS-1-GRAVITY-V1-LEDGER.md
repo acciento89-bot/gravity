@@ -296,9 +296,9 @@ Acceptance:
 - [x] P10-T10 Mobile responsive branch — iPhone XR 896×414 live
 - [x] P10-T11 Safe-area validation against Roblox top-left CoreGui — iPhone XR screenshot verified
 - [x] P10-T12 Small-phone 19.5:9 layout QA — iPhone XR 896×414 PlaySolo verified
-- [ ] P10-T13 Tablet layout QA
-- [ ] P10-T14 Desktop 16:9 layout QA
-- [ ] P10-T15 Console 16:9 / ten-foot readability QA
+- [~] P10-T13 Tablet layout QA — dedicated touch-tablet profile implemented; runtime screenshot QA pending
+- [~] P10-T14 Desktop 16:9 layout QA — dedicated non-touch desktop profile implemented; runtime screenshot QA pending
+- [~] P10-T15 Console 16:9 / ten-foot readability QA — dedicated ten-foot profile implemented via `GuiService:IsTenFootInterface()`; runtime console screenshot QA pending
 - [x] P10-T16 No HUD overlap with avatar/object orbit — 14-slot iPhone XR max-orbit screenshot verified
 - [x] P10-T17 No giant card stack / playfield obstruction — iPhone XR screenshot verified
 - [ ] P10-T18 Controller selection/focus map
@@ -596,3 +596,12 @@ V1 is finished only when all of the following are true:
 - Canonical main is published to exactly one production place.
 - Roblox live join matches the tested release candidate.
 - Ledger and release evidence reflect the real shipped state.
+
+## 2026-10-04 platform-layout implementation pass
+
+- [x] HUD responsive logic now distinguishes phone, tablet, desktop and true ten-foot/console instead of a single compact/non-compact split.
+- [x] Tablet gets an intermediate readable HUD budget without phone compression.
+- [x] Desktop retains a compact centered HUD that does not dominate the 16:9 playfield.
+- [x] Console/ten-foot receives larger type, tutorial/daily surfaces and Collapse target sizing for couch-distance readability.
+- [x] Pure-Luau regression coverage added for platform classification and relative sizing.
+- [~] P10-T13/T14/T15 remain acceptance-pending until real Studio device/desktop/console screenshots are captured.
