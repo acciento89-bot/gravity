@@ -235,13 +235,12 @@ local function award(player: Player, gravityBase: number, xpBase: number, dailyT
 	if not profile then
 		return nil
 	end
-	LevelRules.applyAward(
-		profile,
-		gravityBase,
-		xpBase,
-		boostMultiplier(profile.GravityBoostUntil),
-		boostMultiplier(profile.XpBoostUntil)
-	)
+	local gravityBoost = boostMultiplier(profile.GravityBoostUntil)
+	local xpBoost = boostMultiplier(profile.XpBoostUntil)
+	if gravityBoost > 1 or xpBoost > 1 then
+		profile.RunWasBoosted = true
+	end
+	LevelRules.applyAward(profile, gravityBase, xpBase, gravityBoost, xpBoost)
 	local dailyReward: number? = nil
 	if dailyType then
 		dailyReward = updateDaily(profile, dailyType, if dailyType == "Gravity" then profile.Gravity else 1)
@@ -308,7 +307,7 @@ local function collapse(player: Player)
 		return
 	end
 
-	local result = LevelRules.applyCollapse(profile, os.time())
+	local result = LevelRules.applyCollapse(profile, os.time(), profile.RunWasBoosted ~= true)
 	if not result then
 		return
 	end

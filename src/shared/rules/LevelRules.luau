@@ -81,7 +81,7 @@ function LevelRules.applyAward(
 	return gravityGain, xpGain
 end
 
-function LevelRules.applyCollapse(profile: any, now: number): any?
+function LevelRules.applyCollapse(profile: any, now: number, countForFastest: boolean?): any?
 	if not LevelRules.canCollapse(profile.Level or 0, profile.Gravity or 0) then
 		return nil
 	end
@@ -98,18 +98,21 @@ function LevelRules.applyCollapse(profile: any, now: number): any?
 	profile.Cores = currentCores + 1
 	profile.CollapseCount = math.max(0, math.floor(profile.CollapseCount or 0)) + 1
 	profile.Shards = math.max(0, math.floor(profile.Shards or 0)) + shards
-	if (profile.BestCollapseSeconds or 0) <= 0 or runSeconds < profile.BestCollapseSeconds then
+	local eligibleForFastest = countForFastest ~= false
+	if eligibleForFastest and ((profile.BestCollapseSeconds or 0) <= 0 or runSeconds < profile.BestCollapseSeconds) then
 		profile.BestCollapseSeconds = runSeconds
 	end
 	profile.Gravity = 0
 	profile.XP = 0
 	profile.Level = 0
 	profile.RunStartedAt = safeNow
+	profile.RunWasBoosted = false
 
 	return {
 		Cores = profile.Cores,
 		Shards = shards,
 		RunSeconds = runSeconds,
+		FastestEligible = eligibleForFastest,
 	}
 end
 

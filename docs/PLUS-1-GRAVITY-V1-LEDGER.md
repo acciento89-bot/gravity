@@ -366,11 +366,11 @@ Singularity skins V1:
 - [~] P13-T05 Player-leave write
 - [~] P13-T06 Username resolution/cache
 - [~] P13-T07 Remote query rate limit
-- [ ] P13-T08 Leaderboard menu UI
-- [ ] P13-T09 World leaderboard display in Megacity
-- [ ] P13-T10 Assisted/boosted Fastest Collapse policy
+- [~] P13-T08 Leaderboard menu UI — Gravity/Cores/Fastest tabs implemented; runtime visual QA pending
+- [~] P13-T09 World leaderboard display in Megacity — top-5 Gravity SurfaceGui board implemented; runtime visual QA pending
+- [x] P13-T10 Assisted/boosted Fastest Collapse policy — runs using 2× Gravity or 2× XP are excluded from Fastest Collapse
 - [ ] P13-T11 OrderedDataStore runtime QA
-- [ ] P13-T12 Empty/error state UI
+- [~] P13-T12 Empty/error state UI — loading/empty/unavailable/cooldown states implemented; runtime QA pending
 
 ---
 
@@ -622,3 +622,12 @@ V1 is finished only when all of the following are true:
 - [x] Completion emits `DailyComplete` with the granted reward and drives a dedicated client celebration.
 - [x] Pure-Luau tests cover base reward, first bonus, mid-streak escalation and cap.
 - [~] Date-boundary/rejoin runtime acceptance remains pending on a canonical Roblox Place.
+
+## 2026-10-04 leaderboard UX and fairness
+
+- [x] Player-facing Rankings menu added for Highest Gravity, Total Cores and Fastest Collapse.
+- [x] Megacity world board added for the top five Highest Gravity entries.
+- [x] Loading, empty, query-cooldown and unavailable states are explicit.
+- [x] Fastest Collapse is now unboosted-only: any run touched by 2× Gravity or 2× XP is excluded from PB/OrderedDataStore eligibility.
+- [x] Assisted-run state persists across rejoin and resets after Collapse.
+- [~] OrderedDataStore live write/read and world-board screenshot acceptance remain canonical-place runtime gates.

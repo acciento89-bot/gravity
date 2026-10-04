@@ -73,6 +73,7 @@ function ProfileRules.default(now: number?): any
 		CollapseCount = 0,
 		RunStartedAt = timestamp,
 		BestCollapseSeconds = 0,
+		RunWasBoosted = false,
 		DailyDay = -1,
 		DailyStreak = 0,
 		DailyProgress = 0,
@@ -109,6 +110,7 @@ function ProfileRules.normalize(raw: any, now: number?): any
 		result.RunStartedAt = timestamp
 	end
 	result.BestCollapseSeconds = nonNegativeInteger(raw.BestCollapseSeconds, 0)
+	result.RunWasBoosted = if type(raw.RunWasBoosted) == "boolean" then raw.RunWasBoosted else false
 
 	result.DailyDay = math.max(-1, integer(raw.DailyDay, -1))
 	result.DailyStreak = math.clamp(nonNegativeInteger(raw.DailyStreak, 0), 0, 365)

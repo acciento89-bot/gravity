@@ -68,4 +68,17 @@ return function()
 	assert(second ~= nil and second.RunSeconds == 50, "second collapse result")
 	assert(collapsible.BestCollapseSeconds == 50, "best collapse time improves")
 	assert(collapsible.Cores == 6, "second core granted")
+	local assisted = {
+		Level = 50,
+		Gravity = 50000,
+		Cores = 0,
+		Shards = 0,
+		RunStartedAt = 100,
+		BestCollapseSeconds = 80,
+		RunWasBoosted = true,
+	}
+	local assistedResult = LevelRules.applyCollapse(assisted, 140, false)
+	assert(assistedResult and assistedResult.FastestEligible == false, "boosted collapse eligibility")
+	assert(assisted.BestCollapseSeconds == 80, "boosted collapse must not replace fastest time")
+	assert(assisted.RunWasBoosted == false, "collapse resets assisted-run flag")
 end

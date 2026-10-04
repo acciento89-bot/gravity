@@ -102,6 +102,62 @@ local function billboard(adornee: BasePart, title: string, subtitle: string, acc
 	sub.Parent = frame
 end
 
+local function leaderboardBoard(parent: Instance, center: Vector3, size: Vector3)
+	local board = part(
+		"GravityLeaderboardBoard",
+		Vector3.new(18, 11, 0.7),
+		CFrame.new(center + Vector3.new(0, 6.2, -size.Z * 0.36)),
+		Color3.fromRGB(24, 31, 43),
+		Enum.Material.Metal,
+		parent
+	)
+	board.CanCollide = false
+
+	local gui = Instance.new("SurfaceGui")
+	gui.Name = "LeaderboardSurface"
+	gui.Face = Enum.NormalId.Front
+	gui.CanvasSize = Vector2.new(900, 550)
+	gui.LightInfluence = 0
+	gui.Parent = board
+
+	local background = Instance.new("Frame")
+	background.Size = UDim2.fromScale(1, 1)
+	background.BackgroundColor3 = COLORS.Foundation
+	background.BorderSizePixel = 0
+	background.Parent = gui
+
+	local header = Instance.new("TextLabel")
+	header.Size = UDim2.new(1, -60, 0, 100)
+	header.Position = UDim2.fromOffset(30, 20)
+	header.BackgroundTransparency = 1
+	header.Font = Enum.Font.GothamBlack
+	header.Text = "MEGACITY · TOP GRAVITY"
+	header.TextSize = 38
+	header.TextColor3 = Color3.fromRGB(91, 220, 239)
+	header.TextXAlignment = Enum.TextXAlignment.Left
+	header.Parent = background
+
+	local rows = Instance.new("Frame")
+	rows.Name = "Rows"
+	rows.Size = UDim2.new(1, -60, 1, -145)
+	rows.Position = UDim2.fromOffset(30, 125)
+	rows.BackgroundTransparency = 1
+	rows.Parent = gui
+	for index = 1, 5 do
+		local row = Instance.new("TextLabel")
+		row.Name = "Row" .. index
+		row.Size = UDim2.new(1, 0, 0, 72)
+		row.Position = UDim2.fromOffset(0, (index - 1) * 76)
+		row.BackgroundTransparency = 1
+		row.Font = Enum.Font.GothamBold
+		row.Text = ("#%d  ---"):format(index)
+		row.TextSize = 30
+		row.TextColor3 = if index <= 3 then Color3.fromRGB(255, 211, 96) else COLORS.Text
+		row.TextXAlignment = Enum.TextXAlignment.Left
+		row.Parent = rows
+	end
+end
+
 local function progressionGate(parent: Instance, zone: any, center: Vector3, size: Vector3, accent: Color3)
 	if (zone.Order or 0) <= 1 then
 		return
@@ -268,6 +324,9 @@ local function buildZone(zone: any)
 
 	progressionGate(zoneFolder, zone, center, size, accent)
 	ZoneVisualFactory.decorate(zoneFolder, zone)
+	if zone.Id == "megacity" then
+		leaderboardBoard(zoneFolder, center, size)
+	end
 
 	local available = {}
 	for _, definition in ObjectConfig do
