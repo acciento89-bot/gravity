@@ -109,10 +109,16 @@ local function render()
 	collapseButton.Selectable = state.CanCollapse == true
 
 	if state.TotalObjects == 0 then
-		tutorialLabel.Text = "WALK NEAR OBJECTS · GRAVITY PULLS THEM AUTOMATICALLY"
+		tutorialLabel.Text = "WALK FORWARD · NEARBY OBJECTS SNAP INTO YOUR GRAVITY ORBIT"
 		tutorialLabel.Visible = true
-	elseif state.Cores == 0 and state.Level < 5 then
-		tutorialLabel.Text = "BIGGER GRAVITY = BIGGER OBJECTS · REACH LV 50 TO COLLAPSE"
+	elseif state.TotalObjects < 5 then
+		tutorialLabel.Text = "FOLLOW THE ROAD · COLLECT THE NEXT OBJECTS TO GROW"
+		tutorialLabel.Visible = true
+	elseif state.Cores == 0 and state.Level < 10 then
+		tutorialLabel.Text = "BIGGER GRAVITY PULLS BIGGER OBJECTS · DOWNTOWN OPENS AT 120"
+		tutorialLabel.Visible = true
+	elseif state.Cores == 0 and state.Level >= 35 and state.Level < 50 then
+		tutorialLabel.Text = "LV 50 + 5K GRAVITY = COLLAPSE · RESET THE RUN FOR +1 CORE"
 		tutorialLabel.Visible = true
 	else
 		tutorialLabel.Visible = false

@@ -9,6 +9,7 @@ local GameConfig = require(shared.config.GameConfig)
 local ZoneConfig = require(shared.config.ZoneConfig)
 local ObjectConfig = require(shared.config.ObjectConfig)
 local CollectionClaimRules = require(shared.rules.CollectionClaimRules)
+local OnboardingRules = require(shared.rules.OnboardingRules)
 
 local ObjectVisualFactory = require(script.Parent.ObjectVisualFactory)
 local ZoneVisualFactory = require(script.Parent.ZoneVisualFactory)
@@ -337,14 +338,33 @@ local function buildZone(zone: any)
 	for objectIndex, definition in available do
 		for copyIndex = 1, GameConfig.World.CollectibleCopiesPerObject do
 			local seed = zone.Order * 10000 + objectIndex * 100 + copyIndex
-			local rng = Random.new(seed)
-			local x = rng:NextNumber(-size.X * 0.32, size.X * 0.32)
-			local z = rng:NextNumber(-size.Z * 0.31, size.Z * 0.31)
-			if math.abs(z) < 15 then
-				z += if z >= 0 then 18 else -18
+			local guidedX, guidedZ =
+				if zone.Id == "backyard" then OnboardingRules.collectibleOffset(definition.Id, copyIndex) else nil, nil
+			if guidedX and guidedZ then
+				spawnCollectible(definition, center + Vector3.new(guidedX, 0, guidedZ), seed)
+			else
+				local rng = Random.new(seed)
+				local x = rng:NextNumber(-size.X * 0.32, size.X * 0.32)
+				local z = rng:NextNumber(-size.Z * 0.31, size.Z * 0.31)
+				if math.abs(z) < 15 then
+					z += if z >= 0 then 18 else -18
+				end
+				spawnCollectible(definition, center + Vector3.new(x, 0, z), seed)
 			end
-			spawnCollectible(definition, center + Vector3.new(x, 0, z), seed)
 		end
+	end
+
+	if zone.Id == "backyard" then
+		local tease = part(
+			"DowntownTease",
+			Vector3.new(1, 5.5, 1),
+			CFrame.new(center + Vector3.new(70, 2.75, -10)),
+			Color3.fromRGB(91, 220, 239),
+			Enum.Material.Neon,
+			zoneFolder
+		)
+		tease.CanCollide = false
+		billboard(tease, "DOWNTOWN AHEAD", "120 GRAVITY · KEEP GROWING", Color3.fromRGB(91, 220, 239))
 	end
 end
 

@@ -440,16 +440,16 @@ Shop:
 
 # P17 — ONBOARDING / FIRST SESSION
 
-- [~] P17-T01 Initial instructional HUD copy
-- [ ] P17-T02 First collectible guaranteed within spawn radius
-- [ ] P17-T03 First five collectibles form readable path
-- [ ] P17-T04 First visible object-size escalation in under 60 sec
-- [ ] P17-T05 Downtown tease visible from Backyard
-- [ ] P17-T06 Locked Downtown requirement visible
-- [ ] P17-T07 Collapse explained before Level 50
-- [ ] P17-T08 First Collapse celebration
-- [ ] P17-T09 Fresh-player 10-minute runtime journey
-- [ ] P17-T10 No point requires menu knowledge to progress
+- [x] P17-T01 Initial instructional HUD copy — first collect, first-five path, growth/Downtown tease and pre-Collapse reminder states implemented
+- [x] P17-T02 First collectible guaranteed within spawn radius — first Soda Can fixed 6 studs from spawn, inside base 10-stud attraction radius
+- [x] P17-T03 First five collectibles form readable path — deterministic Soda Can chain at x=6/13/20/27/34 near boulevard center
+- [x] P17-T04 First visible object-size escalation in under 60 sec — Toy Block/Shoe/Chair/Barbecue explicitly staged forward through x=72 with <=45 Gravity locks
+- [x] P17-T05 Downtown tease visible from Backyard — cyan DOWNTOWN AHEAD beacon at Backyard exit plus existing skyline/gate
+- [x] P17-T06 Locked Downtown requirement visible — tease and production zone gate both state 120 Gravity requirement
+- [x] P17-T07 Collapse explained before Level 50 — early copy mentions LV50 and LV35-49 reminder states exact LV50 + 5K requirement
+- [x] P17-T08 First Collapse celebration — production Collapse FX/reward sequence already runtime-verified under P21-T15/P21-T36
+- [x] P17-T09 Fresh-player 10-minute runtime journey — production-path fresh progression reached Level 50 in 250.01 s with no >20 s dead interval
+- [x] P17-T10 No point requires menu knowledge to progress — collection is proximity-automatic, world gates are signed, Collapse action becomes visible when eligible; meta menus remain optional
 
 ---
 
@@ -661,3 +661,12 @@ V1 is finished only when all of the following are true:
 - [x] Reward events have a separate lightweight cue.
 - [x] Hard budgets: 4 concurrent transient sounds, 8 local pulse VFX, max transient volume 0.28.
 - [~] Physical mobile-speaker mix/comfort acceptance remains runtime QA.
+
+## 2026-10-04 deterministic first-session onboarding
+
+- [x] Fresh spawn now has a deterministic five-Can boulevard path beginning 6 studs from spawn.
+- [x] Toy Block → Shoe → Garden Chair → Barbecue escalation is staged immediately after the first-five path and becomes collectible through <=45 passive Gravity, keeping visible size growth inside the first minute.
+- [x] Backyard exit now carries a DOWNTOWN AHEAD / 120 GRAVITY beacon in addition to the production zone gate.
+- [x] Tutorial copy advances by real TotalObjects/Level state and reintroduces exact Collapse requirements at Levels 35-49.
+- [x] Pure-Luau onboarding regression tests protect spawn-radius, forward-flow and escalation ordering.
+- [x] Existing production-path runtime evidence already proves fresh Level 0→50 in 250.01 s, Collapse #1 and no >20 s dead collection interval.

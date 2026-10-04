@@ -12,6 +12,7 @@ local tests = {
 	require("../tests/receipt-rules.spec"),
 	require("../tests/security-rules.spec"),
 	require("../tests/feedback-rules.spec"),
+	require("../tests/onboarding-rules.spec"),
 	require("../tests/readiness-rules.spec"),
 }
 
