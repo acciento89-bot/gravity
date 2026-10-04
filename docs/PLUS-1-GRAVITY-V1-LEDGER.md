@@ -423,18 +423,18 @@ Shop:
 
 # P16 — AUDIO / FEEL / GAME JUICE
 
-- [ ] P16-T01 Small-object collect sound family
-- [ ] P16-T02 Medium-object collect sound family
-- [ ] P16-T03 Massive-object collect sound family
+- [~] P16-T01 Small-object collect sound family — high-pitch low-volume cue implemented; runtime mix QA pending
+- [~] P16-T02 Medium-object collect sound family — medium cue + local pulse implemented; runtime mix QA pending
+- [~] P16-T03 Massive-object collect sound family — low cue + stronger pulse/camera micro-kick implemented; runtime QA pending
 - [ ] P16-T04 Gravity threshold unlock sting
-- [ ] P16-T05 Zone unlock sting
-- [ ] P16-T06 Level-up sound/VFX
-- [ ] P16-T07 Core milestone sound/VFX
-- [ ] P16-T08 Collapse audio sequence
+- [~] P16-T05 Zone unlock sting — dedicated state-event cue + green pulse implemented; runtime QA pending
+- [~] P16-T06 Level-up sound/VFX — client detects authoritative level increases and plays dedicated cue/pulse; runtime QA pending
+- [~] P16-T07 Core milestone sound/VFX — 5/10-Core collapse audio variants implemented; runtime QA pending
+- [~] P16-T08 Collapse audio sequence — charge then impact cue layered over existing Collapse visual sequence; runtime QA pending
 - [ ] P16-T09 Ambient zone loops
-- [ ] P16-T10 Camera micro-feedback
+- [~] P16-T10 Camera micro-feedback — massive collect uses bounded +1.4 FOV kick; runtime comfort QA pending
 - [ ] P16-T11 Object pull trail/VFX
-- [ ] P16-T12 Performance-safe VFX budget
+- [x] P16-T12 Performance-safe VFX budget — max 4 transient sounds and 8 local pulses; sound volume hard-capped at 0.28
 
 ---
 
@@ -651,3 +651,13 @@ V1 is finished only when all of the following are true:
 - [x] There is no client-facing collect/grant-object remote; attraction/collection requires server distance, active state and atomic claim authority.
 - [x] Security regression tests cover oversized/empty payloads, grant-action rejection and spam interval behavior.
 - [~] Mobile analog false-positive acceptance remains a device runtime gate; no movement heuristic/kick code exists.
+
+## 2026-10-04 game-feel feedback hierarchy
+
+- [x] Collect feedback is split into Small / Medium / Massive bands from authoritative GravityGain values.
+- [x] Medium/Massive collections add bounded local pulse VFX; Massive adds a subtle camera micro-kick.
+- [x] Level-up and ZoneUnlocked state changes have distinct cues/VFX.
+- [x] Collapse uses a charge/impact audio pair with stronger 5-Core/10-Core milestone variants.
+- [x] Reward events have a separate lightweight cue.
+- [x] Hard budgets: 4 concurrent transient sounds, 8 local pulse VFX, max transient volume 0.28.
+- [~] Physical mobile-speaker mix/comfort acceptance remains runtime QA.
