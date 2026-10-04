@@ -9,12 +9,14 @@ end
 local controllers = script.controllers
 local OrbitController = require(controllers.OrbitController)
 local HudController = require(controllers.HudController)
+local CosmeticsController = require(controllers.CosmeticsController)
 local CollapseFxController = require(controllers.CollapseFxController)
 local AttractionFeedbackController = require(controllers.AttractionFeedbackController)
 local ZoneGateController = require(controllers.ZoneGateController)
 
 OrbitController.start()
 HudController.start()
+CosmeticsController.start()
 CollapseFxController.start()
 AttractionFeedbackController.start()
 ZoneGateController.start()

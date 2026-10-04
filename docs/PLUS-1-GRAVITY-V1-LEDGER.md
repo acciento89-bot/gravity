@@ -314,13 +314,13 @@ Acceptance:
 - [~] P11-T03 Singularity skin ownership fields
 - [~] P11-T04 Server buy with Shards
 - [~] P11-T05 Server equip validation
-- [ ] P11-T06 Cosmetics menu UI
-- [ ] P11-T07 Orbit skin preview
-- [ ] P11-T08 Singularity skin preview
-- [ ] P11-T09 Insufficient-Shards feedback
-- [ ] P11-T10 Equipped-state UX
-- [ ] P11-T11 Mobile menu layout
-- [ ] P11-T12 Controller menu navigation
+- [~] P11-T06 Cosmetics menu UI — complete client menu implemented; runtime visual QA pending
+- [~] P11-T07 Orbit skin preview — live config-color ring preview implemented; runtime QA pending
+- [~] P11-T08 Singularity skin preview — live config-color core preview implemented; runtime QA pending
+- [~] P11-T09 Insufficient-Shards feedback — client deficit copy implemented while server remains authoritative; runtime QA pending
+- [~] P11-T10 Equipped-state UX — OWNED/EQUIPPED/BUY/EQUIP states implemented; runtime QA pending
+- [~] P11-T11 Mobile menu layout — responsive phone/tablet sizing implemented; runtime QA pending
+- [~] P11-T12 Controller menu navigation — Selectable controls and explicit tab/card/action focus map implemented; runtime QA pending
 - [ ] P11-T13 Persistence runtime proof
 
 Orbit skins V1:
@@ -605,3 +605,11 @@ V1 is finished only when all of the following are true:
 - [x] Console/ten-foot receives larger type, tutorial/daily surfaces and Collapse target sizing for couch-distance readability.
 - [x] Pure-Luau regression coverage added for platform classification and relative sizing.
 - [~] P10-T13/T14/T15 remain acceptance-pending until real Studio device/desktop/console screenshots are captured.
+
+## 2026-10-04 cosmetics UX implementation
+
+- [x] Added player-facing Gravity Style menu with Orbit/Core tabs, config-driven color previews, shard balance and sorted skin catalog.
+- [x] BUY/EQUIP/EQUIPPED/OWNED states derive from authoritative snapshot fields; insufficient funds shows exact missing Shards before any remote is fired.
+- [x] Server remains authoritative for spend and ownership; client only sends the existing `CosmeticAction` Buy/Equip actions.
+- [x] Controller-selectable tabs/cards/action controls and responsive phone/tablet/desktop/ten-foot sizing are wired.
+- [~] P11 runtime screenshot, buy/equip/rejoin and controller acceptance remain pending.
