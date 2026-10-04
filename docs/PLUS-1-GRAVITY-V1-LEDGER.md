@@ -393,13 +393,13 @@ Receipt system:
 - [ ] P14-T12 Rejoin-after-purchase runtime test
 
 Shop:
-- [ ] P14-T13 Explicit shop UI
-- [ ] P14-T14 No prompt on spawn verification
-- [ ] P14-T15 Product disabled/not-live states
-- [ ] P14-T16 Current boost timers
-- [ ] P14-T17 Purchase success feedback
-- [ ] P14-T18 Purchase cancel/aborted path
-- [ ] P14-T19 Mobile/console purchase UX
+- [~] P14-T13 Explicit shop UI — three-product player-facing shop implemented; runtime visual QA pending
+- [x] P14-T14 No prompt on spawn verification — purchase prompt exists only inside product-card Activated handlers
+- [~] P14-T15 Product disabled/not-live states — ProductId 0 renders DISABLED/NOT LIVE and never calls MarketplaceService; runtime QA pending
+- [~] P14-T16 Current boost timers — Gravity/XP expiry countdowns implemented from authoritative snapshot; runtime QA pending
+- [~] P14-T17 Purchase success feedback — receipt-backed PurchaseGranted feedback implemented; live receipt QA pending
+- [~] P14-T18 Purchase cancel/aborted path — PromptProductPurchaseFinished cancel feedback implemented; live-product QA pending
+- [~] P14-T19 Mobile/console purchase UX — responsive platform sizing + controller-selectable product cards implemented; runtime QA pending
 
 ---
 
@@ -631,3 +631,13 @@ V1 is finished only when all of the following are true:
 - [x] Fastest Collapse is now unboosted-only: any run touched by 2× Gravity or 2× XP is excluded from PB/OrderedDataStore eligibility.
 - [x] Assisted-run state persists across rejoin and resets after Collapse.
 - [~] OrderedDataStore live write/read and world-board screenshot acceptance remain canonical-place runtime gates.
+
+## 2026-10-04 monetization UX implementation
+
+- [x] Explicit Gravity Shop added for 2x Gravity, 2x XP and 100 Shards.
+- [x] ProductId `0` is a hard disabled state: UI shows NOT LIVE and no purchase prompt can fire.
+- [x] No purchase prompt runs on spawn; prompts are reachable only through explicit product-card activation.
+- [x] Active Gravity/XP boost timers count down from authoritative state.
+- [x] Client distinguishes prompt submitted, cancelled and server receipt-granted/saved feedback.
+- [x] Responsive phone/tablet/desktop/ten-foot sizing and controller-selectable cards are wired.
+- [~] Real IDs, receipt retry/duplicate/rejoin and live purchase UX remain external/canonical-place gates.
