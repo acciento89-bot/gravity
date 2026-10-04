@@ -2,6 +2,7 @@
 
 local Players = game:GetService("Players")
 local GuiService = game:GetService("GuiService")
+local LocalizationService = game:GetService("LocalizationService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
@@ -10,9 +11,15 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local shared = ReplicatedStorage:WaitForChild("Plus1Gravity")
 local ViewportRules = require(shared.rules.ViewportRules)
+local LocalizationRules = require(shared.rules.LocalizationRules)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local HudController = {}
+local locale = LocalizationService.RobloxLocaleId
+
+local function tr(key: string, ...: any): string
+	return LocalizationRules.format(locale, key, ...)
+end
 
 local COLORS = {
 	Foundation = Color3.fromRGB(18, 25, 35),
@@ -109,16 +116,16 @@ local function render()
 	collapseButton.Selectable = state.CanCollapse == true
 
 	if state.TotalObjects == 0 then
-		tutorialLabel.Text = "WALK FORWARD · NEARBY OBJECTS SNAP INTO YOUR GRAVITY ORBIT"
+		tutorialLabel.Text = tr("walk_forward")
 		tutorialLabel.Visible = true
 	elseif state.TotalObjects < 5 then
-		tutorialLabel.Text = "FOLLOW THE ROAD · COLLECT THE NEXT OBJECTS TO GROW"
+		tutorialLabel.Text = tr("follow_road")
 		tutorialLabel.Visible = true
 	elseif state.Cores == 0 and state.Level < 10 then
-		tutorialLabel.Text = "BIGGER GRAVITY PULLS BIGGER OBJECTS · DOWNTOWN OPENS AT 120"
+		tutorialLabel.Text = tr("grow_downtown")
 		tutorialLabel.Visible = true
 	elseif state.Cores == 0 and state.Level >= 35 and state.Level < 50 then
-		tutorialLabel.Text = "LV 50 + 5K GRAVITY = COLLAPSE · RESET THE RUN FOR +1 CORE"
+		tutorialLabel.Text = tr("collapse_hint")
 		tutorialLabel.Visible = true
 	else
 		tutorialLabel.Visible = false
@@ -136,11 +143,11 @@ local function render()
 	end
 
 	if state.Event == "Collapsed" then
-		showToast(("+1 CORE · NEXT RUN XP ×%.2f"):format(1 + state.Cores * 0.25), COLORS.Gold)
+		showToast(tr("collapsed", 1 + state.Cores * 0.25), COLORS.Gold)
 	elseif state.Event == "PurchaseGranted" then
-		showToast("PURCHASE APPLIED", COLORS.Green)
+		showToast(tr("purchase_applied"), COLORS.Green)
 	elseif state.Event == "CosmeticUpdated" then
-		showToast("STYLE UPDATED", COLORS.Violet)
+		showToast(tr("style_updated"), COLORS.Violet)
 	elseif state.Event == "ZoneLocked" and type(state.EventData) == "table" then
 		local gate = state.EventData
 		local coreText = if (gate.MinCores or 0) > 0
@@ -148,9 +155,9 @@ local function render()
 			else ""
 		showToast(("LOCKED · %s GRAVITY%s"):format(compactNumber(gate.MinGravity or 0), coreText), COLORS.Gold)
 	elseif state.Event == "ZoneUnlocked" and type(state.EventData) == "table" then
-		showToast(("UNLOCKED · %s"):format(string.upper(state.EventData.DisplayName or "ZONE")), COLORS.Green)
+		showToast(tr("unlocked", string.upper(state.EventData.DisplayName or "ZONE")), COLORS.Green)
 	elseif state.Event == "ZoneEntered" and type(state.EventData) == "table" then
-		showToast(("WELCOME · %s"):format(string.upper(state.EventData.DisplayName or "ZONE")), COLORS.Cyan)
+		showToast(tr("welcome", string.upper(state.EventData.DisplayName or "ZONE")), COLORS.Cyan)
 	end
 end
 

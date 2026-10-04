@@ -455,17 +455,17 @@ Shop:
 
 # P18 — ACCESSIBILITY / LOCALIZATION / PLATFORM
 
-- [ ] P18-T01 English V1 copy complete
-- [ ] P18-T02 German V1 localization
-- [ ] P18-T03 No critical information encoded by color alone
-- [ ] P18-T04 Readable text at compact phone resolution
-- [ ] P18-T05 Controller input and selection
-- [ ] P18-T06 Keyboard/mouse
-- [ ] P18-T07 Touch
-- [ ] P18-T08 Tablet
-- [ ] P18-T09 Console
-- [ ] P18-T10 Reduced-motion option for Collapse/orbit
-- [ ] P18-T11 Audio-independent objective readability
+- [~] P18-T01 English V1 copy complete — critical objective/accessibility copy cataloged; remaining meta-menu copy review pending
+- [~] P18-T02 German V1 localization — critical onboarding/requirements/accessibility copy implemented with locale fallback; remaining meta-menu copy pending
+- [x] P18-T03 No critical information encoded by color alone — lock/equip/buy/daily/boost states all carry explicit text in addition to color
+- [~] P18-T04 Readable text at compact phone resolution — compact tutorial/daily minimum raised from 9 to 11 px; runtime screenshot acceptance pending
+- [~] P18-T05 Controller input and selection — gameplay uses Roblox controls; meta buttons/cards Selectable with explicit focus links; runtime acceptance pending
+- [~] P18-T06 Keyboard/mouse — native Roblox movement plus Activated UI path implemented; runtime acceptance pending
+- [~] P18-T07 Touch — native Roblox touch movement plus touch-sized responsive UI implemented; runtime acceptance pending
+- [~] P18-T08 Tablet — dedicated tablet layout profile implemented; runtime acceptance pending
+- [~] P18-T09 Console — true ten-foot profile and Selectable meta UI implemented; runtime acceptance pending
+- [~] P18-T10 Reduced-motion option for Collapse/orbit — player-facing toggle reduces orbit speed/bob, Collapse blur/scale/flash and disables camera micro-kick; runtime comfort QA pending
+- [x] P18-T11 Audio-independent objective readability — all progression, lock, daily, purchase and accessibility states remain text-readable without sound
 
 ---
 
@@ -670,3 +670,13 @@ V1 is finished only when all of the following are true:
 - [x] Tutorial copy advances by real TotalObjects/Level state and reintroduces exact Collapse requirements at Levels 35-49.
 - [x] Pure-Luau onboarding regression tests protect spawn-radius, forward-flow and escalation ordering.
 - [x] Existing production-path runtime evidence already proves fresh Level 0→50 in 250.01 s, Collapse #1 and no >20 s dead collection interval.
+
+## 2026-10-04 accessibility and localization foundation
+
+- [x] Added locale-aware EN/DE text catalog with English fallback for unsupported locales.
+- [x] Critical onboarding, lock/requirement, progression toast and accessibility copy is localized.
+- [x] Added player-facing Reduced Motion toggle.
+- [x] Reduced Motion cuts orbit rotation/bob, Collapse scale/blur/flash and disables camera micro-kick.
+- [x] Compact-phone tutorial/daily text floor raised from 9 to 11 for readability.
+- [x] Critical states use text plus color; audio is never required to understand an objective or requirement.
+- [~] Remaining meta-menu strings still need full DE catalog coverage before P18-T01/T02 can close.

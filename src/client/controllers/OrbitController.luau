@@ -14,6 +14,7 @@ local OrbitRules = require(shared.rules.OrbitRules)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local OrbitController = {}
+local AccessibilityState = require(script.Parent.AccessibilityState)
 
 type OrbitEntry = {
 	Model: Model,
@@ -373,7 +374,8 @@ local function update(dt: number)
 	local radiusScale = OrbitRules.radiusScale(viewport.X, viewport.Y, avatarHeight)
 	local avatarViewport = camera:WorldToViewportPoint(root.Position + Vector3.new(0, 1.7, 0))
 	rescaleEntries(false)
-	rotationClock += dt * (GameConfig.Orbit.BaseRotationSpeed + collapseIntensity * 5.5)
+	local motionScale = if AccessibilityState.isReducedMotion() then 0.35 else 1
+	rotationClock += dt * (GameConfig.Orbit.BaseRotationSpeed + collapseIntensity * 5.5) * motionScale
 
 	for index, entry in entries do
 		local ringT = if entry.Ring == 1 then 0 else if entry.Ring == 2 then 0.52 else 1
@@ -387,7 +389,10 @@ local function update(dt: number)
 		local direction = if entry.Ring == 2 then -1 else 1
 		local speedBias = 1 + (entry.TierBand - 1) * 0.035
 		local angle = entry.Angle + rotationClock * direction * speedBias
-		local height = 1.55 + (entry.Ring - 1) * 1.05 * radiusScale + math.sin(rotationClock * 1.8 + entry.Phase) * 0.48
+		local bobAmount = if AccessibilityState.isReducedMotion() then 0.16 else 0.48
+		local height = 1.55
+			+ (entry.Ring - 1) * 1.05 * radiusScale
+			+ math.sin(rotationClock * 1.8 + entry.Phase) * bobAmount
 		local localOffset = Vector3.new(math.cos(angle) * radius, height, math.sin(angle) * radius)
 		local targetPosition = root.Position + localOffset
 		local displayPosition = targetPosition

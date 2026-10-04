@@ -13,6 +13,7 @@ local tests = {
 	require("../tests/security-rules.spec"),
 	require("../tests/feedback-rules.spec"),
 	require("../tests/onboarding-rules.spec"),
+	require("../tests/localization-rules.spec"),
 	require("../tests/readiness-rules.spec"),
 }
 

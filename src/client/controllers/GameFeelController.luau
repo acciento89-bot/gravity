@@ -13,6 +13,7 @@ local FeedbackRules = require(shared.rules.FeedbackRules)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local GameFeelController = {}
+local AccessibilityState = require(script.Parent.AccessibilityState)
 
 local TRANSIENT_SOURCE = "rbxasset://sounds/electronicpingshort.wav"
 local MAX_TRANSIENT_SOUNDS = 4
@@ -86,6 +87,9 @@ local function pulse(color: Color3, size: number)
 end
 
 local function cameraMicroKick(amount: number)
+	if AccessibilityState.isReducedMotion() then
+		return
+	end
 	local camera = Workspace.CurrentCamera
 	if not camera then
 		return

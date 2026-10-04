@@ -1,6 +1,7 @@
 --!strict
 
 local CollectionService = game:GetService("CollectionService")
+local LocalizationService = game:GetService("LocalizationService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -8,8 +9,10 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local shared = ReplicatedStorage:WaitForChild("Plus1Gravity")
 local AttractionRules = require(shared.rules.AttractionRules)
+local LocalizationRules = require(shared.rules.LocalizationRules)
 
 local AttractionFeedbackController = {}
+local locale = LocalizationService.RobloxLocaleId
 
 local UPDATE_INTERVAL = 0.2
 local LOCKED_FILL = Color3.fromRGB(214, 92, 78)
@@ -36,7 +39,7 @@ end
 
 local function showFeedback(candidate: BasePart, requiredGravity: number)
 	if currentCandidate == candidate and currentLabel then
-		currentLabel.Text = ("NEED %s GRAVITY"):format(math.floor(requiredGravity))
+		currentLabel.Text = LocalizationRules.format(locale, "need_gravity", math.floor(requiredGravity))
 		return
 	end
 
@@ -86,7 +89,7 @@ local function showFeedback(candidate: BasePart, requiredGravity: number)
 	label.Position = UDim2.fromOffset(7, 0)
 	label.BackgroundTransparency = 1
 	label.Font = Enum.Font.GothamBold
-	label.Text = ("NEED %s GRAVITY"):format(math.floor(requiredGravity))
+	label.Text = LocalizationRules.format(locale, "need_gravity", math.floor(requiredGravity))
 	label.TextColor3 = Color3.fromRGB(248, 249, 252)
 	label.TextSize = 14
 	label.TextScaled = false

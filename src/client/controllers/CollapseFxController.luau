@@ -13,6 +13,7 @@ local CosmeticConfig = require(shared.config.CosmeticConfig)
 local remotes = ReplicatedStorage:WaitForChild("Plus1GravityRemotes")
 
 local CollapseFxController = {}
+local AccessibilityState = require(script.Parent.AccessibilityState)
 
 local sequence = 0
 
@@ -144,6 +145,7 @@ local function runSequence(payload: any, sequenceId: number, effect: ColorCorrec
 	local singularity, core, light = makeSingularity(color)
 	local camera = Workspace.CurrentCamera
 	local originalFov = if camera then camera.FieldOfView else 70
+	local reducedMotion = AccessibilityState.isReducedMotion()
 
 	effect.TintColor = color:Lerp(Color3.new(1, 1, 1), 0.36)
 	effect.Enabled = true
@@ -154,11 +156,10 @@ local function runSequence(payload: any, sequenceId: number, effect: ColorCorrec
 	blur.Size = 0
 
 	if core and light then
-		TweenService:Create(
-			core,
-			TweenInfo.new(0.34, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-			{ Size = Vector3.new(3.4, 3.4, 3.4), Transparency = 0.12 }
-		):Play()
+		TweenService:Create(core, TweenInfo.new(0.34, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+			Size = if reducedMotion then Vector3.new(1.8, 1.8, 1.8) else Vector3.new(3.4, 3.4, 3.4),
+			Transparency = 0.12,
+		}):Play()
 		TweenService:Create(light, TweenInfo.new(0.34), { Brightness = 6, Range = 32 }):Play()
 	end
 	TweenService:Create(
@@ -166,8 +167,8 @@ local function runSequence(payload: any, sequenceId: number, effect: ColorCorrec
 		TweenInfo.new(0.34, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
 		{ Brightness = 0.18, Contrast = 0.30, Saturation = -0.24 }
 	):Play()
-	TweenService:Create(blur, TweenInfo.new(0.34), { Size = 10 }):Play()
-	if camera then
+	TweenService:Create(blur, TweenInfo.new(0.34), { Size = if reducedMotion then 2 else 10 }):Play()
+	if camera and not reducedMotion then
 		TweenService:Create(camera, TweenInfo.new(0.34, Enum.EasingStyle.Quart), { FieldOfView = originalFov + 7 })
 			:Play()
 	end
@@ -181,7 +182,8 @@ local function runSequence(payload: any, sequenceId: number, effect: ColorCorrec
 		return
 	end
 
-	TweenService:Create(flash, TweenInfo.new(0.10), { BackgroundTransparency = 0.30 }):Play()
+	TweenService:Create(flash, TweenInfo.new(0.10), { BackgroundTransparency = if reducedMotion then 0.72 else 0.30 })
+		:Play()
 	TweenService:Create(reward, TweenInfo.new(0.16, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
 		TextTransparency = 0,
 		Position = UDim2.fromScale(0.5, 0.44),
