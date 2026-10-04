@@ -49,10 +49,10 @@ Acceptance:
 - [x] P01-T06 Artifact hygiene documented
 - [x] P01-T07 Server-authority rules documented
 - [x] P01-T08 Mobile UX rules documented
-- [ ] P01-T09 UX wireframe / screen-state specification
-- [ ] P01-T10 World-layout specification with landmark hierarchy
+- [x] P01-T09 UX wireframe / screen-state specification — `docs/UX-SCREEN-STATES.md`
+- [x] P01-T10 World-layout specification with landmark hierarchy — `docs/WORLD-LAYOUT.md`
 - [x] P01-T11 Economy/balance table through first 10 Collapses — docs/BALANCE.md
-- [ ] P01-T12 Release metadata copy + thumbnail/icon brief
+- [x] P01-T12 Release metadata copy + thumbnail/icon brief — `docs/RELEASE-METADATA.md`
 
 ---
 
