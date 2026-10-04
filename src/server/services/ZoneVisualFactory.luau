@@ -242,6 +242,40 @@ local function buildBackyard(parent: Instance, center: Vector3, size: Vector3)
 		Enum.Material.Grass,
 		false
 	)
+
+	local rift = Instance.new("Model")
+	rift.Name = "GravityRift"
+	rift.Parent = parent
+	local riftCenter = center + Vector3.new(0, 7, -size.Z * 0.37)
+	for index = 1, 12 do
+		local angle = (index - 1) / 12 * math.pi * 2
+		local node = makePart(
+			rift,
+			"RiftNode",
+			Vector3.new(1.0, 1.0, 1.0),
+			CFrame.new(riftCenter + Vector3.new(math.cos(angle) * 6.2, math.sin(angle) * 6.2, 0)),
+			if index % 2 == 0 then Color3.fromRGB(91, 220, 239) else Color3.fromRGB(164, 134, 255),
+			Enum.Material.Neon,
+			false
+		)
+		node.Shape = Enum.PartType.Ball
+	end
+	local core = makePart(
+		rift,
+		"GravityRiftCore",
+		Vector3.new(5.0, 5.0, 0.5),
+		CFrame.new(riftCenter),
+		Color3.fromRGB(112, 92, 205),
+		Enum.Material.ForceField,
+		false
+	)
+	core.Transparency = 0.34
+	local light = Instance.new("PointLight")
+	light.Color = Color3.fromRGB(128, 213, 255)
+	light.Brightness = 1.4
+	light.Range = 24
+	light.Shadows = false
+	light.Parent = core
 end
 
 local function buildDowntown(parent: Instance, center: Vector3, size: Vector3, accent: Color3)

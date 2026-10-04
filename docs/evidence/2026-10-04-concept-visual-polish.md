@@ -23,3 +23,11 @@ The visual contract was introduced with a failing test before production impleme
 - PlaySolo visual QA after correction: server initialized, ephemeral Studio profile ready, client initialized, 0 CreatorErrors.
 - Visual inspection was performed from the generated local PlaySolo build at desktop viewport size.
 - This evidence covers the source/runtime visual pass only; Roblox production publishing is a separate gate.
+
+## Concept-fidelity pass 2
+
+- Added the +1 Gravity wordmark and live orbit-escalation badge while preserving the compact authoritative Gravity/Level/Cores/Zone status bar and existing right-side meta actions.
+- Added a cyan/violet Gravity Rift hero landmark to the Backyard so the fresh-player frame communicates the supernatural attraction mechanic before the orbit becomes large.
+- The orbit badge advances from I–V from authoritative collected-object count; compact phone layouts hide the decorative branding/badge and preserve playfield space.
+- Final Studio PlaySolo: server/client initialized, ephemeral Studio profile ready, 0 CreatorErrors. The fresh-player frame visibly contains the Gravity Rift and branded HUD.
+- Static verification: 20 pure-Luau test files, Selene 0/0, StyLua, Rojo build and git diff check pass.

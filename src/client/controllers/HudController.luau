@@ -40,6 +40,9 @@ local tutorialLabel: TextLabel
 local dailyLabel: TextLabel
 local collapseButton: TextButton
 local toast: TextLabel
+local logo: Frame
+local orbitBadge: Frame
+local orbitBadgeText: TextLabel
 
 local function corner(parent: Instance, radius: number)
 	local item = Instance.new("UICorner")
@@ -109,6 +112,14 @@ local function render()
 	levelValue.Text = ("LV %d"):format(state.Level)
 	coresValue.Text = ("◉ %d"):format(state.Cores)
 	zoneLabel.Text = string.upper(LocaleText.zoneName(state.Zone.Id, state.Zone.DisplayName))
+	local orbitCount = tonumber(state.TotalObjects) or 0
+	local orbitStage = if orbitCount < 5
+		then "I"
+		elseif orbitCount < 20 then "II"
+		elseif orbitCount < 60 then "III"
+		elseif orbitCount < 150 then "IV"
+		else "V"
+	orbitBadgeText.Text = ("ORBIT %s  •  %s"):format(orbitStage, compactNumber(orbitCount))
 	progressFill.Size = UDim2.fromScale(math.clamp(state.LevelProgress or 0, 0, 1), 1)
 	collapseButton.Visible = state.CanCollapse == true
 	collapseButton.Selectable = state.CanCollapse == true
@@ -184,6 +195,49 @@ local function build()
 	screen.DisplayOrder = 20
 	screen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	screen.Parent = playerGui
+
+	logo = Instance.new("Frame")
+	logo.Name = "Plus1GravityLogo"
+	logo.Position = UDim2.fromOffset(18, 10)
+	logo.Size = UDim2.fromOffset(204, 72)
+	logo.BackgroundTransparency = 1
+	logo.Parent = screen
+
+	local plusOne = label(logo, "+1", UDim2.fromOffset(74, 38), UDim2.fromOffset(0, 0), 34, COLORS.Gold)
+	plusOne.Font = Enum.Font.GothamBlack
+	plusOne.TextStrokeColor3 = Color3.fromRGB(43, 38, 61)
+	plusOne.TextStrokeTransparency = 0.32
+
+	local gravityWord = label(logo, "GRAVITY", UDim2.fromOffset(142, 36), UDim2.fromOffset(52, 3), 27, COLORS.Cyan)
+	gravityWord.Font = Enum.Font.GothamBlack
+	gravityWord.TextStrokeColor3 = Color3.fromRGB(24, 43, 59)
+	gravityWord.TextStrokeTransparency = 0.30
+
+	local logoTag = label(
+		logo,
+		"ATTRACT • ORBIT • COLLAPSE",
+		UDim2.fromOffset(200, 16),
+		UDim2.fromOffset(2, 47),
+		8,
+		COLORS.Muted
+	)
+	logoTag.Font = Enum.Font.GothamBold
+
+	orbitBadge = Instance.new("Frame")
+	orbitBadge.Name = "OrbitBadge"
+	orbitBadge.Position = UDim2.fromOffset(18, 84)
+	orbitBadge.Size = UDim2.fromOffset(204, 38)
+	orbitBadge.BackgroundColor3 = COLORS.Foundation
+	orbitBadge.BackgroundTransparency = 0.06
+	orbitBadge.BorderSizePixel = 0
+	orbitBadge.Parent = screen
+	corner(orbitBadge, 12)
+	stroke(orbitBadge, COLORS.Violet, 0.48)
+
+	orbitBadgeText =
+		label(orbitBadge, "ORBIT I  •  0", UDim2.new(1, -16, 1, 0), UDim2.fromOffset(8, 0), 11, COLORS.Violet)
+	orbitBadgeText.TextXAlignment = Enum.TextXAlignment.Center
+	orbitBadgeText.Font = Enum.Font.GothamBold
 
 	local bar = Instance.new("Frame")
 	bar.Name = "Status"
@@ -290,6 +344,9 @@ local function build()
 		local viewport = camera.ViewportSize
 		local layout =
 			ViewportRules.layout(viewport.X, viewport.Y, UserInputService.TouchEnabled, GuiService:IsTenFootInterface())
+		local compact = layout.Mode == "phone"
+		logo.Visible = not compact
+		orbitBadge.Visible = not compact
 		bar.Size = UDim2.fromOffset(layout.BarWidth, layout.BarHeight)
 		if layout.BarCentered then
 			bar.AnchorPoint = Vector2.new(0.5, 0)

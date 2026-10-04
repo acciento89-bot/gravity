@@ -719,3 +719,10 @@ V1 is finished only when all of the following are true:
 - [x] Native Roblox concept-quality presentation pass implemented for this game; no static concept screenshot is used in gameplay.
 - [x] Lighting/VFX and native ScreenGui styling are test-guarded and pass local static verification plus Studio PlaySolo runtime QA.
 - [x] Evidence: `docs/evidence/2026-10-04-concept-visual-polish.md`.
+
+## 2026-10-04 concept-fidelity pass 2
+
+- [x] +1 Gravity wordmark and authoritative orbit-stage badge added to the production HUD.
+- [x] Backyard opening frame now includes a cyan/violet Gravity Rift landmark that reinforces the attraction/orbit identity immediately.
+- [x] Compact-phone playfield remains protected by hiding decorative branding/badge while retaining core HUD controls.
+- [x] Final PlaySolo: server/client initialized with 0 CreatorErrors; 20 pure-Luau tests and all static gates green.
