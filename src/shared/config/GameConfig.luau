@@ -19,6 +19,9 @@ return table.freeze({
 	}),
 	World = table.freeze({
 		CollectibleCopiesPerObject = 6,
+		MaxCollectibles = 150,
+		TargetMaxPlayers = 8,
+		ApproximateSpanStuds = 975,
 	}),
 	Orbit = table.freeze({
 		VisibleSlots = 14,

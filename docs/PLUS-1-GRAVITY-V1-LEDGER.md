@@ -475,13 +475,13 @@ Shop:
 - [~] P19-T02 Orbit visual count capped
 - [~] P19-T03 Attraction radius capped
 - [~] P19-T04 Collections per scan capped
-- [ ] P19-T05 Max collectible count budget
-- [ ] P19-T06 StreamingEnabled evaluation
+- [x] P19-T05 Max collectible count budget — V1 hard budget 25 classes × 6 copies = 150 active collectible roots
+- [x] P19-T06 StreamingEnabled evaluation — current ~975-stud / 150-collectible V1 does not force streaming; enable only if real device profiling justifies it
 - [ ] P19-T07 Mobile GPU/frame-rate profiling
 - [ ] P19-T08 Server heartbeat profiling
 - [ ] P19-T09 8-player server soak
 - [ ] P19-T10 Memory leak test across 10 Collapses
-- [ ] P19-T11 Respawn/rejoin cleanup test
+- [~] P19-T11 Respawn/rejoin cleanup test — respawn cleanup already runtime-verified with orbit 14→0; canonical rejoin cleanup remains pending
 
 ---
 
@@ -689,3 +689,11 @@ V1 is finished only when all of the following are true:
 - [x] Shop localized, including product names, NOT LIVE, purchase/cancel/success feedback and disclaimer.
 - [x] Collapse reward and world zone/requirement/Downtown-tease signs localize per client.
 - [x] Localization regression asserts required English/German key parity.
+
+## 2026-10-04 deterministic performance budgets
+
+- [x] V1 world budget fixed at 150 collectible roots (25 object classes × 6 copies).
+- [x] Target server size fixed at 8 players for release QA.
+- [x] At 0.2 s attraction scans the theoretical 8-player upper bound is 6,000 collectible distance checks/s; regression test fails if the current V1 constants exceed that ceiling.
+- [x] StreamingEnabled evaluated, not blindly enabled: the current ~975-stud world and 150-root budget make it optional, while real mobile GPU profiling remains the decision gate.
+- [~] Existing death/respawn runtime proved client orbit cleanup from 14 representatives to 0; true rejoin cleanup remains tied to canonical-place persistence QA.

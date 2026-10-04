@@ -14,6 +14,7 @@ local tests = {
 	require("../tests/feedback-rules.spec"),
 	require("../tests/onboarding-rules.spec"),
 	require("../tests/localization-rules.spec"),
+	require("../tests/performance-rules.spec"),
 	require("../tests/readiness-rules.spec"),
 }
 
