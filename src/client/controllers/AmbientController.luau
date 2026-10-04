@@ -77,7 +77,9 @@ function AmbientController.start()
 	soundGroup = Instance.new("SoundGroup")
 	soundGroup.Name = "Plus1GravityAmbience"
 	soundGroup.Volume = AudioConfig.AmbientMasterVolume
-	soundGroup.Parent = SoundService(remotes:WaitForChild("State") :: RemoteEvent).OnClientEvent:Connect(applyState)
+	soundGroup.Parent = SoundService
+	local stateRemote = remotes:WaitForChild("State") :: RemoteEvent
+	stateRemote.OnClientEvent:Connect(applyState)
 	task.spawn(function()
 		local ok, state = pcall(function()
 			return (remotes:WaitForChild("QueryState") :: RemoteFunction):InvokeServer()

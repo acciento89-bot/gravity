@@ -1,4 +1,6 @@
 local tests = {
+	require("../tests/client-source-safety.spec"),
+	require("../tests/visual-polish.spec"),
 	require("../tests/level-rules.spec"),
 	require("../tests/attraction-rules.spec"),
 	require("../tests/collection-claim-rules.spec"),

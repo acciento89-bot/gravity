@@ -713,3 +713,9 @@ V1 is finished only when all of the following are true:
 - [x] Backyard/Airport use a daytime urban/plane ambience at different playback/volume settings; Downtown uses city traffic; Industrial uses construction presence; Megacity uses technical communications-bay ambience.
 - [x] Source audio is from free Creator Store Pro Sound Effects assets; no private/upload-dependent audio ID is required.
 - [~] P16-T09 remains acceptance-pending until the canonical place proves asset loading and mobile-speaker mix.
+
+## 2026-10-04 concept visual-polish pass
+
+- [x] Native Roblox concept-quality presentation pass implemented for this game; no static concept screenshot is used in gameplay.
+- [x] Lighting/VFX and native ScreenGui styling are test-guarded and pass local static verification plus Studio PlaySolo runtime QA.
+- [x] Evidence: `docs/evidence/2026-10-04-concept-visual-polish.md`.

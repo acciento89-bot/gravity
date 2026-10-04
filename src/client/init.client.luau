@@ -9,6 +9,7 @@ end
 local controllers = script.controllers
 local OrbitController = require(controllers.OrbitController)
 local HudController = require(controllers.HudController)
+local VisualPolishController = require(controllers.VisualPolishController)
 local CosmeticsController = require(controllers.CosmeticsController)
 local DailyController = require(controllers.DailyController)
 local LeaderboardController = require(controllers.LeaderboardController)
@@ -25,6 +26,7 @@ local ZoneGateController = require(controllers.ZoneGateController)
 
 OrbitController.start()
 HudController.start()
+VisualPolishController.start()
 CosmeticsController.start()
 DailyController.start()
 LeaderboardController.start()

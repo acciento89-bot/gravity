@@ -1,0 +1,53 @@
+--!strict
+
+return {
+	Id = "plus-1-gravity",
+	Title = "+1 Gravity",
+	Colors = {
+		Foundation = "#0B1320",
+		Panel = "#142333",
+		Panel2 = "#21384C",
+		Accent = "#5BDCEE",
+		Accent2 = "#A486FF",
+		Accent3 = "#FFD269",
+		Text = "#F6FAFC",
+		Muted = "#A1B1C2",
+	},
+	Lighting = {
+		Brightness = 2.65,
+		ClockTime = 18.7,
+		ExposureCompensation = 0.18,
+		EnvironmentDiffuseScale = 0.44,
+		EnvironmentSpecularScale = 0.78,
+		FogStart = 420,
+		FogEnd = 1650,
+		Ambient = "#526681",
+		OutdoorAmbient = "#7D86A6",
+		FogColor = "#536C92",
+	},
+	Atmosphere = {
+		Density = 0.16,
+		Offset = 0.06,
+		Color = "#9EDBF1",
+		Decay = "#8B719E",
+		Glare = 0.11,
+		Haze = 1.0,
+	},
+	Effects = {
+		BloomIntensity = 0.50,
+		BloomSize = 40,
+		BloomThreshold = 1.05,
+		Saturation = 0.06,
+		Contrast = 0.09,
+		TintColor = "#E8F4FF",
+		SunRaysIntensity = 0.02,
+		SunRaysSpread = 0.5,
+	},
+	Clouds = {
+		Cover = 0.18,
+		Density = 0.22,
+		Color = "#C4D6E8",
+	},
+	TargetGuis = { "Plus1GravityHud" },
+	TargetPrefixes = { "Plus1Gravity" },
+}
