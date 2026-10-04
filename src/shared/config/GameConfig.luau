@@ -42,5 +42,8 @@ return table.freeze({
 	Daily = table.freeze({
 		RewardShards = 15,
 		MaxStreak = 30,
+		StreakRewardEveryDays = 3,
+		StreakRewardStepShards = 5,
+		MaxStreakBonusShards = 30,
 	}),
 })

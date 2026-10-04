@@ -49,4 +49,18 @@ function DailyRules.complete(mission: any, progress: number): boolean
 	return progress >= mission.Target
 end
 
+function DailyRules.rewardShards(
+	streak: number,
+	baseReward: number,
+	everyDays: number,
+	stepShards: number,
+	maxBonus: number
+): number
+	local safeStreak = math.max(1, math.floor(streak))
+	local safeEvery = math.max(1, math.floor(everyDays))
+	local steps = math.floor((safeStreak - 1) / safeEvery)
+	local bonus = math.min(math.max(0, maxBonus), math.max(0, stepShards) * steps)
+	return math.max(0, math.floor(baseReward)) + bonus
+end
+
 return table.freeze(DailyRules)

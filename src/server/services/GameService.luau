@@ -53,18 +53,29 @@ local function dailyMission(profile: any): any
 	return DailyRules.missionForDay(profile.DailyDay)
 end
 
-local function updateDaily(profile: any, eventType: string, value: number): boolean
+local function dailyRewardShards(profile: any): number
+	return DailyRules.rewardShards(
+		profile.DailyStreak,
+		GameConfig.Daily.RewardShards,
+		GameConfig.Daily.StreakRewardEveryDays,
+		GameConfig.Daily.StreakRewardStepShards,
+		GameConfig.Daily.MaxStreakBonusShards
+	)
+end
+
+local function updateDaily(profile: any, eventType: string, value: number): number?
 	local mission = dailyMission(profile)
 	if profile.DailyClaimed then
-		return false
+		return nil
 	end
 	profile.DailyProgress = DailyRules.progress(mission, profile.DailyProgress, eventType, value)
 	if DailyRules.complete(mission, profile.DailyProgress) then
+		local reward = dailyRewardShards(profile)
 		profile.DailyClaimed = true
-		profile.Shards += GameConfig.Daily.RewardShards
-		return true
+		profile.Shards += reward
+		return reward
 	end
-	return false
+	return nil
 end
 
 local function initializeDaily(profile: any)
@@ -126,7 +137,7 @@ local function snapshot(player: Player): any
 			Target = mission.Target,
 			Claimed = profile.DailyClaimed,
 			Streak = profile.DailyStreak,
-			RewardShards = GameConfig.Daily.RewardShards,
+			RewardShards = dailyRewardShards(profile),
 		},
 		EquippedOrbitSkin = profile.EquippedOrbitSkin,
 		EquippedSingularitySkin = profile.EquippedSingularitySkin,
@@ -219,10 +230,10 @@ local function enforceZoneGate(player: Player, profile: any, root: BasePart)
 	end
 end
 
-local function award(player: Player, gravityBase: number, xpBase: number, dailyType: string?)
+local function award(player: Player, gravityBase: number, xpBase: number, dailyType: string?): number?
 	local profile = ProfileService.get(player)
 	if not profile then
-		return
+		return nil
 	end
 	LevelRules.applyAward(
 		profile,
@@ -231,12 +242,16 @@ local function award(player: Player, gravityBase: number, xpBase: number, dailyT
 		boostMultiplier(profile.GravityBoostUntil),
 		boostMultiplier(profile.XpBoostUntil)
 	)
+	local dailyReward: number? = nil
 	if dailyType then
-		updateDaily(profile, dailyType, if dailyType == "Gravity" then profile.Gravity else 1)
+		dailyReward = updateDaily(profile, dailyType, if dailyType == "Gravity" then profile.Gravity else 1)
 	end
-	updateDaily(profile, "Gravity", profile.Gravity)
+	if not dailyReward then
+		dailyReward = updateDaily(profile, "Gravity", profile.Gravity)
+	end
 	ProfileService.markDirty(player)
 	checkZoneUnlock(player, profile)
+	return dailyReward
 end
 
 local function collectForPlayer(player: Player)
@@ -248,6 +263,7 @@ local function collectForPlayer(player: Player)
 
 	local radius = AttractionRules.radiusForGravity(profile.Gravity)
 	local collected = 0
+	local completedDailyReward: number? = nil
 	for _, candidate in CollectionService:GetTagged("GravityCollectible") do
 		if collected >= GameConfig.Attraction.MaxCollectionsPerScan then
 			break
@@ -259,7 +275,8 @@ local function collectForPlayer(player: Player)
 				if distance <= radius and WorldService.collect(candidate) then
 					local gravityGain = tonumber(candidate:GetAttribute("GravityGain")) or 0
 					local xpGain = tonumber(candidate:GetAttribute("XP")) or 0
-					award(player, gravityGain, xpGain, "Collect")
+					local reward = award(player, gravityGain, xpGain, "Collect")
+					completedDailyReward = completedDailyReward or reward
 					profile.TotalObjects += 1
 					ProfileService.markDirty(player)
 					collected += 1
@@ -277,7 +294,11 @@ local function collectForPlayer(player: Player)
 		end
 	end
 	if collected > 0 then
-		GameService.pushState(player, "Collected")
+		if completedDailyReward then
+			GameService.pushState(player, "DailyComplete", { RewardShards = completedDailyReward })
+		else
+			GameService.pushState(player, "Collected")
+		end
 	end
 end
 
@@ -292,7 +313,7 @@ local function collapse(player: Player)
 		return
 	end
 
-	updateDaily(profile, "Collapse", 1)
+	local dailyReward = updateDaily(profile, "Collapse", 1)
 	ProfileService.markDirty(player)
 
 	collapseFxRemote:FireClient(player, {
@@ -301,7 +322,11 @@ local function collapse(player: Player)
 		RunSeconds = result.RunSeconds,
 		Skin = profile.EquippedSingularitySkin,
 	})
-	GameService.pushState(player, "Collapsed")
+	if dailyReward then
+		GameService.pushState(player, "DailyComplete", { RewardShards = dailyReward })
+	else
+		GameService.pushState(player, "Collapsed")
+	end
 end
 
 local function onAction(player: Player, action: any)
@@ -374,8 +399,10 @@ function GameService.start()
 			passiveAccumulator -= ticks
 			for _, player in Players:GetPlayers() do
 				if ProfileService.get(player) then
-					award(player, GameConfig.Progression.BaseGravityPerSecond * ticks, 0, nil)
-					if os.clock() - (lastStatePush[player] or 0) >= 1 then
+					local dailyReward = award(player, GameConfig.Progression.BaseGravityPerSecond * ticks, 0, nil)
+					if dailyReward then
+						GameService.pushState(player, "DailyComplete", { RewardShards = dailyReward })
+					elseif os.clock() - (lastStatePush[player] or 0) >= 1 then
 						GameService.pushState(player, "Tick")
 					end
 				end

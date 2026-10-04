@@ -349,9 +349,9 @@ Singularity skins V1:
 - [~] P12-T06 Collapse mission
 - [~] P12-T07 Daily progress persistence fields
 - [~] P12-T08 Daily Shard reward
-- [ ] P12-T09 Streak reward escalation
-- [ ] P12-T10 Daily UI detail panel
-- [ ] P12-T11 Daily complete celebration
+- [~] P12-T09 Streak reward escalation — server reward increases every 3 consecutive days, capped at +30 Shards; runtime rollover QA pending
+- [~] P12-T10 Daily UI detail panel — mission/progress/streak/current reward panel implemented; runtime visual QA pending
+- [~] P12-T11 Daily complete celebration — authoritative DailyComplete event drives reward celebration; runtime QA pending
 - [ ] P12-T12 Rejoin/date-boundary runtime tests
 - [ ] P12-T13 Server-clock/time-zone safety test
 
@@ -613,3 +613,12 @@ V1 is finished only when all of the following are true:
 - [x] Server remains authoritative for spend and ownership; client only sends the existing `CosmeticAction` Buy/Equip actions.
 - [x] Controller-selectable tabs/cards/action controls and responsive phone/tablet/desktop/ten-foot sizing are wired.
 - [~] P11 runtime screenshot, buy/equip/rejoin and controller acceptance remain pending.
+
+## 2026-10-04 daily UX implementation
+
+- [x] Daily reward now escalates from the 15-Shard base by +5 every 3 consecutive days, capped at +30 bonus (45 total).
+- [x] Reward amount is calculated server-side from persisted streak state and included in the authoritative Daily snapshot.
+- [x] Daily detail panel shows mission, progress, streak and current reward with responsive sizing.
+- [x] Completion emits `DailyComplete` with the granted reward and drives a dedicated client celebration.
+- [x] Pure-Luau tests cover base reward, first bonus, mid-streak escalation and cap.
+- [~] Date-boundary/rejoin runtime acceptance remains pending on a canonical Roblox Place.
