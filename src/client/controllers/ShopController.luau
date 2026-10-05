@@ -271,6 +271,18 @@ local function build()
 	foot.TextXAlignment = Enum.TextXAlignment.Center
 	foot.TextWrapped = true
 
+	local conceptOpen = Instance.new("BindableEvent")
+	conceptOpen.Name = "ConceptOpen"
+	conceptOpen.Parent = screen
+	conceptOpen.Event:Connect(function()
+		menuOpen = true
+		panel.Visible = true
+		openButton.Text = t("close_shop")
+		if UserInputService.GamepadEnabled and first then
+			GuiService.SelectedObject = first
+		end
+	end)
+
 	openButton.Activated:Connect(function()
 		menuOpen = not menuOpen
 		panel.Visible = menuOpen
