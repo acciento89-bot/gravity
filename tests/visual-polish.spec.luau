@@ -28,6 +28,15 @@ local function run()
 		string.find(controller, 'Terrain:FindFirstChildOfClass("Clouds")', 1, true),
 		"visual controller must reuse the existing terrain Clouds instance"
 	)
+	assert(
+		not string.find(controller, 'Instance.new("Clouds")', 1, true),
+		"client visual controller must never create a second terrain Clouds instance"
+	)
+	local worldSource = fs.readFile("src/server/services/WorldService.luau")
+	assert(
+		string.find(worldSource, 'clouds.Name = "Plus1GravityClouds"', 1, true),
+		"Gravity server world must own the single terrain Clouds instance"
+	)
 
 	local initSource = fs.readFile("src/client/init.client.luau")
 	assert(

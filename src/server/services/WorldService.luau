@@ -70,6 +70,16 @@ local function configureLighting()
 	grade.Saturation = 0.06
 	grade.TintColor = Color3.fromRGB(244, 249, 255)
 	grade.Parent = Lighting
+
+	local clouds = Workspace.Terrain:FindFirstChildOfClass("Clouds")
+	if not clouds then
+		clouds = Instance.new("Clouds")
+		clouds.Parent = Workspace.Terrain
+	end
+	clouds.Name = "Plus1GravityClouds"
+	clouds.Cover = 0.18
+	clouds.Density = 0.22
+	clouds.Color = Color3.fromRGB(196, 214, 232)
 end
 
 local function color3(values: { number }): Color3
