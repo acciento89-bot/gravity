@@ -33,6 +33,7 @@ local state: any = nil
 local screen: ScreenGui
 local openButton: TextButton
 local panel: Frame
+local closeButton: TextButton
 local missionLabel: TextLabel
 local progressLabel: TextLabel
 local progressFill: Frame
@@ -166,8 +167,24 @@ local function build()
 
 	local heading = label(panel, t("daily_title"), 23, COLORS.Text)
 	heading.Position = UDim2.fromOffset(24, 18)
-	heading.Size = UDim2.new(1, -48, 0, 38)
+	heading.Size = UDim2.new(1, -96, 0, 38)
 	heading.Font = Enum.Font.GothamBlack
+
+	closeButton = Instance.new("TextButton")
+	closeButton.Name = "CloseButton"
+	closeButton.AnchorPoint = Vector2.new(1, 0)
+	closeButton.Position = UDim2.new(1, -16, 0, 14)
+	closeButton.Size = UDim2.fromOffset(42, 38)
+	closeButton.BackgroundColor3 = COLORS.Surface
+	closeButton.BorderSizePixel = 0
+	closeButton.Font = Enum.Font.GothamBold
+	closeButton.Text = "×"
+	closeButton.TextSize = 22
+	closeButton.TextColor3 = COLORS.Text
+	closeButton.Selectable = true
+	closeButton.Parent = panel
+	corner(closeButton, 11)
+	stroke(closeButton, COLORS.Gold, 0.56)
 
 	missionLabel = label(panel, "Daily mission", 16, COLORS.Text)
 	missionLabel.Position = UDim2.fromOffset(24, 70)
@@ -242,8 +259,14 @@ local function build()
 	openButton.Activated:Connect(function()
 		panel.Visible = not panel.Visible
 		if panel.Visible and UserInputService.GamepadEnabled then
+			GuiService.SelectedObject = closeButton
+		elseif not panel.Visible then
 			GuiService.SelectedObject = openButton
 		end
+	end)
+	closeButton.Activated:Connect(function()
+		panel.Visible = false
+		GuiService.SelectedObject = openButton
 	end)
 
 	responsive()

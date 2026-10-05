@@ -304,6 +304,7 @@ local function build()
 	dailyLabel.BackgroundTransparency = 0.1
 	dailyLabel.TextXAlignment = Enum.TextXAlignment.Center
 	dailyLabel.Font = Enum.Font.GothamBold
+	dailyLabel.Visible = false
 	corner(dailyLabel, 12)
 	stroke(dailyLabel, COLORS.Violet, 0.65)
 
