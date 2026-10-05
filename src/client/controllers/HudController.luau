@@ -165,8 +165,10 @@ local function render()
 		else
 			dailyLabel.Text = tr("daily_hud_progress", LocaleText.dailyMission(daily), daily.Progress, daily.Target)
 			dailyLabel.TextColor3 = COLORS.Muted
-			conceptDailyCaption.Text =
-				("MISSION %d / %d"):format(tonumber(daily.Progress) or 0, tonumber(daily.Target) or 1)
+			conceptDailyCaption.Text = ("MISSION %d / %d"):format(
+				tonumber(daily.Progress) or 0,
+				tonumber(daily.Target) or 1
+			)
 		end
 		for index, tile in conceptDailyTiles do
 			if index <= math.clamp(streak, 0, 5) then
@@ -431,8 +433,14 @@ local function build()
 		label(styleShowcase, "FEATURED", UDim2.fromOffset(86, 20), UDim2.fromOffset(205, 11), 9, COLORS.Violet)
 	featuredHint.Font = Enum.Font.GothamBold
 	featuredHint.TextXAlignment = Enum.TextXAlignment.Right
-	local boostOpen =
-		conceptButton(styleShowcase, "BoostShop", "BOOSTS", UDim2.fromOffset(70, 22), UDim2.fromOffset(221, 34), COLORS.Gold)
+	local boostOpen = conceptButton(
+		styleShowcase,
+		"BoostShop",
+		"BOOSTS",
+		UDim2.fromOffset(70, 22),
+		UDim2.fromOffset(221, 34),
+		COLORS.Gold
+	)
 	boostOpen.Activated:Connect(function()
 		openConcept("Plus1GravityShop")
 	end)
@@ -490,8 +498,14 @@ local function build()
 		itemName.Font = Enum.Font.GothamBold
 		itemName.TextWrapped = true
 		itemName.TextXAlignment = Enum.TextXAlignment.Center
-		local price =
-			label(card, ("◆ %d"):format(definition.Price), UDim2.fromOffset(78, 16), UDim2.fromOffset(5, 101), 9, COLORS.Gold)
+		local price = label(
+			card,
+			("◆ %d"):format(definition.Price),
+			UDim2.fromOffset(78, 16),
+			UDim2.fromOffset(5, 101),
+			9,
+			COLORS.Gold
+		)
 		price.Font = Enum.Font.GothamBold
 		price.TextXAlignment = Enum.TextXAlignment.Center
 		local open =
@@ -518,11 +532,23 @@ local function build()
 	corner(conceptProgressCard, 17)
 	stroke(conceptProgressCard, COLORS.Cyan, 0.34)
 	gradient(conceptProgressCard, Color3.fromRGB(38, 55, 76), COLORS.Foundation)
-	local progressTitle =
-		label(conceptProgressCard, "GRAVITY PROGRESS", UDim2.fromOffset(204, 20), UDim2.fromOffset(14, 7), 13, COLORS.Text)
+	local progressTitle = label(
+		conceptProgressCard,
+		"GRAVITY PROGRESS",
+		UDim2.fromOffset(204, 20),
+		UDim2.fromOffset(14, 7),
+		13,
+		COLORS.Text
+	)
 	progressTitle.Font = Enum.Font.GothamBlack
-	conceptProgressText =
-		label(conceptProgressCard, "LV 0 • BACKYARD • 0 OBJECTS", UDim2.fromOffset(204, 18), UDim2.fromOffset(14, 29), 8, COLORS.Muted)
+	conceptProgressText = label(
+		conceptProgressCard,
+		"LV 0 • BACKYARD • 0 OBJECTS",
+		UDim2.fromOffset(204, 18),
+		UDim2.fromOffset(14, 29),
+		8,
+		COLORS.Muted
+	)
 	conceptProgressText.Font = Enum.Font.GothamBold
 	conceptProgressText.TextXAlignment = Enum.TextXAlignment.Center
 	local conceptTrack = Instance.new("Frame")
@@ -553,8 +579,14 @@ local function build()
 	local dailyTitle =
 		label(conceptDailyRewards, "DAILY REWARDS", UDim2.fromOffset(204, 20), UDim2.fromOffset(14, 6), 13, COLORS.Text)
 	dailyTitle.Font = Enum.Font.GothamBlack
-	conceptDailyCaption =
-		label(conceptDailyRewards, "MISSION 0 / 1", UDim2.fromOffset(204, 16), UDim2.fromOffset(14, 27), 8, COLORS.Muted)
+	conceptDailyCaption = label(
+		conceptDailyRewards,
+		"MISSION 0 / 1",
+		UDim2.fromOffset(204, 16),
+		UDim2.fromOffset(14, 27),
+		8,
+		COLORS.Muted
+	)
 	conceptDailyCaption.Font = Enum.Font.GothamBold
 	conceptDailyCaption.TextXAlignment = Enum.TextXAlignment.Center
 	conceptDailyTiles = {}
@@ -573,7 +605,12 @@ local function build()
 		day.TextXAlignment = Enum.TextXAlignment.Center
 		local reward = label(
 			tile,
-			if index == 1 then "✓" elseif index == 2 then "◆" elseif index == 3 then "✦" elseif index == 4 then "◉" else "★",
+			if index == 1
+				then "✓"
+				elseif index == 2 then "◆"
+				elseif index == 3 then "✦"
+				elseif index == 4 then "◉"
+				else "★",
 			UDim2.fromOffset(35, 31),
 			UDim2.fromOffset(2, 22),
 			15,
@@ -583,8 +620,14 @@ local function build()
 		reward.TextXAlignment = Enum.TextXAlignment.Center
 		table.insert(conceptDailyTiles, tile)
 	end
-	local dailyOpen =
-		conceptButton(conceptDailyRewards, "OpenDaily", "DAILY", UDim2.fromOffset(66, 20), UDim2.new(1, -74, 0, 7), COLORS.Gold)
+	local dailyOpen = conceptButton(
+		conceptDailyRewards,
+		"OpenDaily",
+		"DAILY",
+		UDim2.fromOffset(66, 20),
+		UDim2.new(1, -74, 0, 7),
+		COLORS.Gold
+	)
 	dailyOpen.TextSize = 8
 	dailyOpen.Activated:Connect(function()
 		openConcept("Plus1GravityDaily")
