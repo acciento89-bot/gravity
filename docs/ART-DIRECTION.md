@@ -11,6 +11,12 @@ Readable arcade sci-fi grounded in ordinary objects. The visual joke is escalati
 - Success: mint green.
 - Danger/locked: muted red only when necessary.
 
+## Graphic fidelity
+- The **gravity-corridor identity** treats the five progression zones as one escalating boulevard framed by cyan/violet energy guides and distant monolith silhouettes.
+- Each zone keeps its own material identity but gains a compact energy halo and floating shard landmark so progression reads from normal gameplay camera distance.
+- The far skyline and warm gravity sun create depth behind the boulevard without competing with orbit objects around the avatar.
+- All vista, halo and shard geometry is decorative and non-colliding.
+
 ## World
 Use clean low-poly geometry with strong silhouettes and materially distinct zones. Avoid default baseplate aesthetics.
 

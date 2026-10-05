@@ -553,6 +553,38 @@ local function buildMegacity(parent: Instance, center: Vector3, size: Vector3, a
 	)
 end
 
+local function zoneBeaconDetails(parent: Instance, center: Vector3, size: Vector3, accent: Color3)
+	local beaconCenter = center + Vector3.new(-size.X * 0.40, 0.34, -size.Z * 0.34)
+	local halo = makeCylinder(
+		parent,
+		"ZoneBeaconHalo",
+		Vector3.new(0.14, 13, 13),
+		CFrame.new(beaconCenter) * CFrame.Angles(0, 0, math.rad(90)),
+		accent,
+		Enum.Material.Neon,
+		false
+	)
+	halo.Transparency = 0.68
+	halo.CanQuery = false
+
+	for index = 1, 4 do
+		local angle = (index - 1) / 4 * math.pi * 2
+		local position = beaconCenter
+			+ Vector3.new(math.cos(angle) * 5.2, 3.1 + (index % 2) * 0.8, math.sin(angle) * 5.2)
+		local shard = makePart(
+			parent,
+			"FloatingZoneShard",
+			Vector3.new(0.7, 3.8, 0.7),
+			CFrame.new(position) * CFrame.Angles(math.rad(12), angle, math.rad(18)),
+			if index % 2 == 0 then accent else accent:Lerp(Color3.fromRGB(190, 160, 255), 0.42),
+			Enum.Material.Neon,
+			false
+		)
+		shard.Transparency = 0.16
+		shard.CanQuery = false
+	end
+end
+
 function ZoneVisualFactory.decorate(parent: Instance, zone: any)
 	local center = Vector3.new(zone.Center[1], zone.Center[2], zone.Center[3])
 	local size = Vector3.new(zone.Size[1], zone.Size[2], zone.Size[3])
@@ -569,6 +601,8 @@ function ZoneVisualFactory.decorate(parent: Instance, zone: any)
 	elseif zone.Id == "megacity" then
 		buildMegacity(parent, center, size, accent)
 	end
+
+	zoneBeaconDetails(parent, center, size, accent)
 end
 
 return ZoneVisualFactory

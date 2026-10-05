@@ -442,6 +442,87 @@ function WorldService.collect(root: BasePart): boolean
 	return true
 end
 
+local function buildGravityVista()
+	local vista = Instance.new("Folder")
+	vista.Name = "GravityVista"
+	vista.Parent = world
+
+	local cyan = Color3.fromRGB(91, 220, 239)
+	local violet = Color3.fromRGB(164, 134, 255)
+	local gold = Color3.fromRGB(255, 210, 105)
+
+	for index = 0, 8 do
+		local x = 45 + index * 108
+		for _, side in { -1, 1 } do
+			local height = 24 + (index % 4) * 9 + math.abs(side) * 2
+			local monolith = part(
+				"GravityHorizonMonolith",
+				Vector3.new(10 + (index % 3) * 3, height, 10 + (index % 2) * 2),
+				CFrame.new(x, height / 2 - 4, side * (96 + (index % 3) * 17)),
+				Color3.fromRGB(34 + index * 2, 43 + index * 2, 61 + index * 2),
+				if index % 3 == 0 then Enum.Material.Glass else Enum.Material.Metal,
+				vista
+			)
+			monolith.CanCollide = false
+			monolith.CanTouch = false
+			monolith.CanQuery = false
+			if index % 3 == 0 then
+				monolith.Transparency = 0.18
+			end
+
+			local crown = part(
+				"GravityMonolithCrown",
+				Vector3.new(monolith.Size.X * 0.72, 0.18, 0.22),
+				monolith.CFrame * CFrame.new(0, height / 2 + 0.28, -monolith.Size.Z / 2 - 0.08),
+				if (index + side) % 2 == 0 then cyan else violet,
+				Enum.Material.Neon,
+				vista
+			)
+			crown.Transparency = 0.38
+			crown.CanCollide = false
+			crown.CanTouch = false
+			crown.CanQuery = false
+		end
+	end
+
+	for _, z in { -11.3, 11.3 } do
+		local guide = part(
+			"BoulevardGuide",
+			Vector3.new(910, 0.08, 0.24),
+			CFrame.new(430, 0.39, z),
+			if z < 0 then cyan else violet,
+			Enum.Material.Neon,
+			vista
+		)
+		guide.Transparency = 0.18
+		guide.CanCollide = false
+		guide.CanTouch = false
+		guide.CanQuery = false
+	end
+
+	local sun =
+		part("GravitySunDisc", Vector3.new(28, 28, 28), CFrame.new(720, 92, -210), gold, Enum.Material.Neon, vista)
+	sun.Shape = Enum.PartType.Ball
+	sun.Transparency = 0.12
+	sun.CanCollide = false
+	sun.CanTouch = false
+	sun.CanQuery = false
+
+	local halo = part(
+		"GravitySunHalo",
+		Vector3.new(52, 52, 52),
+		CFrame.new(720, 92, -213),
+		Color3.fromRGB(255, 222, 166),
+		Enum.Material.Neon,
+		vista
+	)
+	halo.Shape = Enum.PartType.Ball
+	halo.Transparency = 0.92
+	halo.CanCollide = false
+	halo.CanTouch = false
+	halo.CanQuery = false
+end
+
 function WorldService.start()
 	configureLighting()
 	local existing = Workspace:FindFirstChild("Plus1GravityWorld")
@@ -456,6 +537,8 @@ function WorldService.start()
 	for _, zone in ZoneConfig do
 		buildZone(zone)
 	end
+
+	buildGravityVista()
 
 	for slot = 1, GameConfig.World.TargetMaxPlayers do
 		local x, z = OnboardingRules.spawnOffset(slot)
