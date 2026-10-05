@@ -37,6 +37,7 @@ local state: any = nil
 local screen: ScreenGui
 local openButton: TextButton
 local panel: Frame
+local closeButton: TextButton
 local feedback: TextLabel
 local gravityTimer: TextLabel
 local xpTimer: TextLabel
@@ -226,17 +227,33 @@ local function build()
 	heading.Position = UDim2.fromOffset(24, 16)
 	heading.Font = Enum.Font.GothamBlack
 
+	closeButton = Instance.new("TextButton")
+	closeButton.Name = "CloseButton"
+	closeButton.AnchorPoint = Vector2.new(1, 0)
+	closeButton.Position = UDim2.new(1, -18, 0, 16)
+	closeButton.Size = UDim2.fromOffset(42, 38)
+	closeButton.BackgroundColor3 = COLORS.Surface2
+	closeButton.BorderSizePixel = 0
+	closeButton.Font = Enum.Font.GothamBold
+	closeButton.Text = "×"
+	closeButton.TextSize = 22
+	closeButton.TextColor3 = COLORS.Text
+	closeButton.Selectable = true
+	closeButton.Parent = panel
+	corner(closeButton, 11)
+	stroke(closeButton, COLORS.Gold, 0.60)
+
 	gravityTimer = label(panel, "2× GRAVITY · INACTIVE", 12, COLORS.Cyan)
 	gravityTimer.AnchorPoint = Vector2.new(1, 0)
-	gravityTimer.Size = UDim2.fromOffset(230, 24)
-	gravityTimer.Position = UDim2.new(1, -24, 0, 15)
+	gravityTimer.Size = UDim2.fromOffset(210, 24)
+	gravityTimer.Position = UDim2.new(1, -76, 0, 15)
 	gravityTimer.TextXAlignment = Enum.TextXAlignment.Right
 	gravityTimer.Font = Enum.Font.GothamBold
 
 	xpTimer = label(panel, "2× XP · INACTIVE", 12, COLORS.Violet)
 	xpTimer.AnchorPoint = Vector2.new(1, 0)
-	xpTimer.Size = UDim2.fromOffset(230, 24)
-	xpTimer.Position = UDim2.new(1, -24, 0, 42)
+	xpTimer.Size = UDim2.fromOffset(210, 24)
+	xpTimer.Position = UDim2.new(1, -76, 0, 42)
 	xpTimer.TextXAlignment = Enum.TextXAlignment.Right
 	xpTimer.Font = Enum.Font.GothamBold
 
@@ -280,6 +297,12 @@ local function build()
 		elseif not menuOpen then
 			GuiService.SelectedObject = openButton
 		end
+	end)
+	closeButton.Activated:Connect(function()
+		menuOpen = false
+		panel.Visible = false
+		openButton.Text = t("shop")
+		GuiService.SelectedObject = openButton
 	end)
 
 	responsive()
