@@ -739,4 +739,4 @@ V1 is finished only when all of the following are true:
 - [x] Contextual-menu rule preserved: full Shop/Daily/Style/Revive/Result surfaces are not permanently visible during normal gameplay.
 - [x] CI verification green on run `37288326972`; merged source commit `3e3ea94`.
 - [ ] Fresh Roblox Studio PlaySolo visual acceptance after this pass.
-- [ ] Publish/republish this exact graphic-fidelity source to the existing canonical Place after Studio acceptance.
+- [ ] Bind/create the canonical +1 Gravity cloud Place, then publish this exact graphic-fidelity source after Studio acceptance.
