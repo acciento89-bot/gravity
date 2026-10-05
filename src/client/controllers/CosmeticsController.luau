@@ -40,6 +40,7 @@ local menuOpen = false
 local screen: ScreenGui
 local openButton: TextButton
 local panel: Frame
+local closeButton: TextButton
 local shardsLabel: TextLabel
 local titleLabel: TextLabel
 local orbitTab: TextButton
@@ -340,10 +341,26 @@ local function build()
 	titleLabel.Position = UDim2.fromOffset(24, 16)
 	titleLabel.Font = Enum.Font.GothamBlack
 
+	closeButton = Instance.new("TextButton")
+	closeButton.Name = "CloseButton"
+	closeButton.AnchorPoint = Vector2.new(1, 0)
+	closeButton.Position = UDim2.new(1, -18, 0, 16)
+	closeButton.Size = UDim2.fromOffset(42, 38)
+	closeButton.BackgroundColor3 = COLORS.Surface2
+	closeButton.BorderSizePixel = 0
+	closeButton.Font = Enum.Font.GothamBold
+	closeButton.Text = "×"
+	closeButton.TextSize = 22
+	closeButton.TextColor3 = COLORS.Text
+	closeButton.Selectable = true
+	closeButton.Parent = panel
+	corner(closeButton, 11)
+	stroke(closeButton, COLORS.Cyan, 0.60)
+
 	shardsLabel = textLabel(panel, "◆ 0 SHARDS", 15, COLORS.Gold)
 	shardsLabel.AnchorPoint = Vector2.new(1, 0)
-	shardsLabel.Size = UDim2.fromOffset(180, 38)
-	shardsLabel.Position = UDim2.new(1, -24, 0, 20)
+	shardsLabel.Size = UDim2.fromOffset(170, 38)
+	shardsLabel.Position = UDim2.new(1, -76, 0, 20)
 	shardsLabel.TextXAlignment = Enum.TextXAlignment.Right
 	shardsLabel.Font = Enum.Font.GothamBold
 
@@ -464,6 +481,9 @@ local function build()
 
 	openButton.Activated:Connect(function()
 		setOpen(not menuOpen)
+	end)
+	closeButton.Activated:Connect(function()
+		setOpen(false)
 	end)
 	orbitTab.Activated:Connect(function()
 		setCategory("Orbit")
