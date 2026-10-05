@@ -726,3 +726,9 @@ V1 is finished only when all of the following are true:
 - [x] Backyard opening frame now includes a cyan/violet Gravity Rift landmark that reinforces the attraction/orbit identity immediately.
 - [x] Compact-phone playfield remains protected by hiding decorative branding/badge while retaining core HUD controls.
 - [x] Final PlaySolo: server/client initialized with 0 CreatorErrors; 20 pure-Luau tests and all static gates green.
+
+## 2026-10-05 cloud-place verification
+
+- [x] Authenticated Roblox cloud Experience list checked: no `+1 Gravity` Experience/Place currently exists.
+- [x] Verified that the dashboard create action opens Roblox Studio's New Experience flow; it was closed without creating anything, preserving the no-new-Studio-Place constraint.
+- [!] P22-T04/P22-T05 remain blocked until a canonical +1 Gravity Universe/Place exists; existing Rising Steps and all other production Places remain untouched.
