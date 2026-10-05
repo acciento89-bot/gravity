@@ -569,7 +569,8 @@ local function zoneBeaconDetails(parent: Instance, center: Vector3, size: Vector
 
 	for index = 1, 4 do
 		local angle = (index - 1) / 4 * math.pi * 2
-		local position = beaconCenter + Vector3.new(math.cos(angle) * 5.2, 3.1 + (index % 2) * 0.8, math.sin(angle) * 5.2)
+		local position = beaconCenter
+			+ Vector3.new(math.cos(angle) * 5.2, 3.1 + (index % 2) * 0.8, math.sin(angle) * 5.2)
 		local shard = makePart(
 			parent,
 			"FloatingZoneShard",
