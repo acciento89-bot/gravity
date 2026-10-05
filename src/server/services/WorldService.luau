@@ -500,14 +500,8 @@ local function buildGravityVista()
 		guide.CanQuery = false
 	end
 
-	local sun = part(
-		"GravitySunDisc",
-		Vector3.new(28, 28, 28),
-		CFrame.new(720, 92, -210),
-		gold,
-		Enum.Material.Neon,
-		vista
-	)
+	local sun =
+		part("GravitySunDisc", Vector3.new(28, 28, 28), CFrame.new(720, 92, -210), gold, Enum.Material.Neon, vista)
 	sun.Shape = Enum.PartType.Ball
 	sun.Transparency = 0.12
 	sun.CanCollide = false
