@@ -462,6 +462,13 @@ local function build()
 	feedbackLabel.TextWrapped = true
 	feedbackLabel.Visible = false
 
+	local conceptOpen = Instance.new("BindableEvent")
+	conceptOpen.Name = "ConceptOpen"
+	conceptOpen.Parent = screen
+	conceptOpen.Event:Connect(function()
+		setOpen(true)
+	end)
+
 	openButton.Activated:Connect(function()
 		setOpen(not menuOpen)
 	end)
