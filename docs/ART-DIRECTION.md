@@ -21,6 +21,9 @@ Use clean low-poly geometry with strong silhouettes and materially distinct zone
 - No physical constraints; client animates anchored/non-collidable visuals.
 - Orbit must remain behind/around the avatar and leave the central character readable.
 
+## Concept interpretation
+Concept/reference images are **feature montages**, not simultaneous gameplay HUDs. Daily, Shop and Style/Cosmetics remain closed until their compact launcher is pressed; Collapse appears only when the authoritative game state allows it. Normal play keeps the orbit, avatar and world readable.
+
 ## UI
 Mobile-first compact top status bar and bottom-right Collapse action. Avoid giant stacked cards. Keep the playfield open.
 
