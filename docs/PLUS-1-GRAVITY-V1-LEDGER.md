@@ -738,5 +738,5 @@ V1 is finished only when all of the following are true:
 - [x] Source-side concept graphic fidelity implemented: Gravity-corridor vista, boulevard energy guides, horizon monoliths, sky halo and per-zone energy halo/shards.
 - [x] Contextual-menu rule preserved: full Shop/Daily/Style/Revive/Result surfaces are not permanently visible during normal gameplay.
 - [x] CI verification green on run `37288326972`; merged source commit `3e3ea94`.
-- [ ] Fresh Roblox Studio PlaySolo visual acceptance after this pass.
-- [ ] Bind/create the canonical +1 Gravity cloud Place, then publish this exact graphic-fidelity source after Studio acceptance.
+- [x] Fresh Roblox Studio PlaySolo visual acceptance passed: gravity-corridor/backyard composition, avatar visibility and compact contextual quick rail verified with clean server/client startup.
+- [!] Production publish remains blocked because no canonical +1 Gravity cloud Experience/Place exists and Universe/dev/prod Place plus monetization IDs remain externally unconfigured. No new Place was created. Evidence: `docs/evidence/2026-10-05-graphic-fidelity-runtime-acceptance.md`.
