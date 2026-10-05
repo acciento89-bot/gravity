@@ -732,3 +732,11 @@ V1 is finished only when all of the following are true:
 - [x] Authenticated Roblox cloud Experience list checked: no `+1 Gravity` Experience/Place currently exists.
 - [x] Verified that the dashboard create action opens Roblox Studio's New Experience flow; it was closed without creating anything, preserving the no-new-Studio-Place constraint.
 - [!] P22-T04/P22-T05 remain blocked until a canonical +1 Gravity Universe/Place exists; existing Rising Steps and all other production Places remain untouched.
+
+## 2026-10-05 graphic-fidelity pass 4
+
+- [x] Source-side concept graphic fidelity implemented: Gravity-corridor vista, boulevard energy guides, horizon monoliths, sky halo and per-zone energy halo/shards.
+- [x] Contextual-menu rule preserved: full Shop/Daily/Style/Revive/Result surfaces are not permanently visible during normal gameplay.
+- [x] CI verification green on run `37288326972`; merged source commit `3e3ea94`.
+- [ ] Fresh Roblox Studio PlaySolo visual acceptance after this pass.
+- [ ] Publish/republish this exact graphic-fidelity source to the existing canonical Place after Studio acceptance.
