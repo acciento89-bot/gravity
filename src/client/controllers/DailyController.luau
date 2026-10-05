@@ -239,6 +239,16 @@ local function build()
 	celebrationReward.TextXAlignment = Enum.TextXAlignment.Center
 	celebrationReward.Font = Enum.Font.GothamBlack
 
+	local conceptOpen = Instance.new("BindableEvent")
+	conceptOpen.Name = "ConceptOpen"
+	conceptOpen.Parent = screen
+	conceptOpen.Event:Connect(function()
+		panel.Visible = true
+		if UserInputService.GamepadEnabled then
+			GuiService.SelectedObject = openButton
+		end
+	end)
+
 	openButton.Activated:Connect(function()
 		panel.Visible = not panel.Visible
 		if panel.Visible and UserInputService.GamepadEnabled then
